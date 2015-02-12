@@ -6,6 +6,7 @@ import lexical.Token.TokenTypes;
 public class Parser {
 
 	private List<Token> tokenList;
+	private List<String> instructionList;
 	private int currentIndex;
 	private Token currentToken;
 	
@@ -18,6 +19,8 @@ public static void main(String[] args){
 	
 	Tokenizer t = new Tokenizer();
 	t.tokenize(args[0]);
+	Parser p = new Parser(t.getTokenList());
+	p.computation();
 }
 	
 	/*
@@ -25,6 +28,7 @@ public static void main(String[] args){
 	 */
 	public Parser(List<Token> tokenList){
 		this.tokenList = tokenList;
+		this.instructionList = new ArrayList<String>();
 		this.currentIndex = 0;
 		this.currentToken = tokenList.get(0);
 	}
@@ -53,7 +57,7 @@ public static void main(String[] args){
 	 */
 	public void computation(){
 		if (currentToken.getTokenType() != TokenTypes.MAIN){
-		System.exit(3);
+		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		//variable declarations if they exist
@@ -71,7 +75,7 @@ public static void main(String[] args){
 		}
 		
 		if (currentToken.getTokenType() != TokenTypes.LSBRACKET){
-		System.exit(3);
+		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		
@@ -79,14 +83,14 @@ public static void main(String[] args){
 		statSequence();
 		
 		if (currentToken.getTokenType() != TokenTypes.RSBRACKET){
-		System.exit(3);
+		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		
 		if (currentToken.getTokenType() != TokenTypes.DOT){
-		System.exit(3);
+		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
-		
+		System.out.println("Compiled successfully.");
 		//DONE
 		
 	}
@@ -101,7 +105,7 @@ public static void main(String[] args){
 			}	
 		
 		if (currentToken.getTokenType() != TokenTypes.LSBRACKET){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		
@@ -115,7 +119,7 @@ public static void main(String[] args){
 		}
 		
 		if (currentToken.getTokenType() != TokenTypes.RSBRACKET){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		
@@ -131,14 +135,14 @@ public static void main(String[] args){
 				while (currentToken.getTokenType() == TokenTypes.COMMA){
 					nextToken();
 					if (currentToken.getTokenType() != TokenTypes.IDENT){
-						System.exit(3);
+						System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 					}
 					nextToken();
 				}				
 			}
 		}
 		if (currentToken.getTokenType() != TokenTypes.RPAREN){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken(); //Done
 	}
@@ -146,7 +150,7 @@ public static void main(String[] args){
 	public void funcDecl(){
 		nextToken();
 		if (currentToken.getTokenType() != TokenTypes.IDENT){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.LPAREN){
@@ -154,13 +158,13 @@ public static void main(String[] args){
 		}
 		
 		if (currentToken.getTokenType() != TokenTypes.SEMICOLON){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		funcBody();
 		
 		if (currentToken.getTokenType() != TokenTypes.SEMICOLON){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken(); //done	
 	}
@@ -169,20 +173,20 @@ public static void main(String[] args){
 		
 		typeDecl();
 		if (currentToken.getTokenType() != TokenTypes.IDENT){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.COMMA){
 			while (currentToken.getTokenType() == TokenTypes.COMMA){
 				nextToken();
 				if (currentToken.getTokenType() != TokenTypes.IDENT){
-					System.exit(3);
+					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 				}
 				nextToken();				
 			}
 		}
 		if (currentToken.getTokenType() != TokenTypes.SEMICOLON){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();	//done	
 	}
@@ -195,17 +199,17 @@ public static void main(String[] args){
 		}
 		nextToken();
 		if (currentToken.getTokenType() != TokenTypes.LBRACKET){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		
 		while (currentToken.getTokenType() == TokenTypes.LBRACKET){
 			nextToken();
 			if (currentToken.getTokenType() != TokenTypes.NUMBER){
-					System.exit(3);
+					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken();
 			if (currentToken.getTokenType() != TokenTypes.RBRACKET){
-				System.exit(3);
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken(); //done
 		}
@@ -242,7 +246,7 @@ public static void main(String[] args){
 				returnStatement();
 				break;
 			default:
-				System.exit(3);
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 				
 		}
 		//done
@@ -262,7 +266,7 @@ public static void main(String[] args){
 			expression();
 		}
 		else {
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		
 	}
@@ -271,12 +275,12 @@ public static void main(String[] args){
 		nextToken();
 		relation();
 		if (currentToken.getTokenType() != TokenTypes.DO){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		statSequence();
 		if (currentToken.getTokenType() != TokenTypes.OD){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		//done
@@ -286,7 +290,7 @@ public static void main(String[] args){
 		nextToken();
 		relation();
 		if (currentToken.getTokenType() != TokenTypes.THEN){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		statSequence();
@@ -295,7 +299,7 @@ public static void main(String[] args){
 			statSequence();
 		}
 		if (currentToken.getTokenType() != TokenTypes.FI){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();		
 		//done
@@ -304,7 +308,7 @@ public static void main(String[] args){
 	public void funcCall(){
 		nextToken();
 		if (currentToken.getTokenType() != TokenTypes.IDENT){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.LPAREN){
@@ -328,7 +332,7 @@ public static void main(String[] args){
 			}
 
 			if (currentToken.getTokenType() != TokenTypes.RPAREN){
-				System.exit(3);
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken();
 		}
@@ -339,7 +343,7 @@ public static void main(String[] args){
 		nextToken();
 		designator();
 		if (currentToken.getTokenType() != TokenTypes.ASSIGNMENT){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		expression();
@@ -355,8 +359,9 @@ public static void main(String[] args){
 			currentToken.getTokenType() != TokenTypes.GREATER &&
 			currentToken.getTokenType() != TokenTypes.GEQUAL &&
 			currentToken.getTokenType() != TokenTypes.DNEQUAL){
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
+		nextToken();
 		expression();
 		//done
 	}
@@ -396,12 +401,12 @@ public static void main(String[] args){
 			nextToken();
 			expression();
 			if (currentToken.getTokenType() != TokenTypes.RPAREN){
-				System.exit(3);
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken();
 		}
 		else {
-			System.exit(3);
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		
 	}
@@ -413,7 +418,7 @@ public static void main(String[] args){
 				nextToken();
 				expression();
 				if (currentToken.getTokenType() != TokenTypes.RBRACKET){
-					System.exit(3);
+					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 				}
 				nextToken();
 			}
