@@ -85,7 +85,7 @@ public class Tokenizer {
 			}				
 			
 			//Regardless we add the token to our list
-			tokenList.add(new Token(buildToken.toString(), Token.getType(buildToken.toString()) ));
+			tokenList.add(Token.getType(buildToken.toString()));
 			buildToken.setLength(0); //empty out our buffer
 			
 		}

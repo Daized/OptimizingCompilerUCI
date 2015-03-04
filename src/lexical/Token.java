@@ -4,10 +4,12 @@ package lexical;
 public class Token{
 	private String token;
 	private TokenTypes type;
+	private int value; 
 	
-	public Token(String token, TokenTypes type){
+	public Token(String token, TokenTypes type, int value){
 		this.token = token;
-		this.type = type;			
+		this.type = type;	
+		this.value = value;
 	}
 	
 	public String getTokenString(){
@@ -19,131 +21,94 @@ public class Token{
 	}
 	
 	/* This function returns the token type */
-	public static TokenTypes getType(String token){
+	public static Token getType(String token){
 		
 		switch(token){
 		
-			case "main":
-				return TokenTypes.MAIN;
-			case "function":
-				return TokenTypes.FUNCTION;
-			case "procedure":
-				return TokenTypes.PROCEDURE;
-			case "var":
-				return TokenTypes.VAR;
-			case "array":
-				return TokenTypes.ARRAY;
-			case "return":
-				return TokenTypes.RETURN;
-			case "while":
-				return TokenTypes.WHILE;
-			case "do":
-				return TokenTypes.DO;
-			case "od":
-				return TokenTypes.OD;
-			case "if":
-				return TokenTypes.IF;
-			case "then":
-				return TokenTypes.THEN;
-			case "else":
-				return TokenTypes.ELSE;
-			case "fi":
-				return TokenTypes.FI;
-			case "call":
-				return TokenTypes.CALL;
-			case "let":
-				return TokenTypes.LET;
-			case "[":
-				return TokenTypes.LBRACKET;
-			case "]":
-				return TokenTypes.RBRACKET;
-			case "{":
-				return TokenTypes.LSBRACKET;
-			case "}":
-				return TokenTypes.RSBRACKET;
-			case "(":
-				return TokenTypes.LPAREN;
-			case ")":
-				return TokenTypes.RPAREN;
-			case ".":
-				return TokenTypes.DOT;
-			case ",":
-				return TokenTypes.COMMA;
-			case ";":
-				return TokenTypes.SEMICOLON;
-			case "+":
-				return TokenTypes.PLUS;
-			case "-":
-				return TokenTypes.MINUS;
 			case "*":
-				return TokenTypes.TIMES;
+				return new Token(token, TokenTypes.timesToken,  1);
 			case "/":
-				return TokenTypes.DIVIDE;
-			case "<-":
-				return TokenTypes.ASSIGNMENT;
+				return new Token(token, TokenTypes.divToken,  2);
+			case "+":
+				return new Token(token, TokenTypes.plusToken,  11);
+			case "-":
+				return new Token(token, TokenTypes.minusToken,  12);
 			case "==":
-				return TokenTypes.EQUALS;
+				return new Token(token, TokenTypes.eqlToken,  20);
+			case "!=":
+				return new Token(token, TokenTypes.neqToken,  21);
 			case "<":
-				return TokenTypes.LESS;
-			case "<=":
-				return TokenTypes.LEQUAL;
-			case ">":
-				return TokenTypes.GREATER;
+				return new Token(token, TokenTypes.lssToken,  22);
 			case ">=":
-				return TokenTypes.GEQUAL;
+				return new Token(token, TokenTypes.geqToken,  23);
+			case "<=":
+				return new Token(token, TokenTypes.leqToken,  24);
+			case ">":
+				return new Token(token, TokenTypes.gtrToken,  25);
+			case ".":
+				return new Token(token, TokenTypes.periodToken,  30);
+			case ",":
+				return new Token(token, TokenTypes.commaToken,  31);
+			case "[":
+				return new Token(token, TokenTypes.openbracketToken,  32);
+			case "]":
+				return new Token(token, TokenTypes.closebracketToken,  34);
+			case ")":
+				return new Token(token, TokenTypes.closeparenToken,  35);
+			case "<-":
+				return new Token(token, TokenTypes.becomesToken,  40);
+			case "then":
+				return new Token(token, TokenTypes.thenToken,  41);
+			case "do":
+				return new Token(token, TokenTypes.doToken,  42);
+			case "(":
+				return new Token(token, TokenTypes.openparenToken,  50);
+			case ";":
+				return new Token(token, TokenTypes.semiToken,  70);
+			case "}":
+				return new Token(token, TokenTypes.endToken,  80);
+			case "od":
+				return new Token(token, TokenTypes.odToken,  81);
+			case "fi":
+				return new Token(token, TokenTypes.fiToken,  82);
+			case "else":
+				return new Token(token, TokenTypes.elseToken,  90);
+			case "let":
+				return new Token(token, TokenTypes.letToken,  100);
+			case "call":
+				return new Token(token, TokenTypes.callToken,  101);
+			case "if":
+				return new Token(token, TokenTypes.ifToken,  102);
+			case "while":
+				return new Token(token, TokenTypes.whileToken,  103);
+			case "return":
+				return new Token(token, TokenTypes.returnToken,  104);
+			case "var":
+				return new Token(token, TokenTypes.varToken,  110);
+			case "array":
+				return new Token(token, TokenTypes.arrToken,  111);
+			case "function":
+				return new Token(token, TokenTypes.funcToken,  112);
+			case "procedure":
+				return new Token(token, TokenTypes.procToken,  113);
+			case "{":
+				return new Token(token, TokenTypes.beginToken,  150);
+			case "main":
+				return new Token(token, TokenTypes.mainToken,  200);
+			case "\0":
+				return new Token(token, TokenTypes.eofToken,  255);
 			default:
 				if (Character.isDigit(token.charAt(0)))
-					return TokenTypes.NUMBER;
+					return new Token(token, TokenTypes.number, 60);
 				else if (Character.isLetter(token.charAt(0)))
-					return TokenTypes.IDENT;
+					return new Token(token, TokenTypes.ident, 61);
 				else
-					return null; //Invalid characters
+					return new Token(token, TokenTypes.errorToken, 0); //Invalid characters
 		
 		}
 		
 	}
 	
-	enum TokenTypes{
-		
-		MAIN, 
-		FUNCTION, 
-		PROCEDURE, 
-		VAR, 
-		ARRAY, 
-		RETURN, 
-		WHILE, 
-		DO, 
-		OD, 
-		IF, 
-		THEN,
-		ELSE,
-		FI,
-		CALL,
-		LET,
-		LBRACKET,
-		RBRACKET,
-		LSBRACKET,
-		RSBRACKET,
-		LPAREN,
-		RPAREN,
-		DOT,
-		COMMA,
-		SEMICOLON,
-		PLUS,
-		MINUS,
-		TIMES,
-		DIVIDE,
-		ASSIGNMENT,
-		EQUALS,
-		DNEQUAL,
-		LESS,
-		LEQUAL,
-		GREATER,
-		GEQUAL,
-		IDENT,
-		NUMBER
-		
-	}
 	
 	
 }	
