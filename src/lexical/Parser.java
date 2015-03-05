@@ -6,13 +6,13 @@ import data.Kind;
 import data.Result;
 import datastructures.BasicBlock;
 import datastructures.ControlFlowGraph;
-import nodes.*;
+import datastructures.Function;
 
 public class Parser {
 
 	private List<Token> tokenList;
-	private List<Instruction> instructionList;
-	private ControlFlowGraph cfg;
+	private Function main;
+	private List<Function> functions; 
 	private int currentIndex;
 	private Token currentToken;
 	private HashMap<String, ArrayList<String>> herp; //
@@ -27,6 +27,7 @@ public static void main(String[] args){
 	
 	Tokenizer t = new Tokenizer();
 	t.tokenize(args[0]);
+	List<Parser> parsers = new ArrayList<Parser>();
 	Parser p = new Parser(t.getTokenList());
 	p.computation();
 }
@@ -36,8 +37,7 @@ public static void main(String[] args){
 	 */
 	public Parser(List<Token> tokenList){
 		this.tokenList = tokenList;
-		this.cfg = new ControlFlowGraph();
-		this.instructionList = new ArrayList<Instruction>();
+		this.main = new Function("main");
 		this.currentIndex = 0;
 		this.currentToken = tokenList.get(0);
 	}
@@ -65,7 +65,6 @@ public static void main(String[] args){
 	 * letters again. We break this into blocks of the analysis.
 	 */
 	public void computation(){
-		BasicBlock root = new BasicBlock();
 		if (currentToken.getTokenType() != TokenTypes.mainToken){
 		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
@@ -84,7 +83,7 @@ public static void main(String[] args){
 			}	
 		}
 		
-		if (currentToken.getTokenType() != TokenTypes.openbracketToken){
+		if (currentToken.getTokenType() != TokenTypes.beginToken){
 		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
@@ -92,7 +91,7 @@ public static void main(String[] args){
 		//Assuming mandatory
 		statSequence();
 		
-		if (currentToken.getTokenType() != TokenTypes.closebracketToken){
+		if (currentToken.getTokenType() != TokenTypes.endToken){
 		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
@@ -107,14 +106,14 @@ public static void main(String[] args){
 
 	
 	//stage 2
-	public void funcBody(){
+	public void funcBody(Function scope){
 		
 		if (currentToken.getTokenType() == TokenTypes.varToken ||
 		    currentToken.getTokenType() == TokenTypes.arrToken){
-				varDecl();				
+				varDecl(scope);				
 			}	
-		
-		if (currentToken.getTokenType() != TokenTypes.openbracketToken){
+		//function body
+		if (currentToken.getTokenType() != TokenTypes.beginToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
@@ -125,10 +124,10 @@ public static void main(String[] args){
 			currentToken.getTokenType() == TokenTypes.whileToken ||
 			currentToken.getTokenType() == TokenTypes.returnToken){
 			
-			statSequence();			
+			statSequence(scope);			
 		}
 		
-		if (currentToken.getTokenType() != TokenTypes.closebracketToken){
+		if (currentToken.getTokenType() != TokenTypes.endToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
@@ -137,7 +136,7 @@ public static void main(String[] args){
 		
 	}
 	
-	public void formalParam(){
+	public void formalParam(Function scope){
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.ident){
 			nextToken();
@@ -159,19 +158,26 @@ public static void main(String[] args){
 	
 	public void funcDecl(){
 		nextToken();
+		
+		Parser functionParser = new Parser();
+		functionParser.setName("")
+		functionParser.subComputation();
+		addToParsers(functionParser);
+		
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
+		Function scope = new Function(currentToken.getTokenString()); //Declare new function with ident name
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.openparenToken){
-			formalParam();
+			formalParam(scope);
 		}
 		
 		if (currentToken.getTokenType() != TokenTypes.semiToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
-		funcBody();
+		funcBody(scope);
 		
 		if (currentToken.getTokenType() != TokenTypes.semiToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -179,7 +185,7 @@ public static void main(String[] args){
 		nextToken(); //done	
 	}
 	
-	public Result varDecl(){
+	public Result varDecl(Function scope){
 		
 		typeDecl();
 		if (currentToken.getTokenType() != TokenTypes.ident){
@@ -202,7 +208,7 @@ public static void main(String[] args){
 		return null;
 	}
 	
-	public void typeDecl(){
+	public void typeDecl(Function scope){
 		
 		if (currentToken.getTokenType() == TokenTypes.varToken){
 			nextToken();
@@ -232,25 +238,26 @@ public static void main(String[] args){
 	 *  statSequence = statement { ";" statement }
 	 */
 	
-	public Node[] statSequence(BasicBlock scope){
-		Block firstBlock = null;
-		Block lastBlock = null;
-		Node statement = null;
-		
+	public Result statSequence(Function scope){
+		Result x;
+		ControlFlowGraph cfg = scope.getCFG();
+		scope.getCFG().getNextBlock();
 		if (currentToken.getTokenType() == TokenTypes.letToken ||
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.returnToken){
 		
-			statement = statement(scope);
-			firstBlock = new Block(Token.getType("statSeqToken"));
-			lastBlock = firstBlock;
-			lastBlock.appendStatement(statement);
+			x = statement(scope);
+			//Create instruction here
+			//Then add instruction to next block
+		
 		}
 		else if (currentToken.getTokenType() == TokenTypes.whileToken){
-			statement = statement(scope);
+			x = whileStatement(scope);
+			//Create instructions for whileLoop and global instruction list
+			//Then add instructions to next block and global instruction list
 		}
 		else if (currentToken.getTokenType() == TokenTypes.ifToken){
-			
+			x =	ifStatement(scope);	
 		}
 		
 		if (currentToken.getTokenType() == TokenTypes.SEMICOLON){			
@@ -265,7 +272,7 @@ public static void main(String[] args){
 	 * state = assignment | funcCall | ifStatement | whileStatement | returnStatement
 	 */
 	
-	public Node statement(BasicBlock scope){
+	public Result statement(Function scope){
 		
 		Node statementNode = null;
 		switch(currentToken.getTokenType()){
@@ -298,7 +305,7 @@ public static void main(String[] args){
 	 *  returnStatement = "return" [ expression ]
 	 */
 	
-	public Node returnStatement(BasicBlock scope){
+	public Result returnStatement(Function scope){
 		Node returnNode = null;
 		returnNode = new Node(currentToken);
 		nextToken();
@@ -317,7 +324,7 @@ public static void main(String[] args){
 		return returnNode;
 	}
 	
-	public void whileStatement(BasicBlock scope){
+	public Result whileStatement(Function scope){
 		nextToken();
 		relation();
 		if (currentToken.getTokenType() != TokenTypes.doToken){
@@ -332,7 +339,7 @@ public static void main(String[] args){
 		//done
 	}
 	
-	public void ifStatement(BasicBlock scope){
+	public Result ifStatement(Function scope){
 		nextToken();
 		relation();
 		if (currentToken.getTokenType() != TokenTypes.thenToken){
@@ -351,7 +358,7 @@ public static void main(String[] args){
 		//done
 	}
 	
-	public Node funcCall(BasicBlock scope){
+	public Result funcCall(Function scope){
 		nextToken();
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -387,7 +394,7 @@ public static void main(String[] args){
 	/*
 	 *  "let" designator "<-" expression
 	 */
-	public Node assignment(BasicBlock scope){
+	public Node assignment(Function scope){
 		nextToken();
 		Result left = designator(scope);
 		if (currentToken.getTokenType() != TokenTypes.becomesToken){
@@ -407,7 +414,7 @@ public static void main(String[] args){
 	 * relation = expression relOp expression
 	 */
 	
-	public Result relation(BasicBlock scope){
+	public Result relation(Function scope){
 		Result relation;
 		relation = expression(scope);
 		relation.setKind(Kind.RELATION);
@@ -433,7 +440,7 @@ public static void main(String[] args){
 	/*
 	 * expression = term { ("+" | "-") term }
 	 */
-	public Result expression(BasicBlock scope){
+	public Result expression(Function scope){
 		Result x, y;
 		x = term(scope);
 		if (currentToken.getTokenType() == TokenTypes.plusToken || currentToken.getTokenType() == TokenTypes.minusToken){
@@ -449,7 +456,7 @@ public static void main(String[] args){
 	/*
 	 *  term = factor { ("*" | "/") factor }
 	 */
-	public Result term(BasicBlock scope){
+	public Result term(Function scope){
 		Result x, y;
 		x = factor(scope);
 		
@@ -467,7 +474,7 @@ public static void main(String[] args){
 	 * factor = designator | number | "(" expression ")" | funcCall
 	 */
 	
-	public Result factor(BasicBlock scope){
+	public Result factor(Function scope){
 		Result factor = null;
 		if (currentToken.getTokenType() == TokenTypes.ident)
 			factor = designator(scope);
@@ -498,7 +505,7 @@ public static void main(String[] args){
 	 * designator = ident{ "[" expression "]" }
 	 */
 	
-	public Result designator(BasicBlock scope){
+	public Result designator(Function scope){
 		Result designator;
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
