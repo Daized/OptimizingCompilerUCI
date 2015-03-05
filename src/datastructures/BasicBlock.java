@@ -42,7 +42,7 @@ public class BasicBlock {
 		children.add(child);
 	}
 	
-	public void addInstruction(Instruction instruction){
+	public void appendInstruction(Instruction instruction){
 		this.instructionList.add(instruction);
 	}
 

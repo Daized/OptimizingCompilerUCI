@@ -242,6 +242,7 @@ public static void main(String[] args){
 		Result x = null;
 		ControlFlowGraph cfg = scope.getCFG();
 		scope.getCFG().getNextBlock();
+		x = statement(scope);
 		if (currentToken.getTokenType() == TokenTypes.letToken ||
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.returnToken ||
@@ -253,24 +254,22 @@ public static void main(String[] args){
 		} else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
-		
 		while (currentToken.getTokenType() == TokenTypes.semiToken){			
-				nextToken();
-			if (currentToken.getTokenType() == TokenTypes.letToken ||
+			if (currentToken.getTokenType() == TokenTypes.semiToken){			
+				if (currentToken.getTokenType() == TokenTypes.letToken ||
 						currentToken.getTokenType() == TokenTypes.callToken ||
 						currentToken.getTokenType() == TokenTypes.returnToken ||
 					    currentToken.getTokenType() == TokenTypes.whileToken ||
 					    currentToken.getTokenType() == TokenTypes.ifToken){
 					
-					x = statement(scope);
-					
+						x = statement(scope);
+				}			
 			} else {
 					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 		}
-		
 		return x;
-	}
+		}
 
 	
 	/*
@@ -409,7 +408,7 @@ public static void main(String[] args){
 	/*
 	 *  "let" designator "<-" expression
 	 */
-	public Node assignment(Function scope){
+	public Result assignment(Function scope){
 		nextToken();
 		Result left = designator(scope);
 		if (currentToken.getTokenType() != TokenTypes.becomesToken){
