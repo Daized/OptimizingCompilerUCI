@@ -239,9 +239,10 @@ public static void main(String[] args){
 	 */
 	
 	public Result statSequence(Function scope){
-		Result x;
+		Result x, y;
 		ControlFlowGraph cfg = scope.getCFG();
 		scope.getCFG().getNextBlock();
+		x = statement(scope);
 		if (currentToken.getTokenType() == TokenTypes.letToken ||
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.returnToken){
@@ -258,11 +259,14 @@ public static void main(String[] args){
 		}
 		else if (currentToken.getTokenType() == TokenTypes.ifToken){
 			x =	ifStatement(scope);	
+			//Create instructions for ifStatement and global instruction list
+			//Then add instructions to next block and global instruction list
 		}
 		
-		if (currentToken.getTokenType() == TokenTypes.SEMICOLON){			
+		if (currentToken.getTokenType() == TokenTypes.semiToken){			
 				nextToken();
 				statement();
+				//????????????????????????? This makes no sense
 			}
 
 		}
@@ -274,29 +278,39 @@ public static void main(String[] args){
 	
 	public Result statement(Function scope){
 		
-		Node statementNode = null;
+		Result statement;
 		switch(currentToken.getTokenType()){
 			case letToken:
-				statementNode = assignment(scope);
+				statement = assignment(scope);
+				//Create instruction here
+				//Then add instruction to next block
 				break;
 			case callToken:
-				statementNode = funcCall(scope);
+				statement = funcCall(scope);
+				//Create instruction here
+				//Then add instruction to next block
 				break;
 			case ifToken:
-				statementNode = ifStatement(scope);
+				statement = ifStatement(scope);
+				//Create instructions for ifStatement and global instruction list
+				//Then add instructions to next block and global instruction list
 				break;
 			case whileToken:
-				statementNode = whileStatement(scope);
+				statement = whileStatement(scope);
+				//Create instructions for whileLoop and global instruction list
+				//Then add instructions to next block and global instruction list
 				break;
 			case returnToken:
-				statementNode = returnStatement(scope);
+				statement = returnStatement(scope);
+				//Create instruction here
+				//Then add instruction to next block
 				break;
 			default:
 				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 				
 		}
 		//done
-		return statementNode;
+		return statement;
 	}
 	
 	//state 4
@@ -394,7 +408,7 @@ public static void main(String[] args){
 	/*
 	 *  "let" designator "<-" expression
 	 */
-	public Node assignment(Function scope){
+	public Result assignment(Function scope){
 		nextToken();
 		Result left = designator(scope);
 		if (currentToken.getTokenType() != TokenTypes.becomesToken){
