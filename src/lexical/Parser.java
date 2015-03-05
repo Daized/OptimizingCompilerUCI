@@ -239,34 +239,39 @@ public static void main(String[] args){
 	 */
 	
 	public Result statSequence(Function scope){
-		Result x;
+		Result x = null;
 		ControlFlowGraph cfg = scope.getCFG();
 		scope.getCFG().getNextBlock();
 		if (currentToken.getTokenType() == TokenTypes.letToken ||
 				currentToken.getTokenType() == TokenTypes.callToken ||
-				currentToken.getTokenType() == TokenTypes.returnToken){
-		
+				currentToken.getTokenType() == TokenTypes.returnToken ||
+			    currentToken.getTokenType() == TokenTypes.whileToken ||
+			    currentToken.getTokenType() == TokenTypes.ifToken){
+			
 			x = statement(scope);
-			//Create instruction here
-			//Then add instruction to next block
-		
-		}
-		else if (currentToken.getTokenType() == TokenTypes.whileToken){
-			x = whileStatement(scope);
-			//Create instructions for whileLoop and global instruction list
-			//Then add instructions to next block and global instruction list
-		}
-		else if (currentToken.getTokenType() == TokenTypes.ifToken){
-			x =	ifStatement(scope);	
+			
+		} else {
+			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		
-		if (currentToken.getTokenType() == TokenTypes.SEMICOLON){			
+		while (currentToken.getTokenType() == TokenTypes.semiToken){			
 				nextToken();
-				statement();
+			if (currentToken.getTokenType() == TokenTypes.letToken ||
+						currentToken.getTokenType() == TokenTypes.callToken ||
+						currentToken.getTokenType() == TokenTypes.returnToken ||
+					    currentToken.getTokenType() == TokenTypes.whileToken ||
+					    currentToken.getTokenType() == TokenTypes.ifToken){
+					
+					x = statement(scope);
+					
+			} else {
+					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
-
 		}
+		
+		return x;
 	}
+
 	
 	/*
 	 * state = assignment | funcCall | ifStatement | whileStatement | returnStatement
@@ -274,29 +279,39 @@ public static void main(String[] args){
 	
 	public Result statement(Function scope){
 		
-		Node statementNode = null;
+		Result statement;
 		switch(currentToken.getTokenType()){
 			case letToken:
-				statementNode = assignment(scope);
+				statement = assignment(scope);
+				//Create instruction here
+				//Then add instruction to next block
 				break;
 			case callToken:
-				statementNode = funcCall(scope);
+				statement = funcCall(scope);
+				//Create instruction here
+				//Then add instruction to next block
 				break;
 			case ifToken:
-				statementNode = ifStatement(scope);
+				statement = ifStatement(scope);
+				//Create instructions for ifStatement and global instruction list
+				//Then add instructions to next block and global instruction list
 				break;
 			case whileToken:
-				statementNode = whileStatement(scope);
+				statement = whileStatement(scope);
+				//Create instructions for whileLoop and global instruction list
+				//Then add instructions to next block and global instruction list
 				break;
 			case returnToken:
-				statementNode = returnStatement(scope);
+				statement = returnStatement(scope);
+				//Create instruction here
+				//Then add instruction to next block
 				break;
 			default:
 				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 				
 		}
 		//done
-		return statementNode;
+		return statement;
 	}
 	
 	//state 4
