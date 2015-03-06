@@ -7,8 +7,7 @@ import datastructures.Symbol;
 
 public class Result {
 	private Kind kind;
-	private int condition; //Condition: EQ, NE, GEQ, LEQ, GTR, LSS
-	
+	private int condition; //Condition: ("==", 20), ("!=", 21), ("<", 22), (">=", 23), ("<=", 24), (">", 25)
 	private String varName; //Name of variable
 	private int address; //address of variable, if variable
 	private int constVal; //otherwise constant value if constant

@@ -20,6 +20,10 @@ public class Token{
 		return this.type;
 	}
 	
+	public int getValue(){
+		return this.value;
+	}
+	
 	/* This function returns the token type */
 	public static Token getType(String token){
 		

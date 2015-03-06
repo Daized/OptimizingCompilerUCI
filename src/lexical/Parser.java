@@ -320,22 +320,20 @@ public static void main(String[] args){
 	 */
 	
 	public Result returnStatement(Function scope){
-		Node returnNode = null;
-		returnNode = new Node(currentToken);
+		Result x = null;
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.ident ||
 			currentToken.getTokenType() == TokenTypes.number ||
 			currentToken.getTokenType() == TokenTypes.openparenToken ||
 			currentToken.getTokenType() == TokenTypes.callToken){
 			
-			Node expression = expression(scope);
-			returnNode.setLeftNode(expression);
+			x = expression(scope);
 		}
 		else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		
-		return returnNode;
+		return x;
 	}
 	
 	public Result whileStatement(Function scope){
@@ -355,7 +353,8 @@ public static void main(String[] args){
 	
 	public Result ifStatement(Function scope){
 		nextToken();
-		relation();
+		Result ifStatement;
+		ifStatement = relation(scope);
 		if (currentToken.getTokenType() != TokenTypes.thenToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
@@ -386,13 +385,13 @@ public static void main(String[] args){
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.ident){
 				
-				expression();
+				//expression();
 				//Multiple arguments
 				if (currentToken.getTokenType() == TokenTypes.commaToken){
 					
 					while (currentToken.getTokenType() == TokenTypes.commaToken){
 						nextToken();
-						expression();
+						//expression();
 					}
 				}
 			}
@@ -402,6 +401,7 @@ public static void main(String[] args){
 			}
 			nextToken();
 		}
+		return null;
 		//done
 	}
 	
@@ -419,7 +419,7 @@ public static void main(String[] args){
 		
 		//TODO: something regarding scope here
 		
-		return assignmentNode;
+		return null;
 	}
 	
 	//stage 5
@@ -429,9 +429,9 @@ public static void main(String[] args){
 	 */
 	
 	public Result relation(Function scope){
-		Result relation;
-		relation = expression(scope);
-		relation.setKind(Kind.RELATION);
+		Result relation, x, y;
+		x = expression(scope);
+		relation = new Result(Kind.RELATION);
 		if (currentToken.getTokenType() == TokenTypes.eqlToken ||
 			currentToken.getTokenType() == TokenTypes.leqToken ||
 			currentToken.getTokenType() == TokenTypes.lssToken ||
@@ -439,11 +439,10 @@ public static void main(String[] args){
 			currentToken.getTokenType() == TokenTypes.geqToken ||
 			currentToken.getTokenType() == TokenTypes.neqToken){
 			//if it's a relation operator
-			relation = new Node(currentToken);
+			relation.setCondition(currentToken.getValue());
 			nextToken();
-			Node rightExp = expression(scope);
-			relation.setLeftNode(leftExp);
-			relation.setRightNode(rightExp);
+			y = expression(scope);
+			//TODO: CREATE INSTRUCTION HERE WITH X RELOP Y
 		}
 		else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -478,7 +477,7 @@ public static void main(String[] args){
 			TokenTypes op = currentToken.getTokenType();
 			nextToken();
 			y = term(scope);
-			x = combine(x, y, op);
+			//TODO: Fix your logic here to generate the appropriate instruction
 		}
 		//end
 		return x;

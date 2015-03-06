@@ -54,44 +54,7 @@ public enum TokenTypes {
 	
 	beginToken,			// ("{", 150)
 	mainToken,			// (main, 200)
-	eofToken,			// ('\0', 255)
+	eofToken;			// ('\0', 255)
 	
-	// Special Tokens
-	statSeqToken,		// ("statSeq", 300)
-	varDeclSeqToken,	// ("varDeclSeq", 301)
-	paramsToken,		// ("params", 302)
-	funcSeqToken,		// ("funcSeq", 303)
-	argsToken,			// ("args", 304)
-	tempSSAToken,			// ("tempSSA", 305)
-	statToken,			// ("stat", 306)		The refID of such node is another statement (TreeNode)
-	blockToken,			// ("block", 307)		The refID of such node is another BlockNode
-	predefToken,		// ("predef", 308)
-	
-	// SSA nodes
-	addSSAToken,		// ("addSSA", 400)
-	subSSAToken,		// ("subSSA", 401)
-	mulSSAToken,		// ("mulSSA", 402)
-	divSSAToken,		// ("divSSA", 403)
-	cmpSSAToken,		// ("cmpSSA", 404)
-	loadSSAToken,		// ("loadSSA", 405)
-	movSSAToken,		// ("movSSA", 406)
-	phiSSAToken,		// ("phiSSA", 407)
-	braSSAToken,		// ("braSSA", 408)
-	
-	bneSSAToken,		// ("bneSSA", 409)
-	beqSSAToken,		// ("beqSSA", 410)
-	
-	bleSSAToken,		// ("bleSSA", 411)
-	bgtSSAToken,		// ("bgtSSA", 412)
-	
-	bgeSSAToken,		// ("bgeSSA", 413)
-	bltSSAToken,		// ("bltSSA", 414)
-	
-	addaSSAToken,		// ("addaSSA", 415)
-	fpSSAToken,			// ("FPSSA", 416)
-	storeSSAToken,		// ("storeSSA", 417)
-	
-
-		
 
 }
