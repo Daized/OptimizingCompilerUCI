@@ -30,6 +30,8 @@ public static void main(String[] args){
 	List<Parser> parsers = new ArrayList<Parser>();
 	Parser p = new Parser(t.getTokenList());
 	p.computation();
+	
+	
 }
 	
 	/*
@@ -72,7 +74,7 @@ public static void main(String[] args){
 		//variable declarations if they exist
 		if ( currentToken.getTokenType() == TokenTypes.varToken ||currentToken.getTokenType() == TokenTypes.arrToken){
 			while (currentToken.getTokenType() == TokenTypes.varToken ||	currentToken.getTokenType() == TokenTypes.arrToken){
-					varDecl();				
+					varDecl(main);				
 			}
 		}
 			
@@ -89,7 +91,7 @@ public static void main(String[] args){
 		nextToken();
 		
 		//Assuming mandatory
-		statSequence();
+		Result x = statSequence(main);
 		
 		if (currentToken.getTokenType() != TokenTypes.endToken){
 		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -159,10 +161,10 @@ public static void main(String[] args){
 	public void funcDecl(){
 		nextToken();
 		
-		Parser functionParser = new Parser();
-		functionParser.setName("")
-		functionParser.subComputation();
-		addToParsers(functionParser);
+		//Parser functionParser = new Parser();
+		//functionParser.setName("")
+		//functionParser.subComputation();
+		//addToParsers(functionParser);
 		
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -187,7 +189,7 @@ public static void main(String[] args){
 	
 	public Result varDecl(Function scope){
 		
-		typeDecl();
+		typeDecl(scope);
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
@@ -242,7 +244,6 @@ public static void main(String[] args){
 		Result x = null;
 		ControlFlowGraph cfg = scope.getCFG();
 		scope.getCFG().getNextBlock();
-		x = statement(scope);
 		if (currentToken.getTokenType() == TokenTypes.letToken ||
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.returnToken ||
@@ -254,8 +255,8 @@ public static void main(String[] args){
 		} else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
-		while (currentToken.getTokenType() == TokenTypes.semiToken){			
-			if (currentToken.getTokenType() == TokenTypes.semiToken){			
+		while (currentToken.getTokenType() == TokenTypes.semiToken){	
+			nextToken();
 				if (currentToken.getTokenType() == TokenTypes.letToken ||
 						currentToken.getTokenType() == TokenTypes.callToken ||
 						currentToken.getTokenType() == TokenTypes.returnToken ||
@@ -264,7 +265,7 @@ public static void main(String[] args){
 					
 						x = statement(scope);
 				}			
-			} else {
+		 else {
 					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 		}
@@ -278,7 +279,7 @@ public static void main(String[] args){
 	
 	public Result statement(Function scope){
 		
-		Result statement;
+		Result statement = null;
 		switch(currentToken.getTokenType()){
 			case letToken:
 				statement = assignment(scope);
@@ -338,37 +339,97 @@ public static void main(String[] args){
 	
 	public Result whileStatement(Function scope){
 		nextToken();
-		relation();
+		Result x = relation(scope);
 		if (currentToken.getTokenType() != TokenTypes.doToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
-		statSequence();
+		Result y = statSequence(scope);
 		if (currentToken.getTokenType() != TokenTypes.odToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
 		//done
+		return null;
 	}
 	
 	public Result ifStatement(Function scope){
 		nextToken();
-		Result ifStatement;
+		Result ifStatement, elseStatement, left, right;
 		ifStatement = relation(scope);
+		//Do something here with branching instructions hopefully, CONDITIONAL JUMP FORWARD , CJF
+		BasicBlock nextBlock = scope.getCFG().getNextBlock();
+		BasicBlock joinBlock = new BasicBlock();
+		
+		ifStatement.setJoin(joinBlock);
+		nextBlock.setJoin(joinBlock);
+		
+		BasicBlock ifBlock = new BasicBlock();
+		joinBlock.setLeft(ifBlock);
+		ifBlock.setJoin(joinBlock);
+		nextBlock.addChild(ifBlock); //TODO: ADD DOMINATOR TREE INFORMATION TOO
+		
+		ifBlock.addParent(nextBlock);
+		scope.getCFG().setNextBlock(ifBlock);
+		
 		if (currentToken.getTokenType() != TokenTypes.thenToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
-		statSequence();
+		left = statSequence(scope);
+		if (left.getJoin() != null && left.getJoin() != joinBlock){ //In case of inner if blocks/while loops
+			joinBlock.setLeft(left.getJoin());
+		}
+		
+		//Probably need to do something like a fixup or something
 		if (currentToken.getTokenType() == TokenTypes.elseToken){
 			nextToken();
-			statSequence();
+			elseStatement = new Result(Kind.RELATION);
+			//elseState.fixupLoc(scope.getCFG().getInstructionListSize)
+			//BJ(scope.getCFG, elseStatement.getFixUpLoc())
+			//Do something here with branching instructions hopefully
+			
+			BasicBlock elseBlock = new BasicBlock();
+			joinBlock.setRight(elseBlock);
+			elseBlock.setJoin(joinBlock);
+			nextBlock.addChild(elseBlock);
+			
+			scope.getCFG().setNextBlock(elseBlock);
+			//FJlink????
+			//scope.Fixup(x.fixupLoc())
+			
+			right = statSequence(scope);
+			if (right.getJoin() != null && right.getJoin() != joinBlock){ //In case of inner if blocks/while loops
+				joinBlock.setRight(right.getJoin());
+			}
+			
+			//
 		}
+		
+		else {
+			joinBlock.setRight(nextBlock);
+			//CFG.FIXUP(x.FIXUPLOC())
+		}
+		
+		//TODO: PhiInstructionHelper.createPhiInstructions(joinBlock, CFG)
+		//TODO: nextblock.addDominatedOverBlock(joinBlock)
+		
 		if (currentToken.getTokenType() != TokenTypes.fiToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();		
+		
+        if(joinBlock.getLeft() != null) {
+            joinBlock.getLeft().addChild(joinBlock);
+        }
+        if(joinBlock.getRight() != null) {
+            joinBlock.getRight().addChild(joinBlock);
+        }
+        
+        scope.getCFG().setNextBlock(joinBlock);
+		
 		//done
+		return ifStatement;
 	}
 	
 	public Result funcCall(Function scope){
@@ -385,13 +446,13 @@ public static void main(String[] args){
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.ident){
 				
-				//expression();
+				Result x = expression(scope);
 				//Multiple arguments
 				if (currentToken.getTokenType() == TokenTypes.commaToken){
 					
 					while (currentToken.getTokenType() == TokenTypes.commaToken){
 						nextToken();
-						//expression();
+						x = expression(scope);
 					}
 				}
 			}
@@ -577,8 +638,9 @@ public static void main(String[] args){
 		case minusToken:
 		
 		default:
-			System.out.println("Incorrect operation.");
-			System.exit(0);
+			break;
+			//System.out.println("Incorrect operation.");
+			//System.exit(0);
 		}
 		
 		return combine;

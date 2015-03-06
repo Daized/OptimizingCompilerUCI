@@ -13,7 +13,7 @@ public class ControlFlowGraph {
 	}
 	
 	public void addInstruction(Instruction instruction){
-		next.addInstruction(instruction);
+		next.appendInstruction(instruction);
 	}
 	
 	public BasicBlock getNextBlock(){

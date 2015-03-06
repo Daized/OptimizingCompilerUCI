@@ -30,6 +30,10 @@ public class Result {
 		return this.constVal;
 	}
 	
+	public BasicBlock getJoin(){
+		return this.join;
+	}
+	
 	public void appendArrayDimension(int dimension){
 		this.arrayDimensions.add(dimension);
 	}

@@ -45,5 +45,18 @@ public class BasicBlock {
 	public void appendInstruction(Instruction instruction){
 		this.instructionList.add(instruction);
 	}
+	
+	public BasicBlock getLeft(){
+		return this.left;
+	}
+	
+	public BasicBlock getRight(){
+		return this.right;
+	}
+
+	public BasicBlock getJoin(){
+		return this.join;
+	}
+
 
 }
