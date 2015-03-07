@@ -17,6 +17,7 @@ public class Parser {
 	private Token currentToken;
 	private HashMap<String, ArrayList<String>> herp; //
 	private String[] predefined = { "InputNum" , "OutputNum", "OutputNewLine" };
+	public String fileName;
 	
 public static void main(String[] args){
 	
@@ -28,7 +29,7 @@ public static void main(String[] args){
 	Tokenizer t = new Tokenizer();
 	t.tokenize(args[0]);
 	List<Parser> parsers = new ArrayList<Parser>();
-	Parser p = new Parser(t.getTokenList());
+	Parser p = new Parser(t.getTokenList(), t.getFileName());
 	p.computation();
 	
 	
@@ -37,13 +38,20 @@ public static void main(String[] args){
 	/*
 	 * Constructor for Parser class 
 	 */
-	public Parser(List<Token> tokenList){
+	public Parser(List<Token> tokenList, String fileName){
 		this.tokenList = tokenList;
 		this.main = new Function("main");
 		this.currentIndex = 0;
 		this.currentToken = tokenList.get(0);
+		this.fileName = fileName;
 	}
 	
+	/*
+	 * Get main Function with CFG/Instructions
+	 */
+	public Function getMain(){
+		return this.main;
+	}
 	
 	/*
 	 * This function is what is used to iterate through our tokenList obtained from file.
@@ -101,7 +109,7 @@ public static void main(String[] args){
 		if (currentToken.getTokenType() != TokenTypes.periodToken){
 		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
-		System.out.println("Compiled successfully.");
+		System.out.println( this.fileName + ": Compiled successfully.");
 		//DONE
 		
 	}
@@ -110,7 +118,7 @@ public static void main(String[] args){
 	//stage 2
 	public void funcBody(Function scope){
 		
-		if (currentToken.getTokenType() == TokenTypes.varToken ||
+		while (currentToken.getTokenType() == TokenTypes.varToken ||
 		    currentToken.getTokenType() == TokenTypes.arrToken){
 				varDecl(scope);				
 			}	
@@ -350,7 +358,7 @@ public static void main(String[] args){
 		}
 		nextToken();
 		//done
-		return null;
+		return x;
 	}
 	
 	public Result ifStatement(Function scope){
@@ -433,6 +441,7 @@ public static void main(String[] args){
 	}
 	
 	public Result funcCall(Function scope){
+		Result x = new Result(Kind.CONSTANT); //ignore for now
 		nextToken();
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -446,13 +455,13 @@ public static void main(String[] args){
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.ident){
 				
-				Result x = expression(scope);
+				Result y = expression(scope);
 				//Multiple arguments
 				if (currentToken.getTokenType() == TokenTypes.commaToken){
 					
 					while (currentToken.getTokenType() == TokenTypes.commaToken){
 						nextToken();
-						x = expression(scope);
+						y = expression(scope);
 					}
 				}
 			}
@@ -462,7 +471,7 @@ public static void main(String[] args){
 			}
 			nextToken();
 		}
-		return null;
+		return x;
 		//done
 	}
 	
@@ -480,7 +489,7 @@ public static void main(String[] args){
 		
 		//TODO: something regarding scope here
 		
-		return null;
+		return left;
 	}
 	
 	//stage 5
@@ -521,7 +530,7 @@ public static void main(String[] args){
 			TokenTypes op = currentToken.getTokenType();
 			nextToken();
 			y = expression(scope);
-			x = combine(x, y, op);
+			//x = combine(x, y, op);
 		}
 		//end
 		return x;

@@ -8,10 +8,12 @@ import java.util.*;
 public class Tokenizer {
 	
 	private List<Token> tokenList;
+	private String fileName;
 	public static final String UTF8_BOM = "\uFEFF";
 	
 	public void tokenize(String fileName){
-
+		
+		this.fileName = fileName;
 		String fileString = null;
 		StringBuilder buildToken = new StringBuilder();
 		List<Token> tokenList = new ArrayList<Token>();
@@ -19,7 +21,6 @@ public class Tokenizer {
 		try {		
 			fileString = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
 			fileString = deleteUTF8BOM(fileString);
-			System.out.println(fileString);
 								
 		} catch (FileNotFoundException e){ //Catch if file isn't found.		
 		System.out.println("File not found.");
@@ -75,6 +76,11 @@ public class Tokenizer {
 				if 	(fileCharArray[i] == '=')
 					buildToken.append(fileCharArray[i++]);
 			}
+			else if (fileCharArray[i] == '!'){
+				buildToken.append(fileCharArray[i++]);
+				if 	(fileCharArray[i] == '=')
+					buildToken.append(fileCharArray[i++]);
+			}
 			else if (fileCharArray[i] == '='){
 				buildToken.append(fileCharArray[i++]);
 				if 	(fileCharArray[i] == '=')
@@ -104,6 +110,10 @@ public class Tokenizer {
         }
         return fileString;
     }
+
+	public String getFileName() {
+		return this.fileName;
+	}
 		
 
 }
