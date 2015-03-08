@@ -1,0 +1,67 @@
+graph: {
+x: 150
+y: 20
+xmax: 960
+ymax: 900
+width: 950
+height: 900
+layoutdownfactor: 100
+layoutupfactor: 0
+layoutnearfactor: 0
+yspace: 30
+smanhattenedges: yes
+fasticons: yes
+iconcolors: 32
+edge: { sourcename: "759"
+targetname: "760"
+}
+node: {title: "759"
+label: "759[
+ ]"
+}
+edge: { sourcename: "760"
+targetname: "762"
+}
+edge: { sourcename: "760"
+targetname: "767"
+}
+node: {title: "760"
+label: "760[
+ ]"
+}
+edge: { sourcename: "762"
+targetname: "763"
+}
+node: {title: "762"
+label: "762[
+ ]"
+}
+edge: { sourcename: "763"
+targetname: "760"
+}
+edge: { sourcename: "763"
+targetname: "766"
+}
+edge: { sourcename: "763"
+targetname: "765"
+}
+node: {title: "763"
+label: "763[
+ ]"
+}
+node: {title: "766"
+label: "766[
+ ]"
+}
+edge: { sourcename: "765"
+targetname: "763"
+}
+node: {title: "765"
+label: "765[
+ ]"
+}
+node: {title: "767"
+label: "767[
+ ]"
+}
+}

@@ -1,0 +1,36 @@
+graph: {
+x: 150
+y: 20
+xmax: 960
+ymax: 900
+width: 950
+height: 900
+layoutdownfactor: 100
+layoutupfactor: 0
+layoutnearfactor: 0
+yspace: 30
+smanhattenedges: yes
+fasticons: yes
+iconcolors: 32
+edge: { sourcename: "844"
+targetname: "846"
+}
+edge: { sourcename: "844"
+targetname: "845"
+}
+node: {title: "844"
+label: "844[
+ ]"
+}
+edge: { sourcename: "846"
+targetname: "845"
+}
+node: {title: "846"
+label: "846[
+ ]"
+}
+node: {title: "845"
+label: "845[
+ ]"
+}
+}

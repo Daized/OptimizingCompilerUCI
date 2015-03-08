@@ -1,0 +1,163 @@
+graph: {
+x: 150
+y: 20
+xmax: 960
+ymax: 900
+width: 950
+height: 900
+layoutdownfactor: 100
+layoutupfactor: 0
+layoutnearfactor: 0
+yspace: 30
+smanhattenedges: yes
+fasticons: yes
+iconcolors: 32
+edge: { sourcename: "879"
+targetname: "880"
+}
+node: {title: "879"
+label: "879[
+ ]"
+}
+edge: { sourcename: "880"
+targetname: "882"
+}
+edge: { sourcename: "880"
+targetname: "901"
+}
+node: {title: "880"
+label: "880[
+ ]"
+}
+edge: { sourcename: "882"
+targetname: "889"
+}
+edge: { sourcename: "882"
+targetname: "884"
+}
+node: {title: "882"
+label: "882[
+ ]"
+}
+edge: { sourcename: "889"
+targetname: "896"
+}
+edge: { sourcename: "889"
+targetname: "891"
+}
+edge: { sourcename: "889"
+targetname: "883"
+}
+node: {title: "889"
+label: "889[
+ ]"
+}
+edge: { sourcename: "896"
+targetname: "897"
+}
+edge: { sourcename: "896"
+targetname: "890"
+}
+node: {title: "896"
+label: "896[
+ ]"
+}
+edge: { sourcename: "897"
+targetname: "900"
+}
+edge: { sourcename: "897"
+targetname: "899"
+}
+node: {title: "897"
+label: "897[
+ ]"
+}
+node: {title: "900"
+label: "900[
+ ]"
+}
+edge: { sourcename: "899"
+targetname: "897"
+}
+node: {title: "899"
+label: "899[
+ ]"
+}
+node: {title: "890"
+label: "890[
+ ]"
+}
+edge: { sourcename: "891"
+targetname: "890"
+}
+edge: { sourcename: "891"
+targetname: "892"
+}
+node: {title: "891"
+label: "891[
+ ]"
+}
+edge: { sourcename: "892"
+targetname: "895"
+}
+edge: { sourcename: "892"
+targetname: "894"
+}
+node: {title: "892"
+label: "892[
+ ]"
+}
+node: {title: "895"
+label: "895[
+ ]"
+}
+edge: { sourcename: "894"
+targetname: "892"
+}
+node: {title: "894"
+label: "894[
+ ]"
+}
+edge: { sourcename: "883"
+targetname: "880"
+}
+node: {title: "883"
+label: "883[
+ ]"
+}
+edge: { sourcename: "884"
+targetname: "885"
+}
+edge: { sourcename: "884"
+targetname: "883"
+}
+node: {title: "884"
+label: "884[
+ ]"
+}
+edge: { sourcename: "885"
+targetname: "887"
+}
+edge: { sourcename: "885"
+targetname: "888"
+}
+node: {title: "885"
+label: "885[
+ ]"
+}
+edge: { sourcename: "887"
+targetname: "885"
+}
+node: {title: "887"
+label: "887[
+ ]"
+}
+node: {title: "888"
+label: "888[
+ ]"
+}
+node: {title: "901"
+label: "901[
+ ]"
+}
+}

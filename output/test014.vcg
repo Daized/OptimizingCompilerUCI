@@ -1,0 +1,43 @@
+graph: {
+x: 150
+y: 20
+xmax: 960
+ymax: 900
+width: 950
+height: 900
+layoutdownfactor: 100
+layoutupfactor: 0
+layoutnearfactor: 0
+yspace: 30
+smanhattenedges: yes
+fasticons: yes
+iconcolors: 32
+edge: { sourcename: "809"
+targetname: "810"
+}
+node: {title: "809"
+label: "809[
+ ]"
+}
+edge: { sourcename: "810"
+targetname: "813"
+}
+edge: { sourcename: "810"
+targetname: "812"
+}
+node: {title: "810"
+label: "810[
+ ]"
+}
+node: {title: "813"
+label: "813[
+ ]"
+}
+edge: { sourcename: "812"
+targetname: "810"
+}
+node: {title: "812"
+label: "812[
+ ]"
+}
+}

@@ -1,0 +1,139 @@
+graph: {
+x: 150
+y: 20
+xmax: 960
+ymax: 900
+width: 950
+height: 900
+layoutdownfactor: 100
+layoutupfactor: 0
+layoutnearfactor: 0
+yspace: 30
+smanhattenedges: yes
+fasticons: yes
+iconcolors: 32
+edge: { sourcename: "768"
+targetname: "775"
+}
+edge: { sourcename: "768"
+targetname: "770"
+}
+node: {title: "768"
+label: "768[
+ ]"
+}
+edge: { sourcename: "775"
+targetname: "776"
+}
+node: {title: "775"
+label: "775[
+ ]"
+}
+edge: { sourcename: "776"
+targetname: "779"
+}
+edge: { sourcename: "776"
+targetname: "769"
+}
+edge: { sourcename: "776"
+targetname: "778"
+}
+node: {title: "776"
+label: "776[
+ ]"
+}
+node: {title: "779"
+label: "779[
+ ]"
+}
+edge: { sourcename: "769"
+targetname: "780"
+}
+node: {title: "769"
+label: "769[
+ ]"
+}
+edge: { sourcename: "780"
+targetname: "786"
+}
+edge: { sourcename: "780"
+targetname: "782"
+}
+node: {title: "780"
+label: "780[
+ ]"
+}
+node: {title: "786"
+label: "786[
+ ]"
+}
+edge: { sourcename: "782"
+targetname: "785"
+}
+edge: { sourcename: "782"
+targetname: "784"
+}
+node: {title: "782"
+label: "782[
+ ]"
+}
+edge: { sourcename: "785"
+targetname: "783"
+}
+node: {title: "785"
+label: "785[
+ ]"
+}
+edge: { sourcename: "783"
+targetname: "780"
+}
+node: {title: "783"
+label: "783[
+ ]"
+}
+edge: { sourcename: "784"
+targetname: "783"
+}
+node: {title: "784"
+label: "784[
+ ]"
+}
+edge: { sourcename: "778"
+targetname: "776"
+}
+node: {title: "778"
+label: "778[
+ ]"
+}
+edge: { sourcename: "770"
+targetname: "771"
+}
+node: {title: "770"
+label: "770[
+ ]"
+}
+edge: { sourcename: "771"
+targetname: "769"
+}
+edge: { sourcename: "771"
+targetname: "773"
+}
+edge: { sourcename: "771"
+targetname: "774"
+}
+node: {title: "771"
+label: "771[
+ ]"
+}
+edge: { sourcename: "773"
+targetname: "771"
+}
+node: {title: "773"
+label: "773[
+ ]"
+}
+node: {title: "774"
+label: "774[
+ ]"
+}
+}

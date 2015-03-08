@@ -1,0 +1,91 @@
+graph: {
+x: 150
+y: 20
+xmax: 960
+ymax: 900
+width: 950
+height: 900
+layoutdownfactor: 100
+layoutupfactor: 0
+layoutnearfactor: 0
+yspace: 30
+smanhattenedges: yes
+fasticons: yes
+iconcolors: 32
+edge: { sourcename: "858"
+targetname: "859"
+}
+node: {title: "858"
+label: "858[
+ ]"
+}
+edge: { sourcename: "859"
+targetname: "870"
+}
+edge: { sourcename: "859"
+targetname: "861"
+}
+node: {title: "859"
+label: "859[
+ ]"
+}
+node: {title: "870"
+label: "870[
+ ]"
+}
+edge: { sourcename: "861"
+targetname: "862"
+}
+node: {title: "861"
+label: "861[
+ ]"
+}
+edge: { sourcename: "862"
+targetname: "869"
+}
+edge: { sourcename: "862"
+targetname: "859"
+}
+edge: { sourcename: "862"
+targetname: "864"
+}
+node: {title: "862"
+label: "862[
+ ]"
+}
+node: {title: "869"
+label: "869[
+ ]"
+}
+edge: { sourcename: "864"
+targetname: "865"
+}
+node: {title: "864"
+label: "864[
+ ]"
+}
+edge: { sourcename: "865"
+targetname: "867"
+}
+edge: { sourcename: "865"
+targetname: "868"
+}
+edge: { sourcename: "865"
+targetname: "862"
+}
+node: {title: "865"
+label: "865[
+ ]"
+}
+edge: { sourcename: "867"
+targetname: "865"
+}
+node: {title: "867"
+label: "867[
+ ]"
+}
+node: {title: "868"
+label: "868[
+ ]"
+}
+}

@@ -346,13 +346,70 @@ public static void main(String[] args){
 	}
 	
 	public Result whileStatement(Function scope){
+		//final int loop = getProgramCounter
+		BasicBlock nextBlock = scope.getCFG().getNextBlock();
+		Set<BasicBlock> parents = nextBlock.getParents();
+		if (parents.size() > 1){
+			BasicBlock child = new BasicBlock();
+			nextBlock.addChild(child);
+			scope.getCFG().setNextBlock(child);			
+		}
+		
+		BasicBlock previous = scope.getCFG().getNextBlock();
+		BasicBlock current = new BasicBlock();
+		//current.setType(BlockType.WHILE_HEAD); <-- ???
+		previous.addChild(current);
+		scope.getCFG().setNextBlock(current);
+		BasicBlock loopBlock = scope.getCFG().getNextBlock();
+		
 		nextToken();
 		Result x = relation(scope);
+		//AuxiliaryFunctions.CJF(code, x, getSymbolTable()); ????
+		
+		parents = current.getParents();
+		BasicBlock parent = null;
+		for (BasicBlock p: parents){
+			parent = p;
+			break;
+		}
+		
+		if (parent == null){
+			parent = new BasicBlock();
+		}
+		
+		BasicBlock join = current;
+		join.setLeft(parent);
+		x.setJoin(join);
+		
+		current.setJoin(join);
+		
 		if (currentToken.getTokenType() != TokenTypes.doToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
-		Result y = statSequence(scope);
+		
+		BasicBlock right = new BasicBlock();
+		//right.setType(BlockType.WHILE_BODY) ???
+		current.addChild(right);
+		join.setRight(right);
+		scope.getCFG().setNextBlock(right);
+		
+		Result rightTree = statSequence(scope);
+		if(rightTree.getJoin() != null) {
+	            join.setRight(rightTree.getJoin());
+	            rightTree.getJoin().addChild(loopBlock); 
+		 } else {
+	            right.addChild(loopBlock);
+		 }
+		
+		//AuxiliaryFunctions.BJ(code, loop); //Backward Jump to the loop beginning.
+		//code.Fixup(x.fixupLoc());
+        final BasicBlock followBlock = new BasicBlock();
+        //followBlock.setType(BlockType.WHILE_FOLLOW);
+        join.addChild(followBlock); //Don't forget dominator information
+
+        scope.getCFG().setNextBlock(followBlock);
+		
 		if (currentToken.getTokenType() != TokenTypes.odToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}

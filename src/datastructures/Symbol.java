@@ -14,12 +14,18 @@ public class Symbol {
 	
 	
 	/*
-	 * Value of 1 on ssa means it's a declaration value.
+	 * Value of 0 on ssa means it's a declaration value.
 	 */
 	public Symbol(String name, int ssa, int constVal, Kind kind){
 		this.name = name;
 		this.ssa = ssa;
 		this.constVal = constVal;
+		this.kind = kind;
+	}
+	
+	public Symbol(String name, int ssa, Kind kind){
+		this.name = name;
+		this.ssa = ssa;
 		this.kind = kind;
 	}
 	
@@ -30,6 +36,8 @@ public class Symbol {
 	public String getName(){
 		return this.name;
 	}
+	
+	
 	
 	public int getConstVal(){
 		return this.constVal;
