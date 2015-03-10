@@ -17,6 +17,7 @@ targetname: "810"
 }
 node: {title: "809"
 label: "809[
+0 move #1 a:0
  ]"
 }
 edge: { sourcename: "810"
@@ -27,10 +28,16 @@ targetname: "812"
 }
 node: {title: "810"
 label: "810[
+8 phi b:4 b:4
+9 phi a:6 a:6
+1 cmp a b
+2 beq (1) #0
  ]"
 }
 node: {title: "813"
 label: "813[
+10 move a:0 b:10
+11 end
  ]"
 }
 edge: { sourcename: "812"
@@ -38,6 +45,11 @@ targetname: "810"
 }
 node: {title: "812"
 label: "812[
+3 add a:0 #1
+4 move (3) b:4
+5 mul a:0 #2
+6 move (5) a:6
+7 bra #1
  ]"
 }
 }

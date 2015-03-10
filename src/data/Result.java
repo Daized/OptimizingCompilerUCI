@@ -12,6 +12,9 @@ public class Result {
 	private int address; //address of variable, if variable
 	private int constVal; //otherwise constant value if constant
 	private int regno;
+	private int intermediateLocation;
+	private int location;
+	private int fixuploc;
 	private List<Integer> arrayDimensions;
 	private List<Result> arrayValues;
 	private BasicBlock join;
@@ -22,16 +25,46 @@ public class Result {
 		this.arrayDimensions = new ArrayList<Integer>();
 	}
 	
-	//public Result(Symbol symbol){
-		//
-	//}
+    public Result(Symbol var){
+        this.kind = Kind.VAR;
+        this.varName = var.getName();
+        this.location = var.getSSA();
+    }
 	
 	public int getConstVal(){
 		return this.constVal;
 	}
 	
+	public int getCondition(){
+		return this.condition;
+	}
+	
 	public BasicBlock getJoin(){
 		return this.join;
+	}
+	
+	public Kind getKind(){
+		return this.kind;
+	}
+	
+	public int getIntermediateLocation(){
+		return this.intermediateLocation;
+	}
+	
+	public int getLocation(){
+		return this.location;
+	}
+	
+	public String getVariableName(){
+		return this.varName;
+	}
+	
+	public List<Integer> getArrayDimensions(){
+		return this.arrayDimensions;
+	}
+	
+	public List<Result> getArrayValues(){
+		return this.arrayValues;
 	}
 	
 	public void appendArrayDimension(int dimension){
@@ -48,6 +81,14 @@ public class Result {
 	
 	public void setCondition(int condition){
 		this.condition = condition;
+	}
+	
+	public void setLocation(int location){
+		this.location = location;
+	}
+	
+	public void setIntermediateLocation(int intermediateLocation){
+		this.intermediateLocation = intermediateLocation;
 	}
 	
 	public void setVarName(String varName){
@@ -72,6 +113,14 @@ public class Result {
 	
 	public void setJoin(BasicBlock join){
 		this.join = join;
+	}
+
+	public void fixupLoc(int fixuploc) {
+		this.fixuploc = fixuploc;
+	}
+
+	public int getFixuploc() {
+		return this.fixuploc;
 	}
 	
 	

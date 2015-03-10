@@ -17,6 +17,7 @@ targetname: "946"
 }
 node: {title: "945"
 label: "945[
+0 move #5 a:0
  ]"
 }
 edge: { sourcename: "946"
@@ -27,6 +28,11 @@ targetname: "949"
 }
 node: {title: "946"
 label: "946[
+9 phi d:3 d:3
+10 phi c:5 c:5
+11 phi b:7 b:7
+1 cmp b c
+2 ble (1) #0
  ]"
 }
 edge: { sourcename: "948"
@@ -34,10 +40,17 @@ targetname: "946"
 }
 node: {title: "948"
 label: "948[
+3 move #5 d:3
+4 add c:0 #1
+5 move (4) c:5
+6 add b:0 #1
+7 move (6) b:7
+8 bra #1
  ]"
 }
 node: {title: "949"
 label: "949[
+12 end
  ]"
 }
 }

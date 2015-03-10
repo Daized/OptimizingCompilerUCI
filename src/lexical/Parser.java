@@ -3,19 +3,20 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
+import data.OperationCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import datastructures.ControlFlowGraph;
 import datastructures.Function;
+import datastructures.Symbol;
 
 public class Parser {
 
 	private List<Token> tokenList;
 	private Function main;
-	private List<Function> functions; 
+	private Map<String, Function> functions; 
 	private int currentIndex;
 	private Token currentToken;
-	private HashMap<String, ArrayList<String>> herp; //
 	private String[] predefined = { "InputNum" , "OutputNum", "OutputNewLine" };
 	public String fileName;
 	
@@ -44,6 +45,8 @@ public static void main(String[] args){
 		this.currentIndex = 0;
 		this.currentToken = tokenList.get(0);
 		this.fileName = fileName;
+		this.functions = new HashMap<String, Function>();
+		//TODO: add predefined functions
 	}
 	
 	/*
@@ -109,6 +112,9 @@ public static void main(String[] args){
 		if (currentToken.getTokenType() != TokenTypes.periodToken){
 		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
+		
+		Helper.addInstruction(OperationCodes.end,  main, null, null);
+		
 		System.out.println( this.fileName + ": Compiled successfully.");
 		//DONE
 		
@@ -149,6 +155,7 @@ public static void main(String[] args){
 	public void formalParam(Function scope){
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.ident){
+			scope.getSymbolTable().addSymbol(new Symbol(currentToken.getTokenString(), -1, 0, Kind.VAR));
 			nextToken();
 			if (currentToken.getTokenType() == TokenTypes.commaToken){
 				while (currentToken.getTokenType() == TokenTypes.commaToken){
@@ -156,6 +163,7 @@ public static void main(String[] args){
 					if (currentToken.getTokenType() != TokenTypes.ident){
 						System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 					}
+					scope.getSymbolTable().addSymbol(new Symbol(currentToken.getTokenString(), -1, 0, Kind.VAR));
 					nextToken();
 				}				
 			}
@@ -164,11 +172,14 @@ public static void main(String[] args){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken(); //Done
+		return;
 	}
 	
 	public void funcDecl(){
 		nextToken();
-		
+		Function function = new Function(currentToken.getTokenString());
+		function.getSymbolTable().setMainSymbolTable(main.getSymbolTable());
+		this.functions.put(currentToken.getTokenString(), function);
 		//Parser functionParser = new Parser();
 		//functionParser.setName("")
 		//functionParser.subComputation();
@@ -177,17 +188,16 @@ public static void main(String[] args){
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
-		Function scope = new Function(currentToken.getTokenString()); //Declare new function with ident name
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.openparenToken){
-			formalParam(scope);
+			formalParam(function);
 		}
 		
 		if (currentToken.getTokenType() != TokenTypes.semiToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
-		funcBody(scope);
+		funcBody(function);
 		
 		if (currentToken.getTokenType() != TokenTypes.semiToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -197,10 +207,12 @@ public static void main(String[] args){
 	
 	public Result varDecl(Function scope){
 		
-		typeDecl(scope);
+		Result x = typeDecl(scope);
+		Kind type = x.getKind();
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
+		Helper.variableDeclaration(currentToken.getTokenString(), type, x.getArrayDimensions(), scope);
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.commaToken){
 			while (currentToken.getTokenType() == TokenTypes.commaToken){
@@ -208,6 +220,7 @@ public static void main(String[] args){
 				if (currentToken.getTokenType() != TokenTypes.ident){
 					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 				}
+				Helper.variableDeclaration(currentToken.getTokenString(), type, x.getArrayDimensions(), scope);
 				nextToken();				
 			}
 		}
@@ -215,31 +228,38 @@ public static void main(String[] args){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();	//done	
-		return null;
+		return x;
 	}
 	
-	public void typeDecl(Function scope){
+	public Result typeDecl(Function scope){
 		
+		Result x = null;
 		if (currentToken.getTokenType() == TokenTypes.varToken){
+			x = new Result(Kind.VAR);
 			nextToken();
-			return; //VAR declaration, done
+			return x; //VAR declaration, done
+			//TODO: Address?
 		}
 		nextToken();
+		x = new Result(Kind.ARRAY);
 		if (currentToken.getTokenType() != TokenTypes.openbracketToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
-		
+		List<Integer> arrayDimensions = new ArrayList<Integer>();
 		while (currentToken.getTokenType() == TokenTypes.openbracketToken){
 			nextToken();
 			if (currentToken.getTokenType() != TokenTypes.number){
 					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
+			arrayDimensions.add(Integer.parseInt(currentToken.getTokenString()));
 			nextToken();
 			if (currentToken.getTokenType() != TokenTypes.closebracketToken){
 				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken(); //done
 		}
+		x.setArrayDimensions(arrayDimensions);
+		return x;
 	}
 	
 	//stage 3
@@ -346,7 +366,7 @@ public static void main(String[] args){
 	}
 	
 	public Result whileStatement(Function scope){
-		//final int loop = getProgramCounter
+		int loop = scope.getProgramCounter();
 		BasicBlock nextBlock = scope.getCFG().getNextBlock();
 		Set<BasicBlock> parents = nextBlock.getParents();
 		if (parents.size() > 1){
@@ -365,6 +385,7 @@ public static void main(String[] args){
 		nextToken();
 		Result x = relation(scope);
 		//AuxiliaryFunctions.CJF(code, x, getSymbolTable()); ????
+		Helper.CJF(scope, x);
 		
 		parents = current.getParents();
 		BasicBlock parent = null;
@@ -400,10 +421,14 @@ public static void main(String[] args){
 	            rightTree.getJoin().addChild(loopBlock); 
 		 } else {
 	            right.addChild(loopBlock);
+	            
 		 }
 		
 		//AuxiliaryFunctions.BJ(code, loop); //Backward Jump to the loop beginning.
+		Helper.BJ(scope, loop);
+		Helper.createPhiInstructions(scope, join);
 		//code.Fixup(x.fixupLoc());
+		scope.fixUp(x.getFixuploc());
         final BasicBlock followBlock = new BasicBlock();
         //followBlock.setType(BlockType.WHILE_FOLLOW);
         join.addChild(followBlock); //Don't forget dominator information
@@ -415,6 +440,7 @@ public static void main(String[] args){
 		}
 		nextToken();
 		//done
+		x.setJoin(followBlock);
 		return x;
 	}
 	
@@ -423,6 +449,8 @@ public static void main(String[] args){
 		Result ifStatement, elseStatement, left, right;
 		ifStatement = relation(scope);
 		//Do something here with branching instructions hopefully, CONDITIONAL JUMP FORWARD , CJF
+		Helper.CJF(scope, ifStatement);
+		
 		BasicBlock nextBlock = scope.getCFG().getNextBlock();
 		BasicBlock joinBlock = new BasicBlock();
 		
@@ -453,6 +481,8 @@ public static void main(String[] args){
 			//elseState.fixupLoc(scope.getCFG().getInstructionListSize)
 			//BJ(scope.getCFG, elseStatement.getFixUpLoc())
 			//Do something here with branching instructions hopefully
+			elseStatement.fixupLoc(scope.getProgramCounter());
+			Helper.BJ(scope, elseStatement.getFixuploc());
 			
 			BasicBlock elseBlock = new BasicBlock();
 			joinBlock.setRight(elseBlock);
@@ -461,22 +491,22 @@ public static void main(String[] args){
 			
 			scope.getCFG().setNextBlock(elseBlock);
 			//FJlink????
-			//scope.Fixup(x.fixupLoc())
+			scope.fixUp(ifStatement.getFixuploc());
 			
 			right = statSequence(scope);
 			if (right.getJoin() != null && right.getJoin() != joinBlock){ //In case of inner if blocks/while loops
 				joinBlock.setRight(right.getJoin());
 			}
+			scope.fixUp(elseStatement.getFixuploc());
 			
-			//
 		}
 		
 		else {
 			joinBlock.setRight(nextBlock);
-			//CFG.FIXUP(x.FIXUPLOC())
+			scope.fixUp(ifStatement.getFixuploc());
 		}
 		
-		//TODO: PhiInstructionHelper.createPhiInstructions(joinBlock, CFG)
+		Helper.createPhiInstructions(scope, joinBlock);
 		//TODO: nextblock.addDominatedOverBlock(joinBlock)
 		
 		if (currentToken.getTokenType() != TokenTypes.fiToken){
@@ -499,10 +529,13 @@ public static void main(String[] args){
 	
 	public Result funcCall(Function scope){
 		Result x = new Result(Kind.CONSTANT); //ignore for now
+		x.setConstVal(5);
+		Token procedure;
 		nextToken();
 		if (currentToken.getTokenType() != TokenTypes.ident){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
+		procedure = currentToken;
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.openparenToken){
 			nextToken();
@@ -542,11 +575,74 @@ public static void main(String[] args){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		nextToken();
+		Symbol leftSymbol = scope.getSymbolTable().getRecentOccurence(left.getVariableName());
+        //final Computation mainProgram = this.getOutputContents().getMainProgram();
+       // if(code.getProgramName() != null && recentLHS.isGlobal() && !mainProgram.getProgramName().equals(code.getProgramName())) {
+        //    AuxiliaryFunctions.addKillInstruction(mainProgram.getCode(), recentLHS);
+        //}
+		
+		
 		Result right = expression(scope);
 		
-		//TODO: something regarding scope here
+		if (left.getKind() != Kind.ARRAY && right.getKind() != Kind.ARRAY){
+			Result x = new Result(Kind.VAR);
+			x.setVarName(left.getVariableName());
+			Helper.addMoveInstruction(scope, x, right);
+			return x;
+		}
 		
-		return left;
+		Result x;
+		if (left.getKind() == Kind.ARRAY){
+			Helper.createAddA(scope, left.getVariableName(), left.getArrayValues());
+			x = new Result(Kind.INTERMEDIATE);
+			x.setIntermediateLocation(scope.getProgramCounter() - 1);
+			Result storeInstruction;
+			if (right.getKind() == Kind.ARRAY){
+				
+				String name = right.getVariableName();
+				List<Result> arrayValues = right.getArrayValues();
+				if (arrayValues != null && arrayValues.size() > 0){
+					Helper.createAddA(scope, name, arrayValues);
+					Result loadInstruction = new Result(Kind.INTERMEDIATE);
+					loadInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
+					Helper.addInstruction(OperationCodes.load, scope, loadInstruction, null);
+				}
+				
+				storeInstruction = new Result(Kind.INTERMEDIATE);
+				storeInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
+			}
+			else {
+				storeInstruction = right;
+			}
+			Helper.addInstruction(OperationCodes.store, scope, x, storeInstruction);
+			Symbol recent = scope.getSymbolTable().getRecentOccurence(left.getVariableName());
+			//Helper.addKillInstruction(scope, recent);
+		}
+		else {
+			x = new Result(Kind.VAR);
+			x.setVarName(left.getVariableName());
+			Result moveInstruction;
+			if (right.getKind() == Kind.ARRAY){
+				
+				String name = right.getVariableName();
+				List<Result> arrayValues = right.getArrayValues();
+				if (arrayValues != null && arrayValues.size() > 0){
+					Helper.createAddA(scope, name, arrayValues);
+					Result loadInstruction = new Result(Kind.INTERMEDIATE);
+					loadInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
+					Helper.addInstruction(OperationCodes.load, scope, loadInstruction, null);
+				}
+				
+				moveInstruction = new Result(Kind.INTERMEDIATE);
+				moveInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
+			}
+			else {
+				moveInstruction = right;
+			}
+			Helper.addMoveInstruction(scope, x, moveInstruction);
+		}
+		
+		return x;
 	}
 	
 	//stage 5
@@ -566,10 +662,10 @@ public static void main(String[] args){
 			currentToken.getTokenType() == TokenTypes.geqToken ||
 			currentToken.getTokenType() == TokenTypes.neqToken){
 			//if it's a relation operator
-			relation.setCondition(currentToken.getValue());
+			relation.setCondition(OperationCodes.getCondition(currentToken.getTokenType()));
 			nextToken();
 			y = expression(scope);
-			//TODO: CREATE INSTRUCTION HERE WITH X RELOP Y
+			Helper.addInstruction(OperationCodes.cmp, scope, x, y);
 		}
 		else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -583,11 +679,14 @@ public static void main(String[] args){
 	public Result expression(Function scope){
 		Result x, y;
 		x = term(scope);
-		if (currentToken.getTokenType() == TokenTypes.plusToken || currentToken.getTokenType() == TokenTypes.minusToken){
-			TokenTypes op = currentToken.getTokenType();
+		while (currentToken.getTokenType() == TokenTypes.plusToken || currentToken.getTokenType() == TokenTypes.minusToken){
+			int opCode = currentToken.getTokenType() == TokenTypes.plusToken ? OperationCodes.add : OperationCodes.sub;
 			nextToken();
-			y = expression(scope);
-			//x = combine(x, y, op);
+			y = term(scope);
+			
+			Helper.addInstruction(opCode, scope, x, y);
+			x = new Result(Kind.INTERMEDIATE);
+			x.setIntermediateLocation(main.getProgramCounter() - 1);
 		}
 		//end
 		return x;
@@ -600,10 +699,13 @@ public static void main(String[] args){
 		Result x, y;
 		x = factor(scope);
 		
-		if (currentToken.getTokenType() == TokenTypes.timesToken || currentToken.getTokenType() == TokenTypes.divToken){
-			TokenTypes op = currentToken.getTokenType();
+		while (currentToken.getTokenType() == TokenTypes.timesToken || currentToken.getTokenType() == TokenTypes.divToken){
+			int opCode = currentToken.getTokenType() == TokenTypes.timesToken ? OperationCodes.mul : OperationCodes.div;
 			nextToken();
-			y = term(scope);
+			y = factor(scope);
+			Helper.addInstruction(opCode, scope, x, y);
+			x = new Result(Kind.INTERMEDIATE);
+			x.setIntermediateLocation(main.getProgramCounter() - 1);
 			//TODO: Fix your logic here to generate the appropriate instruction
 		}
 		//end
@@ -652,12 +754,7 @@ public static void main(String[] args){
 		}
 		
 		designator = new Result(Kind.VAR);
-		
-		if (true){
-			/* CHECK IF IDENTIFIER IS IN SCOPE */
-		}
-		
-		
+		designator.setVarName(currentToken.getTokenString());
 		nextToken();
 		if (currentToken.getTokenType() == TokenTypes.openbracketToken)
 			designator.setKind(Kind.ARRAY);

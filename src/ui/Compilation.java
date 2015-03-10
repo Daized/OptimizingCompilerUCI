@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.Instruction;
 import datastructures.BasicBlock;
 import datastructures.ControlFlowGraph;
 import lexical.Parser;
@@ -88,7 +89,7 @@ public class Compilation {
 		
 		StringBuilder nodeBuilder = new StringBuilder();
 		nodeBuilder.append("node: {title: \"").append(node.getLabel()).append("\"\n");
-		nodeBuilder.append("label: \"").append(node.getLabel()).append("[\n");
+		nodeBuilder.append("label: \"").append(node.getLabel()).append("[\n").append(getInstructionString(node));
 		nodeBuilder.append(" ]\"");//.append("liveRanges: ");
 		//final Set<Integer> liveRanges = node.getLiveRanges(); ??
 		nodeBuilder.append("\n}\n");
@@ -97,8 +98,14 @@ public class Compilation {
 		return nodeBuilder.toString();
 	}
 	
+	
+	
 	public static String getInstructionString(BasicBlock node){
-		return null;
+		StringBuilder sb = new StringBuilder();
+		for (Instruction instruction: node.getInstructions()){
+			sb.append("").append(instruction.getInstructionNumber()).append(" ").append(instruction.toString()).append("\n");
+		}
+		return sb.toString();
 	}
 	
 	public static String getEdgeString(String source, String destination){

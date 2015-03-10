@@ -17,6 +17,8 @@ targetname: "907"
 }
 node: {title: "906"
 label: "906[
+0 move (-1) x:0
+1 move (0) k:1
  ]"
 }
 edge: { sourcename: "907"
@@ -27,10 +29,17 @@ targetname: "909"
 }
 node: {title: "907"
 label: "907[
+10 phi x:4 x:4
+11 phi y:5 y:5
+12 phi z:8 z:8
+2 cmp a b
+3 bge (2) #0
  ]"
 }
 node: {title: "910"
 label: "910[
+13 move (12) w:13
+14 end
  ]"
 }
 edge: { sourcename: "909"
@@ -38,6 +47,12 @@ targetname: "907"
 }
 node: {title: "909"
 label: "909[
+4 move (3) x:4
+5 move (4) y:5
+6 store z:0 (5)
+7 move (6) z:7
+8 move (7) z:8
+9 bra #2
  ]"
 }
 }

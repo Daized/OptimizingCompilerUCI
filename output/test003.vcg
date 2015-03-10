@@ -20,6 +20,10 @@ targetname: "725"
 }
 node: {title: "720"
 label: "720[
+0 store #1 (-1)
+1 store #2 (0)
+2 cmp a a
+3 ble (2) #0
  ]"
 }
 edge: { sourcename: "724"
@@ -27,10 +31,14 @@ targetname: "723"
 }
 node: {title: "724"
 label: "724[
+4 store #5 (3)
+5 bra #7
  ]"
 }
 node: {title: "723"
 label: "723[
+7 move (6) b:7
+8 end
  ]"
 }
 edge: { sourcename: "725"
@@ -38,6 +46,7 @@ targetname: "723"
 }
 node: {title: "725"
 label: "725[
+6 store #5 (5)
  ]"
 }
 }

@@ -17,20 +17,21 @@ targetname: "859"
 }
 node: {title: "858"
 label: "858[
+0 move #1 a:0
+1 move #2 b:1
+2 move #3 c:2
  ]"
-}
-edge: { sourcename: "859"
-targetname: "870"
 }
 edge: { sourcename: "859"
 targetname: "861"
 }
+edge: { sourcename: "859"
+targetname: "870"
+}
 node: {title: "859"
 label: "859[
- ]"
-}
-node: {title: "870"
-label: "870[
+3 cmp b c
+4 bge (3) #0
  ]"
 }
 edge: { sourcename: "861"
@@ -38,23 +39,21 @@ targetname: "862"
 }
 node: {title: "861"
 label: "861[
+5 add b:0 #1
+6 move (5) a:6
  ]"
-}
-edge: { sourcename: "862"
-targetname: "869"
-}
-edge: { sourcename: "862"
-targetname: "859"
 }
 edge: { sourcename: "862"
 targetname: "864"
 }
+edge: { sourcename: "862"
+targetname: "869"
+}
 node: {title: "862"
 label: "862[
- ]"
-}
-node: {title: "869"
-label: "869[
+7 add b:0 #1
+8 cmp (7) c
+9 bge (8) #0
  ]"
 }
 edge: { sourcename: "864"
@@ -65,16 +64,25 @@ label: "864[
  ]"
 }
 edge: { sourcename: "865"
-targetname: "867"
-}
-edge: { sourcename: "865"
 targetname: "868"
 }
 edge: { sourcename: "865"
-targetname: "862"
+targetname: "867"
 }
 node: {title: "865"
 label: "865[
+16 phi b:14 b:14
+10 add b:0 #2
+11 cmp (10) c
+12 bge (11) #0
+ ]"
+}
+edge: { sourcename: "868"
+targetname: "862"
+}
+node: {title: "868"
+label: "868[
+17 bra #7
  ]"
 }
 edge: { sourcename: "867"
@@ -82,10 +90,24 @@ targetname: "865"
 }
 node: {title: "867"
 label: "867[
+13 add b:0 #1
+14 move (13) b:14
+15 bra #10
  ]"
 }
-node: {title: "868"
-label: "868[
+edge: { sourcename: "869"
+targetname: "859"
+}
+node: {title: "869"
+label: "869[
+18 bra #3
+ ]"
+}
+node: {title: "870"
+label: "870[
+19 add c:0 #1
+20 move (19) b:20
+21 end
  ]"
 }
 }

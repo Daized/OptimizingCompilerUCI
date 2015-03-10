@@ -17,6 +17,9 @@ targetname: "760"
 }
 node: {title: "759"
 label: "759[
+0 move #1 a:0
+1 move #2 b:1
+2 move #3 c:2
  ]"
 }
 edge: { sourcename: "760"
@@ -27,6 +30,8 @@ targetname: "767"
 }
 node: {title: "760"
 label: "760[
+3 cmp a b
+4 bge (3) #0
  ]"
 }
 edge: { sourcename: "762"
@@ -34,10 +39,11 @@ targetname: "763"
 }
 node: {title: "762"
 label: "762[
+5 add a:0 #1
+6 move (5) a:6
+7 add c:0 #1
+8 move (7) c:8
  ]"
-}
-edge: { sourcename: "763"
-targetname: "760"
 }
 edge: { sourcename: "763"
 targetname: "766"
@@ -47,10 +53,17 @@ targetname: "765"
 }
 node: {title: "763"
 label: "763[
+14 phi b:12 b:12
+9 cmp b c
+10 bge (9) #0
  ]"
+}
+edge: { sourcename: "766"
+targetname: "760"
 }
 node: {title: "766"
 label: "766[
+15 bra #3
  ]"
 }
 edge: { sourcename: "765"
@@ -58,10 +71,14 @@ targetname: "763"
 }
 node: {title: "765"
 label: "765[
+11 add b:0 #1
+12 move (11) b:12
+13 bra #9
  ]"
 }
 node: {title: "767"
 label: "767[
+16 end
  ]"
 }
 }

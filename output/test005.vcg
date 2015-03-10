@@ -14,6 +14,12 @@ fasticons: yes
 iconcolors: 32
 node: {title: "734"
 label: "734[
+0 add #1 #1
+1 mul (0) #2
+2 div (1) #2
+3 sub (2) #1
+4 move (3) a:4
+5 end
  ]"
 }
 }

@@ -20,10 +20,18 @@ targetname: "929"
 }
 node: {title: "927"
 label: "927[
+0 move foo:0 q:0
+1 cmp #2 #3
+2 bge (1) #0
  ]"
 }
 node: {title: "928"
 label: "928[
+16 phi q:9 q:0
+17 add too:0 foo:0
+18 add (17) q:0
+19 move (18) af:19
+20 end
  ]"
 }
 edge: { sourcename: "929"
@@ -44,6 +52,11 @@ targetname: "933"
 }
 node: {title: "930"
 label: "930[
+11 phi af:6 af:6
+12 phi foo:8 foo:8
+13 phi q:9 q:9
+3 cmp #4 #6
+4 ble (3) #0
  ]"
 }
 edge: { sourcename: "932"
@@ -51,10 +64,18 @@ targetname: "930"
 }
 node: {title: "932"
 label: "932[
+5 add foo:0 #6
+6 move (5) af:6
+7 add q:0 #2
+8 move (7) foo:8
+9 move foo:0 q:9
+10 bra #3
  ]"
 }
 node: {title: "933"
 label: "933[
+14 add foo:0 #5
+15 move (14) too:15
  ]"
 }
 }

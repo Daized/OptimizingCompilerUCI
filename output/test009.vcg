@@ -20,6 +20,11 @@ targetname: "750"
 }
 node: {title: "748"
 label: "748[
+0 move #1 a:0
+1 move #2 b:1
+2 move #3 c:2
+3 cmp a b
+4 ble (3) #0
  ]"
 }
 edge: { sourcename: "755"
@@ -30,6 +35,10 @@ targetname: "757"
 }
 node: {title: "755"
 label: "755[
+19 add b:0 #5
+20 move (19) b:20
+21 cmp a b
+22 bge (21) #0
  ]"
 }
 edge: { sourcename: "758"
@@ -37,6 +46,8 @@ targetname: "756"
 }
 node: {title: "758"
 label: "758[
+26 add a:0 #3
+27 move (26) a:27
  ]"
 }
 edge: { sourcename: "756"
@@ -44,10 +55,16 @@ targetname: "749"
 }
 node: {title: "756"
 label: "756[
+28 phi a:24 a:27
  ]"
 }
 node: {title: "749"
 label: "749[
+29 phi c:16 c:13
+30 phi a:17 a:28
+31 add a:0 #1
+32 move (31) a:32
+33 end
  ]"
 }
 edge: { sourcename: "757"
@@ -55,40 +72,23 @@ targetname: "756"
 }
 node: {title: "757"
 label: "757[
+23 sub a:0 #2
+24 move (23) a:24
+25 bra #28
  ]"
+}
+edge: { sourcename: "750"
+targetname: "751"
 }
 edge: { sourcename: "750"
 targetname: "752"
 }
-edge: { sourcename: "750"
-targetname: "751"
-}
 node: {title: "750"
 label: "750[
- ]"
-}
-edge: { sourcename: "752"
-targetname: "754"
-}
-edge: { sourcename: "752"
-targetname: "753"
-}
-node: {title: "752"
-label: "752[
- ]"
-}
-edge: { sourcename: "754"
-targetname: "753"
-}
-node: {title: "754"
-label: "754[
- ]"
-}
-edge: { sourcename: "753"
-targetname: "751"
-}
-node: {title: "753"
-label: "753[
+5 add a:0 #1
+6 move (5) a:6
+7 cmp a b
+8 bge (7) #0
  ]"
 }
 edge: { sourcename: "751"
@@ -96,6 +96,40 @@ targetname: "749"
 }
 node: {title: "751"
 label: "751[
+16 phi c:14 c:13
+17 phi a:15 a:6
+18 bra #29
+ ]"
+}
+edge: { sourcename: "752"
+targetname: "753"
+}
+edge: { sourcename: "752"
+targetname: "754"
+}
+node: {title: "752"
+label: "752[
+9 mul a:0 #4
+10 move (9) a:10
+11 cmp c a
+12 beq (11) #0
+ ]"
+}
+edge: { sourcename: "753"
+targetname: "751"
+}
+node: {title: "753"
+label: "753[
+14 phi c:13 c:13
+15 phi a:10 a:10
+ ]"
+}
+edge: { sourcename: "754"
+targetname: "753"
+}
+node: {title: "754"
+label: "754[
+13 move a:0 c:13
  ]"
 }
 }

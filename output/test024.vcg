@@ -17,6 +17,14 @@ targetname: "880"
 }
 node: {title: "879"
 label: "879[
+0 move #1 a:0
+1 move #2 b:1
+2 move #3 c:2
+3 move #4 d:3
+4 move #5 e:4
+5 move #6 f:5
+6 move #7 g:6
+7 move #8 h:7
  ]"
 }
 edge: { sourcename: "880"
@@ -27,95 +35,39 @@ targetname: "901"
 }
 node: {title: "880"
 label: "880[
+68 phi g:65 g:66
+8 div b:0 #4
+9 add (8) #5
+10 cmp (9) #8
+11 bge (10) #0
  ]"
-}
-edge: { sourcename: "882"
-targetname: "889"
 }
 edge: { sourcename: "882"
 targetname: "884"
 }
+edge: { sourcename: "882"
+targetname: "889"
+}
 node: {title: "882"
 label: "882[
+12 mul a:0 #7
+13 add (12) #9
+14 move (13) a:14
+15 cmp c d
+16 bge (15) #0
  ]"
 }
-edge: { sourcename: "889"
-targetname: "896"
-}
-edge: { sourcename: "889"
-targetname: "891"
-}
-edge: { sourcename: "889"
+edge: { sourcename: "884"
 targetname: "883"
 }
-node: {title: "889"
-label: "889[
- ]"
+edge: { sourcename: "884"
+targetname: "885"
 }
-edge: { sourcename: "896"
-targetname: "897"
-}
-edge: { sourcename: "896"
-targetname: "890"
-}
-node: {title: "896"
-label: "896[
- ]"
-}
-edge: { sourcename: "897"
-targetname: "900"
-}
-edge: { sourcename: "897"
-targetname: "899"
-}
-node: {title: "897"
-label: "897[
- ]"
-}
-node: {title: "900"
-label: "900[
- ]"
-}
-edge: { sourcename: "899"
-targetname: "897"
-}
-node: {title: "899"
-label: "899[
- ]"
-}
-node: {title: "890"
-label: "890[
- ]"
-}
-edge: { sourcename: "891"
-targetname: "890"
-}
-edge: { sourcename: "891"
-targetname: "892"
-}
-node: {title: "891"
-label: "891[
- ]"
-}
-edge: { sourcename: "892"
-targetname: "895"
-}
-edge: { sourcename: "892"
-targetname: "894"
-}
-node: {title: "892"
-label: "892[
- ]"
-}
-node: {title: "895"
-label: "895[
- ]"
-}
-edge: { sourcename: "894"
-targetname: "892"
-}
-node: {title: "894"
-label: "894[
+node: {title: "884"
+label: "884[
+17 sub g:0 #5
+18 mul (17) h:0
+19 move (18) g:19
  ]"
 }
 edge: { sourcename: "883"
@@ -123,16 +75,8 @@ targetname: "880"
 }
 node: {title: "883"
 label: "883[
- ]"
-}
-edge: { sourcename: "884"
-targetname: "885"
-}
-edge: { sourcename: "884"
-targetname: "883"
-}
-node: {title: "884"
-label: "884[
+66 phi g:19 g:65
+67 bra #8
  ]"
 }
 edge: { sourcename: "885"
@@ -143,6 +87,9 @@ targetname: "888"
 }
 node: {title: "885"
 label: "885[
+25 phi h:23 h:23
+20 cmp g h
+21 ble (20) #0
  ]"
 }
 edge: { sourcename: "887"
@@ -150,14 +97,145 @@ targetname: "885"
 }
 node: {title: "887"
 label: "887[
+22 add h:0 #1
+23 move (22) h:23
+24 bra #20
  ]"
 }
 node: {title: "888"
 label: "888[
+26 add g:0 h:0
+27 move (26) g:27
+28 bra #66
+ ]"
+}
+edge: { sourcename: "889"
+targetname: "883"
+}
+edge: { sourcename: "889"
+targetname: "891"
+}
+edge: { sourcename: "889"
+targetname: "896"
+}
+node: {title: "889"
+label: "889[
+29 cmp c d
+30 blt (29) #0
+ ]"
+}
+edge: { sourcename: "891"
+targetname: "892"
+}
+edge: { sourcename: "891"
+targetname: "890"
+}
+node: {title: "891"
+label: "891[
+31 mul f:0 f:0
+32 mul (31) #7
+33 sub (32) #2
+34 move (33) e:34
+ ]"
+}
+edge: { sourcename: "892"
+targetname: "895"
+}
+edge: { sourcename: "892"
+targetname: "894"
+}
+node: {title: "892"
+label: "892[
+43 phi d:39 d:39
+44 phi e:41 e:41
+35 sub d:0 #7
+36 cmp (35) e
+37 beq (36) #0
+ ]"
+}
+node: {title: "895"
+label: "895[
+45 mul f:0 e:0
+46 move (45) f:46
+47 bra #62
+ ]"
+}
+edge: { sourcename: "894"
+targetname: "892"
+}
+node: {title: "894"
+label: "894[
+38 sub d:0 #1
+39 move (38) d:39
+40 add e:0 #1
+41 move (40) e:41
+42 bra #35
+ ]"
+}
+node: {title: "890"
+label: "890[
+62 phi e:34 e:55
+63 phi g:48 g:48
+64 add g:0 h:0
+65 move (64) g:65
+ ]"
+}
+edge: { sourcename: "896"
+targetname: "897"
+}
+edge: { sourcename: "896"
+targetname: "890"
+}
+node: {title: "896"
+label: "896[
+48 move #725 g:48
+ ]"
+}
+edge: { sourcename: "897"
+targetname: "900"
+}
+edge: { sourcename: "897"
+targetname: "899"
+}
+node: {title: "897"
+label: "897[
+57 phi d:53 d:53
+58 phi e:55 e:55
+49 sub d:0 #8
+50 cmp (49) e
+51 beq (50) #0
+ ]"
+}
+node: {title: "900"
+label: "900[
+59 mul g:0 f:0
+60 div (59) #4
+61 move (60) f:61
+ ]"
+}
+edge: { sourcename: "899"
+targetname: "897"
+}
+node: {title: "899"
+label: "899[
+52 sub d:0 #1
+53 move (52) d:53
+54 add e:0 #1
+55 move (54) e:55
+56 bra #49
  ]"
 }
 node: {title: "901"
 label: "901[
+69 mul a:0 d:0
+70 move (69) c:70
+71 add g:0 h:0
+72 sub (71) #7
+73 move (72) h:73
+74 mul b:0 c:0
+75 add f:0 (74)
+76 move (75) e:76
+77 end
  ]"
 }
 }

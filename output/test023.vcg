@@ -17,44 +17,41 @@ targetname: "872"
 }
 node: {title: "871"
 label: "871[
+0 move #1 a:0
+1 move #2 b:1
+2 move #3 c:2
+3 move #4 d:3
+4 move #5 e:4
  ]"
-}
-edge: { sourcename: "872"
-targetname: "878"
 }
 edge: { sourcename: "872"
 targetname: "874"
 }
+edge: { sourcename: "872"
+targetname: "878"
+}
 node: {title: "872"
 label: "872[
+24 phi a:15 a:21
+25 phi d:20 d:22
+5 add c:0 #4
+6 cmp (5) d
+7 bge (6) #0
  ]"
-}
-node: {title: "878"
-label: "878[
- ]"
-}
-edge: { sourcename: "874"
-targetname: "877"
 }
 edge: { sourcename: "874"
 targetname: "876"
 }
+edge: { sourcename: "874"
+targetname: "877"
+}
 node: {title: "874"
 label: "874[
- ]"
-}
-edge: { sourcename: "877"
-targetname: "875"
-}
-node: {title: "877"
-label: "877[
- ]"
-}
-edge: { sourcename: "875"
-targetname: "872"
-}
-node: {title: "875"
-label: "875[
+8 add a:0 #5
+9 sub (8) b:0
+10 mul b:0 #6
+11 cmp (9) (10)
+12 ble (11) #0
  ]"
 }
 edge: { sourcename: "876"
@@ -62,6 +59,41 @@ targetname: "875"
 }
 node: {title: "876"
 label: "876[
+13 div a:0 c:0
+14 mul (13) d:0
+15 move (14) a:15
+16 sub d:0 #1
+17 move (16) d:17
+18 bra #21
+ ]"
+}
+edge: { sourcename: "875"
+targetname: "872"
+}
+node: {title: "875"
+label: "875[
+21 phi a:15 a:15
+22 phi d:17 d:20
+23 bra #5
+ ]"
+}
+edge: { sourcename: "877"
+targetname: "875"
+}
+node: {title: "877"
+label: "877[
+19 add a:0 b:0
+20 move (19) d:20
+ ]"
+}
+node: {title: "878"
+label: "878[
+26 sub c:0 a:0
+27 add (26) b:0
+28 move (27) e:28
+29 add a:0 b:0
+30 move (29) a:30
+31 end
  ]"
 }
 }

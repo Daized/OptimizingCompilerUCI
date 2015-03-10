@@ -20,6 +20,15 @@ targetname: "905"
 }
 node: {title: "902"
 label: "902[
+0 add b:0 c:0
+1 move (0) a:1
+2 add b:0 c:0
+3 move (2) d:3
+4 add c:0 b:0
+5 add (4) d:0
+6 move (5) e:6
+7 cmp a d
+8 beq (7) #0
  ]"
 }
 edge: { sourcename: "904"
@@ -27,10 +36,32 @@ targetname: "903"
 }
 node: {title: "904"
 label: "904[
+9 add c:0 b:0
+10 add (9) d:0
+11 move (10) e:11
+12 mul a:0 d:0
+13 move (12) f:13
+14 mul d:0 a:0
+15 add (14) #4
+16 move (15) g:16
+17 move #5 b:17
+18 add c:0 b:0
+19 add (18) d:0
+20 move (19) e:20
+21 bra #26
  ]"
 }
 node: {title: "903"
 label: "903[
+26 phi e:20 e:20
+27 phi f:13 f:23
+28 phi g:16 g:25
+29 phi b:17 b:17
+30 mul a:0 d:0
+31 move (30) f:31
+32 div d:0 a:0
+33 move (32) g:33
+34 end
  ]"
 }
 edge: { sourcename: "905"
@@ -38,6 +69,10 @@ targetname: "903"
 }
 node: {title: "905"
 label: "905[
+22 div a:0 d:0
+23 move (22) f:23
+24 div d:0 a:0
+25 move (24) g:25
  ]"
 }
 }

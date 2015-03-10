@@ -14,6 +14,8 @@ fasticons: yes
 iconcolors: 32
 node: {title: "695"
 label: "695[
+0 move #5 input:0
+1 end
  ]"
 }
 }

@@ -11,10 +11,12 @@ public class Symbol {
 	private Kind kind; // Kind of symbol in {array, procedure, variable}
 	private int constVal; 
 	private List<Result> arrayValues;
-	
+	private Object arrayConstValue;
+	private int arrayDimension;
+	private boolean mainSymbol;
 	
 	/*
-	 * Value of 0 on ssa means it's a declaration value.
+	 * Value of -1 on ssa means it's a declaration value.
 	 */
 	public Symbol(String name, int ssa, int constVal, Kind kind){
 		this.name = name;
@@ -23,10 +25,17 @@ public class Symbol {
 		this.kind = kind;
 	}
 	
-	public Symbol(String name, int ssa, Kind kind){
+	public Symbol(String name, int ssa, int constVal){
 		this.name = name;
 		this.ssa = ssa;
-		this.kind = kind;
+		this.constVal = constVal;
+	}
+	
+	public Symbol(String name, Object arrayConstValue, int ssa, int arrayDimension){
+		this.name = name;
+		this.ssa = ssa;
+		this.arrayDimension = arrayDimension;
+		this.arrayConstValue = arrayConstValue;
 	}
 	
 	public int getSSA(){
@@ -37,14 +46,32 @@ public class Symbol {
 		return this.name;
 	}
 	
+	public Object getArrayConstValue(){
+		return this.arrayConstValue;
+	}
 	
+	public boolean isMainSymbol(){
+		return mainSymbol;
+	}
 	
 	public int getConstVal(){
 		return this.constVal;
 	}
 	
+	public int getArrayDimension(){
+		return this.arrayDimension;
+	}
+	
 	public Kind getKind(){
 		return this.kind;
+	}
+	
+	public void setMainSymbol(){
+		this.mainSymbol = true;
+	}
+	
+	public void setArrayConstValue(Object arrayConstValue){
+		this.arrayConstValue = arrayConstValue;
 	}
 	
 	public List<Result> getArrayValues(){
@@ -57,6 +84,18 @@ public class Symbol {
 	
 	public void addArrayValue(Result arrayValue){
 		this.arrayValues.add(arrayValue);
+	}
+
+	public void setArrayDimension(int arrayDimension) {
+		this.arrayDimension = arrayDimension;
+	}
+	
+	public void setArrayValues(List<Result> arrayValues) {
+		this.arrayValues = arrayValues;
+	}
+
+	public void setSSA(int ssa) {
+		this.ssa = ssa;
 	}
 
 }

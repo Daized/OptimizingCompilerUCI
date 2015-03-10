@@ -17,20 +17,22 @@ targetname: "912"
 }
 node: {title: "911"
 label: "911[
+0 mul #2 a:0
+1 sub (0) #6
+2 move (1) c:2
  ]"
-}
-edge: { sourcename: "912"
-targetname: "922"
 }
 edge: { sourcename: "912"
 targetname: "914"
 }
+edge: { sourcename: "912"
+targetname: "922"
+}
 node: {title: "912"
 label: "912[
- ]"
-}
-node: {title: "922"
-label: "922[
+22 phi b:7 b:7
+3 cmp #2 #3
+4 bge (3) #0
  ]"
 }
 edge: { sourcename: "914"
@@ -41,40 +43,43 @@ targetname: "912"
 }
 node: {title: "914"
 label: "914[
+5 mul #2 a:0
+6 sub (5) #6
+7 move (6) b:7
  ]"
-}
-edge: { sourcename: "915"
-targetname: "917"
 }
 edge: { sourcename: "915"
 targetname: "921"
 }
+edge: { sourcename: "915"
+targetname: "917"
+}
 node: {title: "915"
 label: "915[
+8 mul #2 a:0
+9 sub (8) #6
+10 cmp #4 foo
+11 bge (10) #0
  ]"
 }
-edge: { sourcename: "917"
-targetname: "919"
+node: {title: "921"
+label: "921[
+18 mul #2 a:0
+19 sub (18) #6
+20 move (19) c:20
+21 bra #3
+ ]"
 }
 edge: { sourcename: "917"
 targetname: "920"
 }
+edge: { sourcename: "917"
+targetname: "919"
+}
 node: {title: "917"
 label: "917[
- ]"
-}
-edge: { sourcename: "919"
-targetname: "918"
-}
-node: {title: "919"
-label: "919[
- ]"
-}
-edge: { sourcename: "918"
-targetname: "915"
-}
-node: {title: "918"
-label: "918[
+12 cmp #3 #4
+13 bge (12) #0
  ]"
 }
 edge: { sourcename: "920"
@@ -82,10 +87,32 @@ targetname: "918"
 }
 node: {title: "920"
 label: "920[
+16 store #5 (15)
  ]"
 }
-node: {title: "921"
-label: "921[
+edge: { sourcename: "918"
+targetname: "915"
+}
+node: {title: "918"
+label: "918[
+17 bra #8
+ ]"
+}
+edge: { sourcename: "919"
+targetname: "918"
+}
+node: {title: "919"
+label: "919[
+14 store #3 (13)
+15 bra #17
+ ]"
+}
+node: {title: "922"
+label: "922[
+23 mul #2 a:0
+24 sub (23) #6
+25 move (24) a:25
+26 end
  ]"
 }
 }

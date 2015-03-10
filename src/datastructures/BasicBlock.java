@@ -2,10 +2,13 @@ package datastructures;
 import java.util.*;
 
 import data.Instruction;
+import data.OperationCodes;
 
 public class BasicBlock {
 	
-	private List<Instruction> instructionList = new ArrayList<Instruction>();
+	private List<Instruction> instructionList;
+	private List<BasicBlock> dominatedBlocks;
+	private Map<String, Instruction> phiMap;
 	private Set<BasicBlock>  parents;
 	private Set<BasicBlock> children;
 	private BasicBlock join;
@@ -20,6 +23,8 @@ public class BasicBlock {
 	
 	public BasicBlock(){
 		this.instructionList = new ArrayList<Instruction>();
+		this.dominatedBlocks = new ArrayList<BasicBlock>();
+		this.phiMap = new HashMap<String, Instruction>();
 		this.parents = new HashSet<BasicBlock>();
 		this.children = new HashSet<BasicBlock>();
 		this.label = count++;
@@ -82,6 +87,33 @@ public class BasicBlock {
 	
 	public boolean getVisited(){
 		return this.visited;
+	}
+	
+	public Collection<Instruction> getPhiInstructions(){
+		return phiMap.values();
+	}
+	
+	public Instruction addPhiInstruction(Instruction instruction) {
+        int index = 0;
+        Instruction nonPhi = null;
+        for (Instruction instruction1 : instructionList) {
+            if( !(instruction1.getOpcode() == OperationCodes.phi)) {
+                nonPhi = instruction1;
+                break;
+            }
+            index++;
+        }
+        instructionList.add(index, instruction); //PHI should always be added to the top
+        phiMap.put(instruction.getSymbol().getName(), instruction);
+        return nonPhi;
+    }
+	
+	public List<Instruction> getInstructions(){
+		return this.instructionList;
+	}
+
+	public Instruction getPhiInstruction(String name) {
+		return phiMap.get(name);
 	}
 
 
