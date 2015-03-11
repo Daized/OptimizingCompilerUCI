@@ -18,7 +18,7 @@ public class BasicBlock {
 	private boolean visited;
 	
 	
-	private static Set<BasicBlock> programBlocks = new HashSet<BasicBlock>();
+	private static volatile Set<BasicBlock> programBlocks = new HashSet<BasicBlock>();
 	private static int count = 0;
 	
 	public BasicBlock(){
@@ -49,12 +49,28 @@ public class BasicBlock {
 		parents.add(parent);
 	}
 	
-	public void setVisited(){
-		this.visited = true;
+	public void setVisited(boolean b){
+		this.visited = b;
 	}
 	
-	public void addChild(BasicBlock child){
+	public void addChild(BasicBlock child, boolean dominates){
 		children.add(child);
+		child.getParents().add(this);
+		if (dominates)
+			this.addDominatingBlocks(child);
+	}
+	
+	public void addDominatingBlocks(BasicBlock child){
+		dominates(child);
+		for (BasicBlock b: programBlocks){
+			if (b.getDominatedBlocks().contains(this)){
+				b.getDominatedBlocks().add(child);
+			}
+		}
+	}
+	
+	public void dominates(BasicBlock child){
+		this.dominatedBlocks.add(child);
 	}
 	
 	public Set<BasicBlock> getChildren(){
@@ -71,6 +87,10 @@ public class BasicBlock {
 	
 	public int getLabel(){
 		return this.label;
+	}
+	
+	public List<BasicBlock> getDominatedBlocks(){
+		return this.dominatedBlocks;
 	}
 	
 	public BasicBlock getLeft(){

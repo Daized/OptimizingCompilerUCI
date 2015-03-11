@@ -8,18 +8,22 @@ public class Instruction {
 	private Result y;
 	private int instructionNumber;
 	private final int opcode;
+	private boolean deleted;
+	private String deleteReason;
 	
 	public Instruction(Result x, Result y, int opcode, int instructionNumber){
 		this.x = x;
 		this.y = y;
 		this.opcode = opcode;
 		this.instructionNumber = instructionNumber;
+		this.deleted = false;
 	}
 	
 	public Instruction(Result x, Result y, int opcode){
 		this.x = x;
 		this.y = y;
 		this.opcode = opcode;
+		this.deleted = false;
 	}
 	
 	public void setX(Result x){
@@ -122,6 +126,11 @@ public class Instruction {
 	        x.setConstVal(programCounter);
 		}
 		
+	}
+
+	public void setDeleted(boolean b, String string) {
+		this.deleted = b;
+		this.deleteReason = string;
 	}
 
 }

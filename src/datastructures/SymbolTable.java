@@ -13,6 +13,10 @@ public class SymbolTable {
 		this.symbolMap = new HashMap<String, Symbol>();
 	}
 	
+	public List<Symbol> getSymbolList(){
+		return this.symbolList;
+	}
+	
 	public void addSymbol(Symbol s){
 		if (s == null) {
 			throw new RuntimeException("Null symbol");
@@ -84,4 +88,17 @@ public class SymbolTable {
         return targetSymbol;
 	}
 
+	public void removeSymbol(String variableName, int ssa) {
+		
+        final Iterator<Symbol> iterator = symbolList.iterator();
+        while (iterator.hasNext()) {
+            final Symbol next = iterator.next();
+            if(next.getName().equals(variableName) && next.getSSA() == ssa) {
+                iterator.remove();
+            }
+        }
+	}
+		
 }
+
+

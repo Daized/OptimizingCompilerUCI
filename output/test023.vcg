@@ -12,11 +12,11 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-edge: { sourcename: "871"
-targetname: "872"
+edge: { sourcename: "681"
+targetname: "682"
 }
-node: {title: "871"
-label: "871[
+node: {title: "681"
+label: "681[
 0 move #1 a:0
 1 move #2 b:1
 2 move #3 c:2
@@ -24,29 +24,32 @@ label: "871[
 4 move #5 e:4
  ]"
 }
-edge: { sourcename: "872"
-targetname: "874"
+edge: { sourcename: "682"
+targetname: "683"
 }
-edge: { sourcename: "872"
-targetname: "878"
+edge: { sourcename: "682"
+targetname: "687"
 }
-node: {title: "872"
-label: "872[
-24 phi a:15 a:21
-25 phi d:20 d:22
+node: {title: "682"
+label: "682[
+24 phi a:0 a:21
+25 phi b:1 b:1
+26 phi c:2 c:2
+27 phi d:3 d:22
+28 phi e:4 e:4
 5 add c:0 #4
 6 cmp (5) d
 7 bge (6) #0
  ]"
 }
-edge: { sourcename: "874"
-targetname: "876"
+edge: { sourcename: "683"
+targetname: "686"
 }
-edge: { sourcename: "874"
-targetname: "877"
+edge: { sourcename: "683"
+targetname: "685"
 }
-node: {title: "874"
-label: "874[
+node: {title: "683"
+label: "683[
 8 add a:0 #5
 9 sub (8) b:0
 10 mul b:0 #6
@@ -54,11 +57,30 @@ label: "874[
 12 ble (11) #0
  ]"
 }
-edge: { sourcename: "876"
-targetname: "875"
+edge: { sourcename: "686"
+targetname: "684"
 }
-node: {title: "876"
-label: "876[
+node: {title: "686"
+label: "686[
+19 add a:0 b:0
+20 move (19) d:20
+ ]"
+}
+edge: { sourcename: "684"
+targetname: "682"
+}
+node: {title: "684"
+label: "684[
+21 phi a:15 a:15
+22 phi d:17 d:20
+23 bra #5
+ ]"
+}
+edge: { sourcename: "685"
+targetname: "684"
+}
+node: {title: "685"
+label: "685[
 13 div a:0 c:0
 14 mul (13) d:0
 15 move (14) a:15
@@ -67,33 +89,14 @@ label: "876[
 18 bra #21
  ]"
 }
-edge: { sourcename: "875"
-targetname: "872"
-}
-node: {title: "875"
-label: "875[
-21 phi a:15 a:15
-22 phi d:17 d:20
-23 bra #5
- ]"
-}
-edge: { sourcename: "877"
-targetname: "875"
-}
-node: {title: "877"
-label: "877[
-19 add a:0 b:0
-20 move (19) d:20
- ]"
-}
-node: {title: "878"
-label: "878[
-26 sub c:0 a:0
-27 add (26) b:0
-28 move (27) e:28
-29 add a:0 b:0
-30 move (29) a:30
-31 end
+node: {title: "687"
+label: "687[
+29 sub c:0 a:0
+30 add (29) b:0
+31 move (30) e:31
+32 add a:0 b:0
+33 move (32) a:33
+34 end
  ]"
 }
 }

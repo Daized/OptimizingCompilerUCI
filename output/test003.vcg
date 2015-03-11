@@ -12,40 +12,40 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-edge: { sourcename: "720"
-targetname: "724"
+edge: { sourcename: "546"
+targetname: "550"
 }
-edge: { sourcename: "720"
-targetname: "725"
+edge: { sourcename: "546"
+targetname: "551"
 }
-node: {title: "720"
-label: "720[
+node: {title: "546"
+label: "546[
 0 store #1 (-1)
 1 store #2 (0)
 2 cmp a a
 3 ble (2) #0
  ]"
 }
-edge: { sourcename: "724"
-targetname: "723"
+edge: { sourcename: "550"
+targetname: "549"
 }
-node: {title: "724"
-label: "724[
+node: {title: "550"
+label: "550[
 4 store #5 (3)
 5 bra #7
  ]"
 }
-node: {title: "723"
-label: "723[
+node: {title: "549"
+label: "549[
 7 move (6) b:7
 8 end
  ]"
 }
-edge: { sourcename: "725"
-targetname: "723"
+edge: { sourcename: "551"
+targetname: "549"
 }
-node: {title: "725"
-label: "725[
+node: {title: "551"
+label: "551[
 6 store #5 (5)
  ]"
 }

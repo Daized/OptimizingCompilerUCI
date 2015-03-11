@@ -12,170 +12,179 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-edge: { sourcename: "768"
-targetname: "770"
+edge: { sourcename: "590"
+targetname: "596"
 }
-edge: { sourcename: "768"
-targetname: "775"
+edge: { sourcename: "590"
+targetname: "592"
 }
-node: {title: "768"
-label: "768[
+node: {title: "590"
+label: "590[
 0 move #1 a:0
 1 move #2 b:1
 2 move #3 c:2
 3 move #4 d:3
-4 cmp a b
+4 cmp #1 #2
 5 bge (4) #0
  ]"
 }
-edge: { sourcename: "770"
-targetname: "771"
+edge: { sourcename: "596"
+targetname: "597"
 }
-node: {title: "770"
-label: "770[
-6 add a:0 #1
+node: {title: "596"
+label: "596[
+19 add #1 #2
+20 move (19) a:20
+ ]"
+}
+edge: { sourcename: "597"
+targetname: "599"
+}
+edge: { sourcename: "597"
+targetname: "598"
+}
+node: {title: "597"
+label: "597[
+28 phi a:20 a:20
+29 phi c:24 c:24
+30 phi d:26 d:26
+21 cmp c d
+22 bge (21) #0
+ ]"
+}
+edge: { sourcename: "599"
+targetname: "591"
+}
+node: {title: "599"
+label: "599[
+ ]"
+}
+edge: { sourcename: "591"
+targetname: "600"
+}
+node: {title: "591"
+label: "591[
+ ]"
+}
+edge: { sourcename: "600"
+targetname: "601"
+}
+node: {title: "600"
+label: "600[
+ ]"
+}
+edge: { sourcename: "601"
+targetname: "606"
+}
+edge: { sourcename: "601"
+targetname: "602"
+}
+node: {title: "601"
+label: "601[
+41 phi b:35 b:38
+42 phi c:37 c:39
+31 cmp b d
+32 bge (31) #0
+ ]"
+}
+node: {title: "606"
+label: "606[
+43 end
+ ]"
+}
+edge: { sourcename: "602"
+targetname: "605"
+}
+edge: { sourcename: "602"
+targetname: "604"
+}
+node: {title: "602"
+label: "602[
+33 cmp a d
+34 ble (33) #0
+ ]"
+}
+edge: { sourcename: "605"
+targetname: "603"
+}
+node: {title: "605"
+label: "605[
+37 move b:0 c:37
+ ]"
+}
+edge: { sourcename: "603"
+targetname: "601"
+}
+node: {title: "603"
+label: "603[
+38 phi b:35 b:35
+39 phi c:37 c:37
+40 bra #31
+ ]"
+}
+edge: { sourcename: "604"
+targetname: "603"
+}
+node: {title: "604"
+label: "604[
+35 move c:0 b:35
+36 bra #38
+ ]"
+}
+edge: { sourcename: "598"
+targetname: "597"
+}
+node: {title: "598"
+label: "598[
+23 add c:0 #3
+24 move (23) c:24
+25 add d:0 #2
+26 move (25) d:26
+27 bra #21
+ ]"
+}
+edge: { sourcename: "592"
+targetname: "593"
+}
+node: {title: "592"
+label: "592[
+6 add #1 #1
 7 move (6) a:7
  ]"
 }
-edge: { sourcename: "771"
-targetname: "774"
+edge: { sourcename: "593"
+targetname: "595"
 }
-edge: { sourcename: "771"
-targetname: "773"
+edge: { sourcename: "593"
+targetname: "594"
 }
-node: {title: "771"
-label: "771[
-15 phi c:11 c:11
-16 phi d:13 d:13
+node: {title: "593"
+label: "593[
+15 phi a:7 a:7
+16 phi c:11 c:11
+17 phi d:13 d:13
 8 cmp c d
 9 bge (8) #0
  ]"
 }
-edge: { sourcename: "774"
-targetname: "769"
+edge: { sourcename: "595"
+targetname: "591"
 }
-node: {title: "774"
-label: "774[
-17 bra #29
+node: {title: "595"
+label: "595[
+18 bra #31
  ]"
 }
-edge: { sourcename: "769"
-targetname: "780"
+edge: { sourcename: "594"
+targetname: "593"
 }
-node: {title: "769"
-label: "769[
- ]"
-}
-edge: { sourcename: "780"
-targetname: "782"
-}
-edge: { sourcename: "780"
-targetname: "786"
-}
-node: {title: "780"
-label: "780[
-39 phi b:33 b:36
-40 phi c:35 c:37
-29 cmp b d
-30 bge (29) #0
- ]"
-}
-edge: { sourcename: "782"
-targetname: "785"
-}
-edge: { sourcename: "782"
-targetname: "784"
-}
-node: {title: "782"
-label: "782[
-31 cmp a d
-32 ble (31) #0
- ]"
-}
-edge: { sourcename: "785"
-targetname: "783"
-}
-node: {title: "785"
-label: "785[
-35 move b:0 c:35
- ]"
-}
-edge: { sourcename: "783"
-targetname: "780"
-}
-node: {title: "783"
-label: "783[
-36 phi b:33 b:33
-37 phi c:35 c:35
-38 bra #29
- ]"
-}
-edge: { sourcename: "784"
-targetname: "783"
-}
-node: {title: "784"
-label: "784[
-33 move c:0 b:33
-34 bra #36
- ]"
-}
-node: {title: "786"
-label: "786[
-41 end
- ]"
-}
-edge: { sourcename: "773"
-targetname: "771"
-}
-node: {title: "773"
-label: "773[
+node: {title: "594"
+label: "594[
 10 add c:0 #2
 11 move (10) c:11
 12 add d:0 #1
 13 move (12) d:13
 14 bra #8
- ]"
-}
-edge: { sourcename: "775"
-targetname: "776"
-}
-node: {title: "775"
-label: "775[
-18 add a:0 #2
-19 move (18) a:19
- ]"
-}
-edge: { sourcename: "776"
-targetname: "779"
-}
-edge: { sourcename: "776"
-targetname: "778"
-}
-node: {title: "776"
-label: "776[
-27 phi c:23 c:23
-28 phi d:25 d:25
-20 cmp c d
-21 bge (20) #0
- ]"
-}
-edge: { sourcename: "779"
-targetname: "769"
-}
-node: {title: "779"
-label: "779[
- ]"
-}
-edge: { sourcename: "778"
-targetname: "776"
-}
-node: {title: "778"
-label: "778[
-22 add c:0 #3
-23 move (22) c:23
-24 add d:0 #2
-25 move (24) d:25
-26 bra #20
  ]"
 }
 }

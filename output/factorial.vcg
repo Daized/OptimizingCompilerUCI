@@ -12,8 +12,8 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-node: {title: "695"
-label: "695[
+node: {title: "525"
+label: "525[
 0 move #5 input:0
 1 end
  ]"

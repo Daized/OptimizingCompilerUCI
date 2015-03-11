@@ -12,46 +12,44 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-edge: { sourcename: "927"
-targetname: "928"
+edge: { sourcename: "729"
+targetname: "730"
 }
-edge: { sourcename: "927"
-targetname: "929"
+edge: { sourcename: "729"
+targetname: "731"
 }
-node: {title: "927"
-label: "927[
-0 move foo:0 q:0
+node: {title: "729"
+label: "729[
+0 move #0 q:0
 1 cmp #2 #3
 2 bge (1) #0
  ]"
 }
-node: {title: "928"
-label: "928[
-16 phi q:9 q:0
-17 add too:0 foo:0
-18 add (17) q:0
-19 move (18) af:19
-20 end
+node: {title: "730"
+label: "730[
+16 phi too:15 too:15
+17 phi q:9 #0
+18 add too:0 #0
+19 add (18) q:0
+20 move (19) af:20
+21 end
  ]"
 }
-edge: { sourcename: "929"
-targetname: "928"
+edge: { sourcename: "731"
+targetname: "732"
 }
-edge: { sourcename: "929"
-targetname: "930"
-}
-node: {title: "929"
-label: "929[
+node: {title: "731"
+label: "731[
  ]"
 }
-edge: { sourcename: "930"
-targetname: "932"
+edge: { sourcename: "732"
+targetname: "733"
 }
-edge: { sourcename: "930"
-targetname: "933"
+edge: { sourcename: "732"
+targetname: "734"
 }
-node: {title: "930"
-label: "930[
+node: {title: "732"
+label: "732[
 11 phi af:6 af:6
 12 phi foo:8 foo:8
 13 phi q:9 q:9
@@ -59,11 +57,11 @@ label: "930[
 4 ble (3) #0
  ]"
 }
-edge: { sourcename: "932"
-targetname: "930"
+edge: { sourcename: "733"
+targetname: "732"
 }
-node: {title: "932"
-label: "932[
+node: {title: "733"
+label: "733[
 5 add foo:0 #6
 6 move (5) af:6
 7 add q:0 #2
@@ -72,8 +70,11 @@ label: "932[
 10 bra #3
  ]"
 }
-node: {title: "933"
-label: "933[
+edge: { sourcename: "734"
+targetname: "730"
+}
+node: {title: "734"
+label: "734[
 14 add foo:0 #5
 15 move (14) too:15
  ]"

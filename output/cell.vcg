@@ -12,8 +12,8 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-node: {title: "666"
-label: "666[
+node: {title: "500"
+label: "500[
 0 move #200 ColCount:0
 1 move #150 RowCount:1
 2 store #1 (1)

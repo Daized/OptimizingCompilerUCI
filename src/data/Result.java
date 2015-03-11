@@ -47,6 +47,10 @@ public class Result {
 		return this.kind;
 	}
 	
+	public String getUniqueName(){
+		return this.varName + ":" + this.location;
+	}
+	
 	public int getIntermediateLocation(){
 		return this.intermediateLocation;
 	}

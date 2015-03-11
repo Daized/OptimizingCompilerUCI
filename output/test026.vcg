@@ -12,41 +12,42 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-edge: { sourcename: "906"
-targetname: "907"
+edge: { sourcename: "711"
+targetname: "712"
 }
-node: {title: "906"
-label: "906[
+node: {title: "711"
+label: "711[
 0 move (-1) x:0
 1 move (0) k:1
  ]"
 }
-edge: { sourcename: "907"
-targetname: "910"
+edge: { sourcename: "712"
+targetname: "714"
 }
-edge: { sourcename: "907"
-targetname: "909"
+edge: { sourcename: "712"
+targetname: "713"
 }
-node: {title: "907"
-label: "907[
-10 phi x:4 x:4
-11 phi y:5 y:5
-12 phi z:8 z:8
+node: {title: "712"
+label: "712[
+10 phi x:0 x:4
+11 phi k:1 k:1
+12 phi y:5 y:5
+13 phi z:8 z:8
 2 cmp a b
 3 bge (2) #0
  ]"
 }
-node: {title: "910"
-label: "910[
-13 move (12) w:13
-14 end
+node: {title: "714"
+label: "714[
+14 move (13) w:14
+15 end
  ]"
 }
-edge: { sourcename: "909"
-targetname: "907"
+edge: { sourcename: "713"
+targetname: "712"
 }
-node: {title: "909"
-label: "909[
+node: {title: "713"
+label: "713[
 4 move (3) x:4
 5 move (4) y:5
 6 store z:0 (5)

@@ -57,6 +57,13 @@ public static void main(String[] args){
 	}
 	
 	/*
+	 * 
+	 */
+	public Map<String, Function> getFunctions(){
+		return this.functions;
+	}
+	
+	/*
 	 * This function is what is used to iterate through our tokenList obtained from file.
 	 */
 	public void nextToken(){
@@ -269,7 +276,7 @@ public static void main(String[] args){
 	 */
 	
 	public Result statSequence(Function scope){
-		Result x = null;
+		Result x = null, y = null;
 		ControlFlowGraph cfg = scope.getCFG();
 		scope.getCFG().getNextBlock();
 		if (currentToken.getTokenType() == TokenTypes.letToken ||
@@ -291,7 +298,15 @@ public static void main(String[] args){
 					    currentToken.getTokenType() == TokenTypes.whileToken ||
 					    currentToken.getTokenType() == TokenTypes.ifToken){
 					
-						x = statement(scope);
+						y = statement(scope);
+						//if (y.getJoin() != null) {
+			           //     if (x.getJoin() != null) {
+			            //        throw new RuntimeException("Joinblock clasing?");
+			            //    }
+						if (y.getJoin() != null)
+			                x.setJoin(y.getJoin());
+			           // }
+						//
 				}			
 		 else {
 					System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -371,14 +386,14 @@ public static void main(String[] args){
 		Set<BasicBlock> parents = nextBlock.getParents();
 		if (parents.size() > 1){
 			BasicBlock child = new BasicBlock();
-			nextBlock.addChild(child);
+			nextBlock.addChild(child, true);
 			scope.getCFG().setNextBlock(child);			
 		}
 		
 		BasicBlock previous = scope.getCFG().getNextBlock();
 		BasicBlock current = new BasicBlock();
 		//current.setType(BlockType.WHILE_HEAD); <-- ???
-		previous.addChild(current);
+		previous.addChild(current, false);
 		scope.getCFG().setNextBlock(current);
 		BasicBlock loopBlock = scope.getCFG().getNextBlock();
 		
@@ -411,16 +426,16 @@ public static void main(String[] args){
 		
 		BasicBlock right = new BasicBlock();
 		//right.setType(BlockType.WHILE_BODY) ???
-		current.addChild(right);
+		current.addChild(right, true);
 		join.setRight(right);
 		scope.getCFG().setNextBlock(right);
 		
 		Result rightTree = statSequence(scope);
 		if(rightTree.getJoin() != null) {
 	            join.setRight(rightTree.getJoin());
-	            rightTree.getJoin().addChild(loopBlock); 
+	            rightTree.getJoin().addChild(loopBlock, false); 
 		 } else {
-	            right.addChild(loopBlock);
+	            right.addChild(loopBlock, false);
 	            
 		 }
 		
@@ -431,7 +446,7 @@ public static void main(String[] args){
 		scope.fixUp(x.getFixuploc());
         final BasicBlock followBlock = new BasicBlock();
         //followBlock.setType(BlockType.WHILE_FOLLOW);
-        join.addChild(followBlock); //Don't forget dominator information
+        join.addChild(followBlock, true); //Don't forget dominator information
 
         scope.getCFG().setNextBlock(followBlock);
 		
@@ -460,9 +475,8 @@ public static void main(String[] args){
 		BasicBlock ifBlock = new BasicBlock();
 		joinBlock.setLeft(ifBlock);
 		ifBlock.setJoin(joinBlock);
-		nextBlock.addChild(ifBlock); //TODO: ADD DOMINATOR TREE INFORMATION TOO
+		nextBlock.addChild(ifBlock, true); //TODO: ADD DOMINATOR TREE INFORMATION TOO
 		
-		ifBlock.addParent(nextBlock);
 		scope.getCFG().setNextBlock(ifBlock);
 		
 		if (currentToken.getTokenType() != TokenTypes.thenToken){
@@ -487,7 +501,7 @@ public static void main(String[] args){
 			BasicBlock elseBlock = new BasicBlock();
 			joinBlock.setRight(elseBlock);
 			elseBlock.setJoin(joinBlock);
-			nextBlock.addChild(elseBlock);
+			nextBlock.addChild(elseBlock, true);
 			
 			scope.getCFG().setNextBlock(elseBlock);
 			//FJlink????
@@ -507,7 +521,7 @@ public static void main(String[] args){
 		}
 		
 		Helper.createPhiInstructions(scope, joinBlock);
-		//TODO: nextblock.addDominatedOverBlock(joinBlock)
+		nextBlock.addDominatingBlocks(joinBlock);
 		
 		if (currentToken.getTokenType() != TokenTypes.fiToken){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -515,10 +529,10 @@ public static void main(String[] args){
 		nextToken();		
 		
         if(joinBlock.getLeft() != null) {
-            joinBlock.getLeft().addChild(joinBlock);
+            joinBlock.getLeft().addChild(joinBlock, false);
         }
         if(joinBlock.getRight() != null) {
-            joinBlock.getRight().addChild(joinBlock);
+            joinBlock.getRight().addChild(joinBlock, false);
         }
         
         scope.getCFG().setNextBlock(joinBlock);
@@ -772,44 +786,5 @@ public static void main(String[] args){
 		
 		return designator;
 	}
-	
-	
-	
-	
-
-	/*
-	 * Combining results is useful for terms and expressions
-	 */
-	
-	public Result combine(Result x, Result y, TokenTypes operation){
-		Result combine = new Result(Kind.CONSTANT);
-		switch (operation){
-		case timesToken:
-			
-			
-			
-		case divToken:
-			
-			
-			
-			
-		case plusToken:
-		
-		
-		
-		
-		case minusToken:
-		
-		default:
-			break;
-			//System.out.println("Incorrect operation.");
-			//System.exit(0);
-		}
-		
-		return combine;
-	}
-
-	
-	
 	
 }

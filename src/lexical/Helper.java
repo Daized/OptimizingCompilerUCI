@@ -161,9 +161,9 @@ public class Helper {
 
     
 	
-	//public static int addKillInstruction(Function scope, Symbol recent){
-		
-	//}
+    public static int addKillInstruction(Function scope, Symbol recent) {
+        return scope.appendKillInstruction(new Instruction(new Result(recent), null, OperationCodes.kill, scope.getProgramCounter()), -1);
+    }
     
     public static void createPhiInstructions(Function scope, BasicBlock join){
     	//First do left side

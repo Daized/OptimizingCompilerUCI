@@ -12,54 +12,54 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-edge: { sourcename: "748"
-targetname: "755"
+edge: { sourcename: "572"
+targetname: "579"
 }
-edge: { sourcename: "748"
-targetname: "750"
+edge: { sourcename: "572"
+targetname: "574"
 }
-node: {title: "748"
-label: "748[
+node: {title: "572"
+label: "572[
 0 move #1 a:0
 1 move #2 b:1
 2 move #3 c:2
-3 cmp a b
+3 cmp #1 #2
 4 ble (3) #0
  ]"
 }
-edge: { sourcename: "755"
-targetname: "758"
+edge: { sourcename: "579"
+targetname: "582"
 }
-edge: { sourcename: "755"
-targetname: "757"
+edge: { sourcename: "579"
+targetname: "581"
 }
-node: {title: "755"
-label: "755[
-19 add b:0 #5
+node: {title: "579"
+label: "579[
+19 add #2 #5
 20 move (19) b:20
-21 cmp a b
+21 cmp a #2
 22 bge (21) #0
  ]"
 }
-edge: { sourcename: "758"
-targetname: "756"
+edge: { sourcename: "582"
+targetname: "580"
 }
-node: {title: "758"
-label: "758[
+node: {title: "582"
+label: "582[
 26 add a:0 #3
 27 move (26) a:27
  ]"
 }
-edge: { sourcename: "756"
-targetname: "749"
+edge: { sourcename: "580"
+targetname: "573"
 }
-node: {title: "756"
-label: "756[
-28 phi a:24 a:27
+node: {title: "580"
+label: "580[
+28 phi a:24 (26)
  ]"
 }
-node: {title: "749"
-label: "749[
+node: {title: "573"
+label: "573[
 29 phi c:16 c:13
 30 phi a:17 a:28
 31 add a:0 #1
@@ -67,69 +67,69 @@ label: "749[
 33 end
  ]"
 }
-edge: { sourcename: "757"
-targetname: "756"
+edge: { sourcename: "581"
+targetname: "580"
 }
-node: {title: "757"
-label: "757[
+node: {title: "581"
+label: "581[
 23 sub a:0 #2
 24 move (23) a:24
 25 bra #28
  ]"
 }
-edge: { sourcename: "750"
-targetname: "751"
+edge: { sourcename: "574"
+targetname: "575"
 }
-edge: { sourcename: "750"
-targetname: "752"
+edge: { sourcename: "574"
+targetname: "576"
 }
-node: {title: "750"
-label: "750[
-5 add a:0 #1
+node: {title: "574"
+label: "574[
+5 add #1 #1
 6 move (5) a:6
-7 cmp a b
+7 cmp #1 #2
 8 bge (7) #0
  ]"
 }
-edge: { sourcename: "751"
-targetname: "749"
+edge: { sourcename: "575"
+targetname: "573"
 }
-node: {title: "751"
-label: "751[
+node: {title: "575"
+label: "575[
 16 phi c:14 c:13
 17 phi a:15 a:6
 18 bra #29
  ]"
 }
-edge: { sourcename: "752"
-targetname: "753"
+edge: { sourcename: "576"
+targetname: "578"
 }
-edge: { sourcename: "752"
-targetname: "754"
+edge: { sourcename: "576"
+targetname: "577"
 }
-node: {title: "752"
-label: "752[
-9 mul a:0 #4
+node: {title: "576"
+label: "576[
+9 mul #1 #4
 10 move (9) a:10
-11 cmp c a
+11 cmp #3 #1
 12 beq (11) #0
  ]"
 }
-edge: { sourcename: "753"
-targetname: "751"
+edge: { sourcename: "578"
+targetname: "577"
 }
-node: {title: "753"
-label: "753[
-14 phi c:13 c:13
-15 phi a:10 a:10
+node: {title: "578"
+label: "578[
+13 move #1 c:13
  ]"
 }
-edge: { sourcename: "754"
-targetname: "753"
+edge: { sourcename: "577"
+targetname: "575"
 }
-node: {title: "754"
-label: "754[
-13 move a:0 c:13
+node: {title: "577"
+label: "577[
+14 phi c:13 c:13
+15 phi a:10 a:10
  ]"
 }
 }

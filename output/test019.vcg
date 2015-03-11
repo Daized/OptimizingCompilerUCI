@@ -12,12 +12,12 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-node: {title: "854"
-label: "854[
-0 move a:0 b:0
-1 move b:0 c:1
-2 move c:0 d:2
-3 add d:0 #1
+node: {title: "667"
+label: "667[
+0 move #0 b:0
+1 move #0 c:1
+2 move #0 d:2
+3 add #0 #1
 4 move (3) d:4
 5 end
  ]"

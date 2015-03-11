@@ -12,73 +12,78 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-edge: { sourcename: "759"
-targetname: "760"
+edge: { sourcename: "583"
+targetname: "584"
 }
-node: {title: "759"
-label: "759[
+node: {title: "583"
+label: "583[
 0 move #1 a:0
 1 move #2 b:1
 2 move #3 c:2
  ]"
 }
-edge: { sourcename: "760"
-targetname: "762"
+edge: { sourcename: "584"
+targetname: "585"
 }
-edge: { sourcename: "760"
-targetname: "767"
+edge: { sourcename: "584"
+targetname: "589"
 }
-node: {title: "760"
-label: "760[
+node: {title: "584"
+label: "584[
+18 phi a:0 a:6
+19 phi b:1 b:12
+20 phi c:2 c:8
 3 cmp a b
 4 bge (3) #0
  ]"
 }
-edge: { sourcename: "762"
-targetname: "763"
+edge: { sourcename: "585"
+targetname: "586"
 }
-node: {title: "762"
-label: "762[
+node: {title: "585"
+label: "585[
 5 add a:0 #1
 6 move (5) a:6
 7 add c:0 #1
 8 move (7) c:8
  ]"
 }
-edge: { sourcename: "763"
-targetname: "766"
+edge: { sourcename: "586"
+targetname: "587"
 }
-edge: { sourcename: "763"
-targetname: "765"
+edge: { sourcename: "586"
+targetname: "588"
 }
-node: {title: "763"
-label: "763[
-14 phi b:12 b:12
+node: {title: "586"
+label: "586[
+14 phi a:6 a:6
+15 phi c:8 c:8
+16 phi b:12 b:12
 9 cmp b c
 10 bge (9) #0
  ]"
 }
-edge: { sourcename: "766"
-targetname: "760"
+edge: { sourcename: "587"
+targetname: "586"
 }
-node: {title: "766"
-label: "766[
-15 bra #3
- ]"
-}
-edge: { sourcename: "765"
-targetname: "763"
-}
-node: {title: "765"
-label: "765[
+node: {title: "587"
+label: "587[
 11 add b:0 #1
 12 move (11) b:12
 13 bra #9
  ]"
 }
-node: {title: "767"
-label: "767[
-16 end
+edge: { sourcename: "588"
+targetname: "584"
+}
+node: {title: "588"
+label: "588[
+17 bra #3
+ ]"
+}
+node: {title: "589"
+label: "589[
+21 end
  ]"
 }
 }

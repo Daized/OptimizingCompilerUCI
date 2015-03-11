@@ -24,7 +24,7 @@ public class Function {
 		this.functionCFG.getNextBlock().appendInstruction(instruction);
 	}
 	
-	public void appendKillInstruction(Instruction instruction, int index){
+	public int appendKillInstruction(Instruction instruction, int index){
 		if (instruction.getOpcode() != OperationCodes.kill){
 			throw new RuntimeException("Not a kill instruction");
 		}
@@ -35,6 +35,8 @@ public class Function {
 		else
 			instructionList.add(instruction);
 		joinBlock.appendInstruction(instruction);
+		
+		return instructionList.size();
 	}
 	
 	public void appendPhiInstruction(Instruction phiInstruction, Instruction instruction){

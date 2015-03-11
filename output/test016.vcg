@@ -12,8 +12,8 @@ yspace: 30
 smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
-node: {title: "835"
-label: "835[
+node: {title: "649"
+label: "649[
 0 add #3 #7
 1 sub (0) #2
 2 move (1) x:2
@@ -21,7 +21,7 @@ label: "835[
 4 mul (3) #2
 5 div (4) #2
 6 move (5) y:6
-7 add y:0 #5
+7 add (5) #5
 8 move (7) y:8
 9 end
  ]"
