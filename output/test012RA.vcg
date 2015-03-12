@@ -24,7 +24,7 @@ label: "607[
 1 move #3 b:1
 2 cmp #2 #3
 3 bge #0 #0
-liveRanges: []
+liveRanges: [10]
  ]"
 
 }
@@ -46,7 +46,7 @@ label: "608[
 14 add (13) #1
 15 move (14) a:15
 16 end
-liveRanges: []
+liveRanges: [10]
  ]"
 
 }
@@ -61,7 +61,7 @@ label: "609[
 7 add #1 #1
 8 move (5) a:8
 9 bra #0
-liveRanges: []
+liveRanges: [10]
  ]"
 
 }

@@ -22,7 +22,7 @@ label: "681[
 2 move #3 c:2
 3 move #4 d:3
 4 move #5 e:4
-liveRanges: []
+liveRanges: [21]
  ]"
 
 }
@@ -38,7 +38,7 @@ label: "682[
 5 add c:0 #4
 6 cmp #0 (23)
 7 bge #0 #0
-liveRanges: []
+liveRanges: [21]
  ]"
 
 }
@@ -55,7 +55,7 @@ label: "683[
 10 mul b:0 #6
 11 cmp #0 (10)
 12 ble #0 #0
-liveRanges: []
+liveRanges: [16, 19, 21, 23]
  ]"
 
 }
@@ -66,7 +66,7 @@ node: {title: "686"
 label: "686[
 19 add a:0 #0
 20 move (19) d:20
-liveRanges: []
+liveRanges: [16]
  ]"
 
 }
@@ -77,7 +77,7 @@ node: {title: "684"
 label: "684[
 21 phi (16) (19)
 22 bra #0
-liveRanges: []
+liveRanges: [16, 19]
  ]"
 
 }
@@ -92,7 +92,7 @@ label: "685[
 16 sub (23) #1
 17 move (16) d:17
 18 bra #0
-liveRanges: []
+liveRanges: [19, 23]
  ]"
 
 }

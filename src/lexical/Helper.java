@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import optimizations.PhiFinder;
 import data.Instruction;
 import data.Kind;
 import data.OperationCodes;
@@ -81,6 +82,25 @@ public class Helper {
             }
         }
         scope.appendInstruction(instruction);
+	}
+	
+	public static Instruction addInstruction(int opCode, Function scope, Result x, Result y, int index){
+		Instruction instruction = new Instruction(x, y, opCode, scope.getProgramCounter());
+		if(OperationCodes.getOperandCount(opCode) > 0) {
+            if (scope.getSymbolTable() != null && (x.getKind() == Kind.VAR || x.getKind() == Kind.ARRAY)) {
+                Symbol recent = scope.getSymbolTable().getRecentOccurence(x.getVariableName());
+                if (x.getKind() == Kind.ARRAY) {
+                    if (recent.getSSA() == -1) {
+                        instruction.setSymbol(recent);
+                        //Making sure arrays have only one entry in symbol table besides the declaration
+                    }
+                } else {
+                    instruction.setSymbol(recent);
+                }
+            }
+        }
+        scope.appendInstruction(instruction, index);
+        return instruction;
 	}
 	
 	public static void addMoveInstruction(Function scope, Result x, Result y){
@@ -165,7 +185,10 @@ public class Helper {
         return scope.appendKillInstruction(new Instruction(new Result(recent), null, OperationCodes.kill, scope.getProgramCounter()), -1);
     }
     
+    private static List<Instruction> phiList;
+    
     public static void createPhiInstructions(Function scope, BasicBlock join){
+    	phiList = new ArrayList<Instruction>();
     	//First do left side
     	BasicBlock left = join.getLeft();
     	List<Instruction> leftInstructions = left.getInstructions();
@@ -193,22 +216,43 @@ public class Helper {
     				createPhiInstruction(scope, join, symbol);
     			}
     			Instruction phiInstruction = join.getPhiInstruction(symbol.getName());
-    			phiInstruction.setY(new Result(instruction.getSymbol()));
+    			if (phiInstruction == null){
+    				for (Instruction p : phiList){
+    					if (p.getSymbol().getName().equals(symbol.getName())){
+    						phiInstruction = p;
+    						break;
+    					}
+    				}
+    			}
+    			if (phiInstruction != null)
+    				phiInstruction.setY(new Result(instruction.getSymbol()));
     		}
     	}
     	
     	//Finish incomplete phi instructions from right side
-    	Collection<Instruction> phiCollection = join.getPhiInstructions();
+    	Collection<Instruction> phiCollection = phiList;
     	for (Instruction phi: phiCollection){
     		if (!phi.isComplete()){
-    			Symbol target = scope.getSymbolTable().getSymbol(phi.getSymbol());
-    			Result targetSym = new Result(target);
+    			PhiFinder finder = new PhiFinder(null, scope.getCFG().getRoot(), join, phi.getSymbol().getName());
+    			Result targetSym = finder.getOperand();
     			if (phi.getX() == null){
     				phi.setX(targetSym);
     			}
     			else {
     				phi.setY(targetSym);
     			}
+    		}
+    		
+    		if (phi.isComplete()){
+    			Instruction instruction = join.addPhiInstruction(phi);
+    	    	if(instruction != null){
+    	    		scope.appendPhiInstruction(phi,instruction);
+    	    	}
+    	    	else {
+    	    		instruction = new Instruction(null, null, -1, -1);
+    	    		scope.appendPhiInstruction(phi, instruction);
+    	    	}
+    	    	phi.getSymbol().setSSA(phi.getInstructionNumber());
     		}
     	}
     }
@@ -219,16 +263,11 @@ public class Helper {
     	Instruction phiInstruction = new Instruction(null, null, OperationCodes.phi, scope.getProgramCounter());
     	phiInstruction.setSymbol(phi);
     	
-    	Instruction instruction = join.addPhiInstruction(phiInstruction);
-    	if(instruction != null){
-    		scope.appendPhiInstruction(phiInstruction,instruction);
+    	if (!phiList.contains(phiInstruction)){
+    		phiList.add(phiInstruction);
     	}
-    	else {
-    		instruction = new Instruction(null, null, -1, -1);
-    		scope.appendPhiInstruction(phiInstruction, instruction);
-    	}
-    	phi.setSSA(phiInstruction.getInstructionNumber());
     	return phiInstruction;
+    	
     }
 	
     //based on http://stackoverflow.com/questions/869033/how-do-i-copy-an-object-in-java

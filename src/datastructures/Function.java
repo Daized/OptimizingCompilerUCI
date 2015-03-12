@@ -11,18 +11,26 @@ public class Function {
 	private List<Instruction> instructionList;
 	private ControlFlowGraph functionCFG;
 	private SymbolTable symbolTable;
+	private List<String> formalParameters; // Empty in main
 	
 	public Function(String name){
 		this.instructionList = new ArrayList<Instruction>();
 		this.functionCFG = new ControlFlowGraph();
 		this.name = name;
 		this.symbolTable = new SymbolTable();
+		this.formalParameters = new ArrayList<String>();
 	}
 
 	public void appendInstruction(Instruction instruction){
 		this.instructionList.add(instruction);
 		this.functionCFG.getNextBlock().appendInstruction(instruction);
 	}
+	
+	public void appendInstruction(Instruction instruction, int index){
+		this.instructionList.add(index, instruction);
+		//this.functionCFG.getNextBlock().appendInstruction(instruction, index);
+	}
+	
 	
 	public int appendKillInstruction(Instruction instruction, int index){
 		if (instruction.getOpcode() != OperationCodes.kill){
@@ -78,6 +86,14 @@ public class Function {
 			}
 		}	
 		
+	}
+
+	public List<Instruction> getInstructionList() {
+		return this.instructionList;
+	}
+
+	public List<String> getFormalParams() {
+		return this.formalParameters;
 	}
 	
 

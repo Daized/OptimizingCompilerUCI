@@ -376,6 +376,7 @@ public static void main(String[] args){
 		else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
+		Helper.addInstruction(OperationCodes.ret, scope, x, null);
 		
 		return x;
 	}
@@ -392,7 +393,7 @@ public static void main(String[] args){
 		
 		BasicBlock previous = scope.getCFG().getNextBlock();
 		BasicBlock current = new BasicBlock();
-		//current.setType(BlockType.WHILE_HEAD); <-- ???
+		current.setBlockKind(Kind.LOOPHEAD);
 		previous.addChild(current, false);
 		scope.getCFG().setNextBlock(current);
 		BasicBlock loopBlock = scope.getCFG().getNextBlock();
@@ -425,7 +426,7 @@ public static void main(String[] args){
 		nextToken();
 		
 		BasicBlock right = new BasicBlock();
-		//right.setType(BlockType.WHILE_BODY) ???
+		right.setBlockKind(Kind.LOOPBODY);
 		current.addChild(right, true);
 		join.setRight(right);
 		scope.getCFG().setNextBlock(right);
@@ -445,7 +446,7 @@ public static void main(String[] args){
 		//code.Fixup(x.fixupLoc());
 		scope.fixUp(x.getFixuploc());
         final BasicBlock followBlock = new BasicBlock();
-        //followBlock.setType(BlockType.WHILE_FOLLOW);
+        followBlock.setBlockKind(Kind.LOOPFOLLOW);
         join.addChild(followBlock, true); //Don't forget dominator information
 
         scope.getCFG().setNextBlock(followBlock);
@@ -468,6 +469,7 @@ public static void main(String[] args){
 		
 		BasicBlock nextBlock = scope.getCFG().getNextBlock();
 		BasicBlock joinBlock = new BasicBlock();
+		joinBlock.setBlockKind(Kind.IF);
 		
 		ifStatement.setJoin(joinBlock);
 		nextBlock.setJoin(joinBlock);

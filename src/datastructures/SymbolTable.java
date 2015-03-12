@@ -1,6 +1,8 @@
 package datastructures;
 import java.util.*;
 
+import data.Result;
+
 public class SymbolTable {
 	
 	private List<Symbol> symbolList;
@@ -97,6 +99,17 @@ public class SymbolTable {
                 iterator.remove();
             }
         }
+	}
+
+	public void updateSymbol(String variableName, Result y) {
+		Iterator<Symbol> iterator = symbolList.iterator();
+        while (iterator.hasNext()) {
+            Symbol next = iterator.next();
+            if(next.getName().equals(variableName)) {
+                next.setConstVal(y.getConstVal());
+            }
+        }
+		
 	}
 		
 }

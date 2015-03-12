@@ -2,35 +2,48 @@ package datastructures;
 import java.util.*;
 
 import data.Instruction;
+import data.Kind;
 import data.OperationCodes;
+import data.Result;
 
 public class BasicBlock {
 	
 	private List<Instruction> instructionList;
 	private List<BasicBlock> dominatedBlocks;
+	private List<String> exclude;
 	private Map<String, Instruction> phiMap;
+	private Map<String, Result> mapValues;
 	private Set<BasicBlock>  parents;
 	private Set<BasicBlock> children;
+	private Set<Integer> liveRanges;
 	private BasicBlock join;
 	private BasicBlock left;
 	private BasicBlock right;
+	private Kind blockKind;
 	private int label;
 	private boolean visited;
 	
 	
 	private static volatile Set<BasicBlock> programBlocks = new HashSet<BasicBlock>();
-	private static int count = 0;
+	private static volatile int count = 0;
 	
 	public BasicBlock(){
 		this.instructionList = new ArrayList<Instruction>();
 		this.dominatedBlocks = new ArrayList<BasicBlock>();
+		this.exclude = new ArrayList<String>();
 		this.phiMap = new HashMap<String, Instruction>();
 		this.parents = new HashSet<BasicBlock>();
 		this.children = new HashSet<BasicBlock>();
+		this.liveRanges = new HashSet<Integer>();
+		this.mapValues = new HashMap<String, Result>();
 		this.label = count++;
 		this.visited = false;
 		programBlocks.add(this);
 		
+	}
+	
+	public void setBlockKind(Kind blockKind){
+		this.blockKind = blockKind;
 	}
 	
 	public void setLeft(BasicBlock left){
@@ -48,6 +61,10 @@ public class BasicBlock {
 	public void addParent(BasicBlock parent){
 		parents.add(parent);
 	}
+	
+	public void setLiveRanges(Set<Integer> liveRanges) {
+        this.liveRanges = liveRanges;
+    }
 	
 	public void setVisited(boolean b){
 		this.visited = b;
@@ -73,12 +90,26 @@ public class BasicBlock {
 		this.dominatedBlocks.add(child);
 	}
 	
+	 public void updateValueMap(Map<String, Result> valueMap) {
+	        for (String s : valueMap.keySet()) {
+	            this.mapValues.put(s, valueMap.get(s));
+	        }
+	    }
+	
+	 public Kind getKind(){
+		 return this.blockKind;
+	 }
+	 
 	public Set<BasicBlock> getChildren(){
 		return this.children;
 	}
 	
 	public Set<BasicBlock> getParents(){
 		return this.parents;
+	}
+	
+	public Set<Integer> getLiveRanges(){
+		return this.liveRanges;
 	}
 	
 	public void appendInstruction(Instruction instruction){
@@ -131,9 +162,36 @@ public class BasicBlock {
 	public List<Instruction> getInstructions(){
 		return this.instructionList;
 	}
+	
+	public static void restartCount(){
+		count = 0;
+	}
 
 	public Instruction getPhiInstruction(String name) {
 		return phiMap.get(name);
+	}
+
+	public Map<String, Result> getMapValues() {
+		return this.mapValues;
+	}
+
+	public void setParents(Set<BasicBlock> parents) {
+		this.parents = parents;
+	}
+
+	public List<String> getExclude() {
+		return this.exclude;
+	}
+
+	public void updateExclude(List<String> exclude) {
+		for (String s : exclude) {
+            this.exclude.addAll(exclude);
+        }
+		
+	}
+	
+	public void addToExclude(String name){
+		this.exclude.add(name);
 	}
 
 

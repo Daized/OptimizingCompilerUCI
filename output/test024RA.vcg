@@ -25,7 +25,7 @@ label: "688[
 5 move #6 f:5
 6 move #7 g:6
 7 move #8 h:7
-liveRanges: []
+liveRanges: [61]
  ]"
 
 }
@@ -42,7 +42,7 @@ label: "689[
 9 add #0 #5
 10 cmp #0 #8
 11 bge #0 #0
-liveRanges: []
+liveRanges: [61]
  ]"
 
 }
@@ -59,7 +59,7 @@ label: "690[
 14 move (13) a:14
 15 cmp c #0
 16 bge #0 #0
-liveRanges: []
+liveRanges: [39, 59, 63, 61]
  ]"
 
 }
@@ -73,7 +73,7 @@ node: {title: "696"
 label: "696[
 28 cmp c #0
 29 blt #0 #0
-liveRanges: []
+liveRanges: [39]
  ]"
 
 }
@@ -124,7 +124,7 @@ label: "705[
 55 mul g:0 #0
 56 div #0 #4
 57 move (56) f:57
-liveRanges: []
+liveRanges: [25, 43, 63]
  ]"
 
 }
@@ -136,7 +136,7 @@ label: "697[
 58 phi (43) (56)
 59 add (63) #0
 60 move (59) g:60
-liveRanges: []
+liveRanges: [25, 43, 56, 63]
  ]"
 
 }
@@ -147,7 +147,7 @@ node: {title: "691"
 label: "691[
 61 phi (25) (59)
 62 bra #0
-liveRanges: []
+liveRanges: [59, 25]
  ]"
 
 }
@@ -160,7 +160,7 @@ label: "698[
 31 mul #0 #7
 32 sub #0 #2
 33 move (32) e:33
-liveRanges: []
+liveRanges: [39]
  ]"
 
 }
@@ -176,7 +176,7 @@ label: "699[
 34 sub d:0 #7
 35 cmp #0 (42)
 36 beq #0 #0
-liveRanges: []
+liveRanges: [32, 39]
  ]"
 
 }
@@ -190,7 +190,7 @@ label: "700[
 39 add (42) #1
 40 move (39) e:40
 41 bra #0
-liveRanges: []
+liveRanges: [32, 39, 42]
  ]"
 
 }
@@ -202,7 +202,7 @@ label: "701[
 43 mul f:0 (42)
 44 move (43) f:44
 45 bra #0
-liveRanges: []
+liveRanges: [42, 25, 56, 63]
  ]"
 
 }
@@ -214,7 +214,7 @@ label: "692[
 17 sub (63) #5
 18 mul #0 #0
 19 move (18) g:19
-liveRanges: []
+liveRanges: [59, 63]
  ]"
 
 }
@@ -228,7 +228,7 @@ node: {title: "693"
 label: "693[
 20 cmp g #0
 21 ble #0 #0
-liveRanges: []
+liveRanges: [59]
  ]"
 
 }
@@ -240,7 +240,7 @@ label: "695[
 25 add g:0 #0
 26 move (25) g:26
 27 bra #0
-liveRanges: []
+liveRanges: [59]
  ]"
 
 }
@@ -252,7 +252,7 @@ label: "694[
 22 add h:0 #1
 23 move (22) h:23
 24 bra #0
-liveRanges: []
+liveRanges: [59]
  ]"
 
 }
@@ -267,7 +267,7 @@ label: "706[
 70 add f:0 (69)
 71 move (70) e:71
 72 end
-liveRanges: []
+liveRanges: [63]
  ]"
 
 }

@@ -1,5 +1,7 @@
 package data;
 
+import java.util.*;
+
 import datastructures.Symbol;
 
 public class Instruction {
@@ -10,6 +12,8 @@ public class Instruction {
 	private final int opcode;
 	private boolean deleted;
 	private String deleteReason;
+	private final Set<Integer> liveRanges = new HashSet<Integer>();
+	public List<Result> parameters;
 	
 	public Instruction(Result x, Result y, int opcode, int instructionNumber){
 		this.x = x;
@@ -59,6 +63,14 @@ public class Instruction {
             throw new UnsupportedOperationException("This operation is only for PHI instructions");
         }
         return y != null && x != null;
+    }
+    
+    public Set<Integer> getLiveRanges() {
+        return liveRanges;
+    }
+
+    public void addToLiveRanges(Set<Integer> liveRanges) {
+        this.liveRanges.addAll(liveRanges);
     }
 	
     private String getOperand(Result x) {
@@ -131,6 +143,18 @@ public class Instruction {
 	public void setDeleted(boolean b, String string) {
 		this.deleted = b;
 		this.deleteReason = string;
+	}
+	
+	public boolean isDeleted(){
+		return this.deleted;
+	}
+
+	public List<Result> getParameters() {
+		return this.parameters;
+	}
+	
+	public void setParameters(List<Result> parameters) {
+		this.parameters = parameters;
 	}
 
 }

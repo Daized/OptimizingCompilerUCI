@@ -20,7 +20,7 @@ label: "715[
 0 mul #0 #0
 1 sub #0 #6
 2 move (1) c:2
-liveRanges: []
+liveRanges: [9]
  ]"
 
 }
@@ -35,7 +35,7 @@ label: "716[
 22 phi (1) (9)
 3 cmp #0 #3
 4 bge #0 #0
-liveRanges: []
+liveRanges: [1, 9]
  ]"
 
 }
@@ -47,7 +47,7 @@ label: "717[
 5 mul #0 #0
 6 sub #0 #6
 7 move (6) b:7
-liveRanges: []
+liveRanges: [1, 9]
  ]"
 
 }
@@ -121,7 +121,7 @@ label: "723[
 19 sub #0 #6
 20 move (9) c:20
 21 bra #0
-liveRanges: []
+liveRanges: [1, 9]
  ]"
 
 }

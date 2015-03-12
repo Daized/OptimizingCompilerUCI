@@ -19,7 +19,7 @@ node: {title: "711"
 label: "711[
 0 move (-1) x:0
 1 move (0) k:1
-liveRanges: []
+liveRanges: [3, -1]
  ]"
 
 }
@@ -34,7 +34,7 @@ label: "712[
 10 phi (-1) (3)
 2 cmp #0 b
 3 bge #0 #0
-liveRanges: []
+liveRanges: [3, -1]
  ]"
 
 }
@@ -42,7 +42,7 @@ node: {title: "714"
 label: "714[
 11 move (10) w:11
 12 end
-liveRanges: []
+liveRanges: [10]
  ]"
 
 }
@@ -57,7 +57,7 @@ label: "713[
 7 move (6) z:7
 8 move (7) z:8
 9 bra #0
-liveRanges: []
+liveRanges: [3, -1]
  ]"
 
 }

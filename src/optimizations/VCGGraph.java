@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Set;
 
 import data.Instruction;
 import datastructures.BasicBlock;
@@ -13,9 +14,11 @@ import lexical.Parser;
 
 public class VCGGraph extends Optimization {
 
-	public VCGGraph(Parser p) {
+	String suffix;
+	
+	public VCGGraph(Parser p, String suffix) {
 		super(p);
-		// TODO Auto-generated constructor stub
+		this.suffix = suffix;
 	}
 	
 	public void createControlFlowGraphFile(){
@@ -27,7 +30,7 @@ public class VCGGraph extends Optimization {
 		final String s = "graph: {\nx: 150\ny: 20\nxmax: 960\nymax: 900\nwidth: 950\nheight: 900\nlayoutdownfactor: 100\nlayoutupfactor: 0\nlayoutnearfactor: 0\n"
 				+ "yspace: 30\nsmanhattenedges: yes\nfasticons: yes\niconcolors: 32\n";
 		try {
-			fout = new File("output/" + p.fileName.substring(5, p.fileName.length() - 4)+".vcg");
+			fout = new File("output/" + p.fileName.substring(5, p.fileName.length() - 4)+suffix+".vcg");
 			fos = new FileOutputStream(fout);
 			bw = new BufferedWriter(new OutputStreamWriter(fos));
 			
@@ -82,14 +85,12 @@ public class VCGGraph extends Optimization {
 	}
 	
 	public static String getNodeString(BasicBlock node){
-		
+		Set<Integer> liveRanges = node.getLiveRanges(); 
 		StringBuilder nodeBuilder = new StringBuilder();
 		nodeBuilder.append("node: {title: \"").append(node.getLabel()).append("\"\n");
 		nodeBuilder.append("label: \"").append(node.getLabel()).append("[\n").append(getInstructionString(node));
-		nodeBuilder.append(" ]\"");//.append("liveRanges: ");
-		//final Set<Integer> liveRanges = node.getLiveRanges(); ??
+		nodeBuilder.append("liveRanges: ").append(liveRanges.toString()).append("\n ]\"\n");;
 		nodeBuilder.append("\n}\n");
-		
 		
 		return nodeBuilder.toString();
 	}

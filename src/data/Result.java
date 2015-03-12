@@ -126,6 +126,10 @@ public class Result {
 	public int getFixuploc() {
 		return this.fixuploc;
 	}
+
+	public int getRegNo() {
+		return this.regno;
+	}
 	
 	
 

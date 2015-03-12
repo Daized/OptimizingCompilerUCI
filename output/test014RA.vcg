@@ -18,7 +18,7 @@ targetname: "628"
 node: {title: "627"
 label: "627[
 0 move #1 a:0
-liveRanges: []
+liveRanges: [5]
  ]"
 
 }
@@ -33,7 +33,7 @@ label: "628[
 8 phi #1 (5)
 1 cmp (8) #0
 2 beq #0 #0
-liveRanges: []
+liveRanges: [5]
  ]"
 
 }
@@ -47,7 +47,7 @@ label: "629[
 5 mul (8) #2
 6 move (5) a:6
 7 bra #0
-liveRanges: []
+liveRanges: [5, 8]
  ]"
 
 }
@@ -55,7 +55,7 @@ node: {title: "630"
 label: "630[
 9 move (8) b:9
 10 end
-liveRanges: []
+liveRanges: [8]
  ]"
 
 }

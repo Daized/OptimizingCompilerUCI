@@ -98,4 +98,9 @@ public class Symbol {
 		this.ssa = ssa;
 	}
 
+	public void setConstVal(int constVal) {
+		this.constVal = constVal;
+		
+	}
+
 }
