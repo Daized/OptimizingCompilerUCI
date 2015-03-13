@@ -13,10 +13,10 @@ smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
 edge: { sourcename: "572"
-targetname: "579"
+targetname: "574"
 }
 edge: { sourcename: "572"
-targetname: "574"
+targetname: "579"
 }
 node: {title: "572"
 label: "572[
@@ -24,45 +24,33 @@ label: "572[
 1 move #2 b:1
 2 move #3 c:2
 3 cmp #1 #2
-4 ble #0 #0
+4 ble (3) #0
 liveRanges: []
  ]"
 
 }
-edge: { sourcename: "579"
-targetname: "581"
+edge: { sourcename: "574"
+targetname: "575"
 }
-edge: { sourcename: "579"
-targetname: "582"
+edge: { sourcename: "574"
+targetname: "576"
 }
-node: {title: "579"
-label: "579[
-15 add #2 #5
-16 move (15) b:16
-17 cmp #1 (15)
-18 bge #0 #0
+node: {title: "574"
+label: "574[
+5 add #1 #1
+6 move (5) a:6
+7 cmp (5) #2
+8 bge (7) #0
 liveRanges: []
  ]"
 
 }
-edge: { sourcename: "581"
-targetname: "580"
-}
-node: {title: "581"
-label: "581[
-19 sub #1 #2
-20 move (19) a:20
-21 bra #0
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "580"
+edge: { sourcename: "575"
 targetname: "573"
 }
-node: {title: "580"
-label: "580[
-24 phi (19) (22)
+node: {title: "575"
+label: "575[
+14 bra #25
 liveRanges: []
  ]"
 
@@ -72,33 +60,6 @@ label: "573[
 25 add #1 #1
 26 move (25) a:26
 27 end
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "582"
-targetname: "580"
-}
-node: {title: "582"
-label: "582[
-22 add #1 #3
-23 move (22) a:23
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "574"
-targetname: "576"
-}
-edge: { sourcename: "574"
-targetname: "575"
-}
-node: {title: "574"
-label: "574[
-5 add #1 #1
-6 move (5) a:6
-7 cmp (5) #2
-8 bge #0 #0
 liveRanges: []
  ]"
 
@@ -114,7 +75,7 @@ label: "576[
 9 mul (5) #4
 10 move (9) a:10
 11 cmp #3 (9)
-12 beq #0 #0
+12 beq (11) #0
 liveRanges: []
  ]"
 
@@ -138,12 +99,51 @@ liveRanges: []
  ]"
 
 }
-edge: { sourcename: "575"
+edge: { sourcename: "579"
+targetname: "582"
+}
+edge: { sourcename: "579"
+targetname: "581"
+}
+node: {title: "579"
+label: "579[
+15 add #2 #5
+16 move (15) b:16
+17 cmp #1 (15)
+18 bge (17) #0
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "582"
+targetname: "580"
+}
+node: {title: "582"
+label: "582[
+22 add #1 #3
+23 move (22) a:23
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "580"
 targetname: "573"
 }
-node: {title: "575"
-label: "575[
-14 bra #0
+node: {title: "580"
+label: "580[
+24 phi (19) (22)
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "581"
+targetname: "580"
+}
+node: {title: "581"
+label: "581[
+19 sub #1 #2
+20 move (19) a:20
+21 bra #24
 liveRanges: []
  ]"
 

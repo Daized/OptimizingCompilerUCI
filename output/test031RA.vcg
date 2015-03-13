@@ -30,15 +30,15 @@ targetname: "746"
 }
 node: {title: "745"
 label: "745[
-1 cmp b #0
-2 ble #0 #0
+0 cmp #0 #0
+1 ble (1) #0
 liveRanges: []
  ]"
 
 }
 node: {title: "747"
 label: "747[
-9 end
+4 end
 liveRanges: []
  ]"
 
@@ -49,11 +49,11 @@ targetname: "745"
 node: {title: "746"
 label: "746[
 3 move #5 d:3
-4 add c:0 #1
+2 add #0 #1
 5 move (4) c:5
-6 add b:0 #1
-7 move (6) b:7
-8 bra #0
+6 add #0 #1
+7 move (4) b:7
+3 bra #1
 liveRanges: []
  ]"
 

@@ -25,24 +25,15 @@ liveRanges: []
 
 }
 edge: { sourcename: "672"
-targetname: "680"
+targetname: "673"
 }
 edge: { sourcename: "672"
-targetname: "673"
+targetname: "680"
 }
 node: {title: "672"
 label: "672[
-3 cmp b #0
-4 bge #0 #0
-liveRanges: []
- ]"
-
-}
-node: {title: "680"
-label: "680[
-18 add c:0 #1
-19 move (18) b:19
-20 end
+3 cmp #0 #0
+4 bge (3) #0
 liveRanges: []
  ]"
 
@@ -52,7 +43,7 @@ targetname: "674"
 }
 node: {title: "673"
 label: "673[
-5 add b:0 #1
+5 add #0 #1
 6 move (5) a:6
 liveRanges: []
  ]"
@@ -66,9 +57,9 @@ targetname: "679"
 }
 node: {title: "674"
 label: "674[
-7 add b:0 #1
-8 cmp #0 #0
-9 bge #0 #0
+7 add #0 #1
+8 cmp (7) #0
+9 bge (8) #0
 liveRanges: []
  ]"
 
@@ -83,26 +74,16 @@ liveRanges: []
 
 }
 edge: { sourcename: "676"
-targetname: "678"
+targetname: "677"
 }
 edge: { sourcename: "676"
-targetname: "677"
+targetname: "678"
 }
 node: {title: "676"
 label: "676[
-10 add b:0 #2
-11 cmp #0 #0
-12 bge #0 #0
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "678"
-targetname: "674"
-}
-node: {title: "678"
-label: "678[
-16 bra #0
+10 add #0 #2
+11 cmp (10) #0
+12 bge (11) #0
 liveRanges: []
  ]"
 
@@ -112,9 +93,19 @@ targetname: "676"
 }
 node: {title: "677"
 label: "677[
-13 add b:0 #1
+13 add #0 #1
 14 move (13) b:14
-15 bra #0
+15 bra #10
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "678"
+targetname: "674"
+}
+node: {title: "678"
+label: "678[
+16 bra #7
 liveRanges: []
  ]"
 
@@ -124,7 +115,16 @@ targetname: "672"
 }
 node: {title: "679"
 label: "679[
-17 bra #0
+17 bra #3
+liveRanges: []
+ ]"
+
+}
+node: {title: "680"
+label: "680[
+18 add #0 #1
+19 move (18) b:19
+20 end
 liveRanges: []
  ]"
 

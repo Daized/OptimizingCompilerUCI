@@ -23,7 +23,7 @@ label: "562[
 0 move #1 a:0
 1 move #2 b:1
 2 cmp #1 #2
-3 ble #0 #0
+3 ble (2) #0
 liveRanges: []
  ]"
 
@@ -40,15 +40,22 @@ liveRanges: []
 
 }
 edge: { sourcename: "563"
-targetname: "567"
+targetname: "566"
 }
 edge: { sourcename: "563"
-targetname: "566"
+targetname: "567"
 }
 node: {title: "563"
 label: "563[
 9 cmp #1 #2
-10 bge #0 #0
+10 bge (9) #0
+liveRanges: []
+ ]"
+
+}
+node: {title: "566"
+label: "566[
+13 end
 liveRanges: []
  ]"
 
@@ -64,13 +71,6 @@ liveRanges: []
  ]"
 
 }
-node: {title: "566"
-label: "566[
-13 end
-liveRanges: []
- ]"
-
-}
 edge: { sourcename: "564"
 targetname: "563"
 }
@@ -78,7 +78,7 @@ node: {title: "564"
 label: "564[
 4 add #1 #1
 5 move (4) a:5
-6 bra #0
+6 bra #9
 liveRanges: []
  ]"
 

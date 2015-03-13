@@ -32,8 +32,8 @@ targetname: "571"
 node: {title: "569"
 label: "569[
 7 phi #0 (4)
-2 cmp i #1000
-3 bge #0 #0
+2 cmp #0 #1000
+3 bge (2) #0
 liveRanges: []
  ]"
 
@@ -45,7 +45,7 @@ node: {title: "570"
 label: "570[
 4 add (7) #1
 5 move (4) j:5
-6 bra #0
+6 bra #2
 liveRanges: []
  ]"
 

@@ -23,7 +23,7 @@ label: "607[
 0 move #2 a:0
 1 move #3 b:1
 2 cmp #2 #3
-3 bge #0 #0
+3 bge (2) #0
 liveRanges: []
  ]"
 
@@ -60,7 +60,7 @@ label: "609[
 6 move (5) b:6
 7 add #1 #1
 8 move (5) a:8
-9 bra #0
+9 bra #13
 liveRanges: []
  ]"
 

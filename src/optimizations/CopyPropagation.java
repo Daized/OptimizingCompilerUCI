@@ -82,7 +82,7 @@ public class CopyPropagation extends Optimization {
                 List<Result> parameters = instruction.getParameters();
                 if (opcode == OperationCodes.move) {
                     String variableName = instruction.getX().getVariableName();
-                    updateValueMap(mapValues, instruction, variableName, 
+                    updateValueMap(node.getMapValues(), instruction, variableName, 
                     		instruction.getX().getUniqueName(), y);
                     exclude.remove(variableName);
                     removed.add(variableName);
@@ -93,7 +93,7 @@ public class CopyPropagation extends Optimization {
                             instruction.setX(result);
                         }
                         else {
-                        	if (instruction.getX().getKind() != Kind.VAR){
+                        	if (instruction.getX().getKind() == Kind.VAR){
                         		Result zeroIfUninitialized = getZeroIfUninitialized(instruction.getX(), exclude);
                                 if (zeroIfUninitialized == null) {
                                     final Result zero = new Result(Kind.CONSTANT);
@@ -276,8 +276,8 @@ public class CopyPropagation extends Optimization {
                 return result;
             }
         }
-        //if (operand != null && operand.getKind() == Kind.INTERMEDIATE) {
-          //  return remainingMoves.get(operand.getIntermediateLocation());
+       // if (operand != null && operand.getKind() == Kind.INTERMEDIATE) {
+        //   return remainingMoves.get(operand.getIntermediateLocation());
         //}
 
         return null;

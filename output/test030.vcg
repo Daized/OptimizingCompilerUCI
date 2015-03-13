@@ -24,7 +24,7 @@ label: "735[
 1 move #2 b:1
 2 move #3 c:2
 3 cmp #2 #3
-4 bge #0 #0
+4 bge (3) #0
 liveRanges: []
  ]"
 
@@ -55,9 +55,9 @@ targetname: "739"
 }
 node: {title: "738"
 label: "738[
-5 add b:0 #1
-6 cmp #0 #0
-7 bge #0 #0
+5 add #0 #1
+6 cmp (5) #0
+7 bge (6) #0
 liveRanges: []
  ]"
 
@@ -76,8 +76,8 @@ targetname: "740"
 }
 node: {title: "739"
 label: "739[
-8 add a:0 #1
-9 move (8) a:9
+8 add #0 #1
+9 move (5) a:9
 liveRanges: []
  ]"
 
@@ -90,9 +90,9 @@ targetname: "741"
 }
 node: {title: "740"
 label: "740[
-10 add b:0 #2
-11 cmp #0 #0
-12 bge #0 #0
+10 add #0 #2
+11 cmp (10) #0
+12 bge (11) #0
 liveRanges: []
  ]"
 
@@ -102,7 +102,7 @@ targetname: "738"
 }
 node: {title: "742"
 label: "742[
-16 bra #0
+16 bra #5
 liveRanges: []
  ]"
 
@@ -112,9 +112,9 @@ targetname: "740"
 }
 node: {title: "741"
 label: "741[
-13 add b:0 #1
+13 add #0 #1
 14 move (13) b:14
-15 bra #0
+15 bra #10
 liveRanges: []
  ]"
 

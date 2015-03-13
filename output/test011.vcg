@@ -25,7 +25,7 @@ label: "590[
 2 move #3 c:2
 3 move #4 d:3
 4 cmp #1 #2
-5 bge #0 #0
+5 bge (4) #0
 liveRanges: []
  ]"
 
@@ -49,8 +49,8 @@ targetname: "594"
 }
 node: {title: "593"
 label: "593[
-8 cmp c #0
-9 bge #0 #0
+8 cmp #0 #0
+9 bge (8) #0
 liveRanges: []
  ]"
 
@@ -60,7 +60,7 @@ targetname: "591"
 }
 node: {title: "595"
 label: "595[
-15 bra #0
+15 bra #25
 liveRanges: []
  ]"
 
@@ -84,50 +84,36 @@ liveRanges: []
 
 }
 edge: { sourcename: "601"
-targetname: "602"
+targetname: "606"
 }
 edge: { sourcename: "601"
-targetname: "606"
+targetname: "602"
 }
 node: {title: "601"
 label: "601[
-25 cmp b #0
-26 bge #0 #0
+25 cmp #0 #0
+26 bge (25) #0
 liveRanges: []
  ]"
 
 }
-edge: { sourcename: "602"
-targetname: "604"
+node: {title: "606"
+label: "606[
+33 end
+liveRanges: []
+ ]"
+
 }
 edge: { sourcename: "602"
 targetname: "605"
 }
+edge: { sourcename: "602"
+targetname: "604"
+}
 node: {title: "602"
 label: "602[
-27 cmp a #0
-28 ble #0 #0
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "604"
-targetname: "603"
-}
-node: {title: "604"
-label: "604[
-29 move #0 b:29
-30 bra #0
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "603"
-targetname: "601"
-}
-node: {title: "603"
-label: "603[
-32 bra #0
+27 cmp #0 #0
+28 ble (27) #0
 liveRanges: []
  ]"
 
@@ -142,9 +128,23 @@ liveRanges: []
  ]"
 
 }
-node: {title: "606"
-label: "606[
-33 end
+edge: { sourcename: "603"
+targetname: "601"
+}
+node: {title: "603"
+label: "603[
+32 bra #25
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "604"
+targetname: "603"
+}
+node: {title: "604"
+label: "604[
+29 move #0 b:29
+30 bra #32
 liveRanges: []
  ]"
 
@@ -154,11 +154,11 @@ targetname: "593"
 }
 node: {title: "594"
 label: "594[
-10 add c:0 #2
+10 add #0 #2
 11 move (10) c:11
-12 add d:0 #1
+12 add #0 #1
 13 move (12) d:13
-14 bra #0
+14 bra #8
 liveRanges: []
  ]"
 
@@ -175,24 +175,15 @@ liveRanges: []
 
 }
 edge: { sourcename: "597"
-targetname: "599"
+targetname: "598"
 }
 edge: { sourcename: "597"
-targetname: "598"
+targetname: "599"
 }
 node: {title: "597"
 label: "597[
-18 cmp c #0
-19 bge #0 #0
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "599"
-targetname: "591"
-}
-node: {title: "599"
-label: "599[
+18 cmp #0 #0
+19 bge (18) #0
 liveRanges: []
  ]"
 
@@ -202,11 +193,20 @@ targetname: "597"
 }
 node: {title: "598"
 label: "598[
-20 add c:0 #3
+20 add #0 #3
 21 move (20) c:21
-22 add d:0 #2
+22 add #0 #2
 23 move (22) d:23
-24 bra #0
+24 bra #18
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "599"
+targetname: "591"
+}
+node: {title: "599"
+label: "599[
 liveRanges: []
  ]"
 

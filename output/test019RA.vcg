@@ -14,12 +14,8 @@ fasticons: yes
 iconcolors: 32
 node: {title: "667"
 label: "667[
-0 move #0 b:0
-1 move #0 c:1
-2 move #0 d:2
-3 add d:0 #1
-4 move (3) d:4
-5 end
+0 add #0 #1
+1 end
 liveRanges: []
  ]"
 
