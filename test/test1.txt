@@ -1,0 +1,20 @@
+main
+  var a, b, i, j;
+  array[6] x;
+
+{
+  let i <- call InputNum();
+  let j <- call InputNum();
+  let x[i] <- call InputNum();
+  let a <- i + 1;
+  let b <- x[i];
+  if a > 0 then
+    let b <- b + 1;
+    let x[j] <- a
+  fi;
+  let b <- x[i];
+  let a <- x[i];
+  call OutputNum(b)
+}.
+
+

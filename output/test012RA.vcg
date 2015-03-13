@@ -13,10 +13,10 @@ smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
 edge: { sourcename: "607"
-targetname: "610"
+targetname: "609"
 }
 edge: { sourcename: "607"
-targetname: "609"
+targetname: "610"
 }
 node: {title: "607"
 label: "607[
@@ -24,27 +24,6 @@ label: "607[
 1 move #3 b:1
 0 cmp #2 #3
 1 bge (2) #0
-liveValues: [10]
- ]"
-
-}
-edge: { sourcename: "610"
-targetname: "608"
-}
-node: {title: "610"
-label: "610[
-5 add #2 #1
-11 move (10) a:11
-12 move #2 c:12
-liveValues: []
- ]"
-
-}
-node: {title: "608"
-label: "608[
-6 add  #1
-7 write (6)
-8 end
 liveValues: [10]
  ]"
 
@@ -61,6 +40,27 @@ label: "609[
 8 move (5) a:8
 4 bra #13
 liveValues: [10]
+ ]"
+
+}
+node: {title: "608"
+label: "608[
+6 add  #1
+7 write (6)
+8 end
+liveValues: [10]
+ ]"
+
+}
+edge: { sourcename: "610"
+targetname: "608"
+}
+node: {title: "610"
+label: "610[
+5 add #2 #1
+11 move (10) a:11
+12 move #2 c:12
+liveValues: []
  ]"
 
 }

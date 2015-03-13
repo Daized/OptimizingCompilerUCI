@@ -23,10 +23,10 @@ liveValues: [5]
 
 }
 edge: { sourcename: "628"
-targetname: "629"
+targetname: "630"
 }
 edge: { sourcename: "628"
-targetname: "630"
+targetname: "629"
 }
 node: {title: "628"
 label: "628[
@@ -34,6 +34,13 @@ label: "628[
 1 cmp  #0
 2 beq (1) #0
 liveValues: [5]
+ ]"
+
+}
+node: {title: "630"
+label: "630[
+6 end
+liveValues: [8]
  ]"
 
 }
@@ -48,13 +55,6 @@ label: "629[
 6 move (5) a:6
 5 bra #1
 liveValues: [5, 8]
- ]"
-
-}
-node: {title: "630"
-label: "630[
-6 end
-liveValues: [8]
  ]"
 
 }

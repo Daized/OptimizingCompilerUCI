@@ -76,27 +76,15 @@ liveValues: []
 
 }
 edge: { sourcename: "693"
-targetname: "694"
+targetname: "695"
 }
 edge: { sourcename: "693"
-targetname: "695"
+targetname: "694"
 }
 node: {title: "693"
 label: "693[
 20 cmp (18) #8
 21 ble (20) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "694"
-targetname: "693"
-}
-node: {title: "694"
-label: "694[
-22 add #8 #1
-23 move (22) h:23
-24 bra #20
 liveValues: []
  ]"
 
@@ -124,16 +112,91 @@ liveValues: []
  ]"
 
 }
-edge: { sourcename: "696"
-targetname: "698"
+edge: { sourcename: "694"
+targetname: "693"
+}
+node: {title: "694"
+label: "694[
+22 add #8 #1
+23 move (22) h:23
+24 bra #20
+liveValues: []
+ ]"
+
 }
 edge: { sourcename: "696"
 targetname: "702"
+}
+edge: { sourcename: "696"
+targetname: "698"
 }
 node: {title: "696"
 label: "696[
 28 cmp #3 #4
 29 blt (28) #0
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "702"
+targetname: "703"
+}
+node: {title: "702"
+label: "702[
+46 move #725 g:46
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "703"
+targetname: "704"
+}
+edge: { sourcename: "703"
+targetname: "705"
+}
+node: {title: "703"
+label: "703[
+47 sub #4 #8
+48 cmp (47) #5
+49 beq (48) #0
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "704"
+targetname: "703"
+}
+node: {title: "704"
+label: "704[
+50 sub #4 #1
+51 move (50) d:51
+52 add #5 #1
+53 move (52) e:53
+54 bra #47
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "705"
+targetname: "697"
+}
+node: {title: "705"
+label: "705[
+55 mul #725 #6
+56 div (55) #4
+57 move (56) f:57
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "697"
+targetname: "691"
+}
+node: {title: "697"
+label: "697[
+58 phi (43) (56)
+59 add #725 #8
+60 move (59) g:60
 liveValues: []
  ]"
 
@@ -189,69 +252,6 @@ label: "701[
 43 mul #6 (42)
 44 move (43) f:44
 45 bra #58
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "697"
-targetname: "691"
-}
-node: {title: "697"
-label: "697[
-58 phi (43) (56)
-59 add (63) #8
-60 move (59) g:60
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "702"
-targetname: "703"
-}
-node: {title: "702"
-label: "702[
-46 move #725 g:46
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "703"
-targetname: "705"
-}
-edge: { sourcename: "703"
-targetname: "704"
-}
-node: {title: "703"
-label: "703[
-47 sub #4 #8
-48 cmp (47) #5
-49 beq (48) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "705"
-targetname: "697"
-}
-node: {title: "705"
-label: "705[
-55 mul #725 #6
-56 div (55) #4
-57 move (56) f:57
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "704"
-targetname: "703"
-}
-node: {title: "704"
-label: "704[
-50 sub #4 #1
-51 move (50) d:51
-52 add #5 #1
-53 move (52) e:53
-54 bra #47
 liveValues: []
  ]"
 

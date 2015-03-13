@@ -93,7 +93,10 @@ public class Instruction {
 	public String toString(){
         StringBuilder sb = new StringBuilder(OpCodes.getOperationName(opcode));
         int operandCount = OpCodes.getOperandCount(opcode);
-
+        if(opcode == OpCodes.kill) {
+        	sb.append(" ").append(symbol.getName());
+        	return sb.toString();
+        }
         if(operandCount > 0) {
             if(opcode == OpCodes.move || opcode == OpCodes.store) {
                 sb.append(" ").append(getOperand(y));

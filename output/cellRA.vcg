@@ -14,17 +14,28 @@ fasticons: yes
 iconcolors: 32
 node: {title: "500"
 label: "500[
-0 store #1 (1)
-1 kill #0
-2 store #1 (1)
-3 kill #0
-4 store #1 (3)
-5 kill #0
-6 store #1 (5)
-7 kill #0
-8 store #1 (7)
-9 kill #0
-10 end
+0 mul #1 #4
+1 add  
+2 adda (0) (1)
+3 store #1 (2)
+4 kill Data
+5 mul #80 #4
+6 adda (5) (1)
+7 store #1 (6)
+8 kill Data
+9 mul #100 #4
+10 adda (9) (1)
+11 store #1 (10)
+12 kill Data
+13 mul #120 #4
+14 adda (13) (1)
+15 store #1 (14)
+16 kill Data
+17 mul #200 #4
+18 adda (17) (1)
+19 store #1 (18)
+20 kill Data
+21 end
 liveValues: []
  ]"
 

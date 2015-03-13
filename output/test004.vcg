@@ -14,18 +14,33 @@ fasticons: yes
 iconcolors: 32
 node: {title: "552"
 label: "552[
-0 store #22 (-1)
-1 kill #0
-2 store #61 (1)
-3 kill #0
-4 store #17 (3)
-5 kill #0
-6 store #34 (5)
-7 kill #0
-8 store #11 (7)
-9 kill #0
-10 move #5 maxnumber:10
-11 end
+0 mul #1 #4
+1 add  
+2 adda (0) (1)
+3 store #22 (2)
+4 kill input
+5 mul #2 #4
+6 add  
+7 adda (5) (1)
+8 store #61 (7)
+9 kill input
+10 mul #3 #4
+11 add  
+12 adda (10) (1)
+13 store #17 (12)
+14 kill input
+15 mul #4 #4
+16 add  
+17 adda (15) (1)
+18 store #34 (17)
+19 kill input
+20 mul #5 #4
+21 add  
+22 adda (20) (1)
+23 store #11 (22)
+24 kill input
+25 move #5 maxnumber:25
+26 end
 liveValues: []
  ]"
 

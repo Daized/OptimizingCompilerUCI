@@ -65,8 +65,12 @@ public class CommonSubexpression extends Optimization {
                             if (currentInstruction.getOpcode() == OpCodes.load || currentInstruction.getOpcode() == OpCodes.store) {
                                 //Checking for load or store operations first since they are single operand instructions
                                 if (!isVariableKilledBetween(x, node, instructionList)) {
-                                    cse = true;
-                                    break;
+                                	if(currentInstruction.getOpcode()!=OpCodes.load)
+                                	{
+                                		cse = true;
+                                        break;
+                                	}
+                               
                                 }
                             }
 
@@ -105,8 +109,8 @@ public class CommonSubexpression extends Optimization {
 
                     } else {
                         //DEAL WITH THE REMOVAL OF THE CURRENT INSTRUCTION
-                        System.out.println("WE HAVE FOUND A COMMON SUB EXPRESSION SITUATION");
-                        System.out.println("" + currentInstruction.getInstructionNumber() + " " + currentInstructionString);
+                        //System.out.println("WE HAVE FOUND A COMMON SUB EXPRESSION SITUATION");
+                        //System.out.println("" + currentInstruction.getInstructionNumber() + " " + currentInstructionString);
                         deletedIntermediates.put(currentInstruction.getInstructionNumber(), instructionList.getInstruction().getInstructionNumber());
                         currentInstruction.setDeleted(true, "CSE");
                     }

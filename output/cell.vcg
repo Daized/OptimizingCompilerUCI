@@ -16,18 +16,33 @@ node: {title: "500"
 label: "500[
 0 move #200 ColCount:0
 1 move #150 RowCount:1
-2 store #1 (1)
-3 kill #0
-4 store #1 (3)
-5 kill #0
-6 store #1 (5)
-7 kill #0
-8 store #1 (7)
-9 kill #0
+2 mul #1 #4
+3 add  
+4 adda (2) (3)
+5 store #1 (4)
+6 kill Data
+7 mul #80 #4
+8 add  
+9 adda (7) (3)
 10 store #1 (9)
-11 kill #0
-12 move #110 Rule:12
-13 end
+11 kill Data
+12 mul #100 #4
+13 add  
+14 adda (12) (3)
+15 store #1 (14)
+16 kill Data
+17 mul #120 #4
+18 add  
+19 adda (17) (3)
+20 store #1 (19)
+21 kill Data
+22 mul #200 #4
+23 add  
+24 adda (22) (3)
+25 store #1 (24)
+26 kill Data
+27 move #110 Rule:27
+28 end
 liveValues: []
  ]"
 

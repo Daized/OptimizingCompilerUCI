@@ -13,10 +13,10 @@ smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
 edge: { sourcename: "572"
-targetname: "579"
+targetname: "574"
 }
 edge: { sourcename: "572"
-targetname: "574"
+targetname: "579"
 }
 node: {title: "572"
 label: "572[
@@ -25,65 +25,7 @@ label: "572[
 2 move #3 c:2
 0 cmp #1 #2
 1 ble (3) #0
-liveValues: [19, 22, 24]
- ]"
-
-}
-edge: { sourcename: "579"
-targetname: "582"
-}
-edge: { sourcename: "579"
-targetname: "581"
-}
-node: {title: "579"
-label: "579[
-9 add #2 #5
-16 move (15) b:16
-10 cmp #1 (15)
-11 bge (17) #0
-liveValues: [19, 22]
- ]"
-
-}
-edge: { sourcename: "582"
-targetname: "580"
-}
-node: {title: "582"
-label: "582[
-15 add #1 #3
-23 move (22) a:23
-liveValues: [19]
- ]"
-
-}
-edge: { sourcename: "580"
-targetname: "573"
-}
-node: {title: "580"
-label: "580[
-24 phi (19) (22)
-liveValues: [19, 22]
- ]"
-
-}
-node: {title: "573"
-label: "573[
-17 add  #1
-18 write (17)
-19 end
-liveValues: [24]
- ]"
-
-}
-edge: { sourcename: "581"
-targetname: "580"
-}
-node: {title: "581"
-label: "581[
-12 sub #1 #2
-20 move (19) a:20
-14 bra #24
-liveValues: [22]
+liveValues: [19, 5, 22]
  ]"
 
 }
@@ -99,7 +41,7 @@ label: "574[
 6 move (5) a:6
 3 cmp (5) #2
 4 bge (7) #0
-liveValues: [24]
+liveValues: []
  ]"
 
 }
@@ -109,7 +51,16 @@ targetname: "573"
 node: {title: "575"
 label: "575[
 8 bra #25
-liveValues: [24]
+liveValues: [5]
+ ]"
+
+}
+node: {title: "573"
+label: "573[
+17 add (2) #1
+18 write (17)
+19 end
+liveValues: [5]
  ]"
 
 }
@@ -125,7 +76,7 @@ label: "576[
 10 move (9) a:10
 6 cmp #3 (9)
 7 beq (11) #0
-liveValues: [5, 24]
+liveValues: [5]
  ]"
 
 }
@@ -134,7 +85,7 @@ targetname: "575"
 }
 node: {title: "577"
 label: "577[
-liveValues: [24]
+liveValues: [5]
  ]"
 
 }
@@ -144,7 +95,56 @@ targetname: "577"
 node: {title: "578"
 label: "578[
 13 move (9) c:13
-liveValues: [9, 24]
+liveValues: [5, 9]
+ ]"
+
+}
+edge: { sourcename: "579"
+targetname: "581"
+}
+edge: { sourcename: "579"
+targetname: "582"
+}
+node: {title: "579"
+label: "579[
+9 add #2 #5
+16 move (15) b:16
+10 cmp #1 (15)
+11 bge (17) #0
+liveValues: [19, 5, 22]
+ ]"
+
+}
+edge: { sourcename: "581"
+targetname: "580"
+}
+node: {title: "581"
+label: "581[
+12 sub #1 #2
+20 move (19) a:20
+14 bra #24
+liveValues: [5, 22]
+ ]"
+
+}
+edge: { sourcename: "580"
+targetname: "573"
+}
+node: {title: "580"
+label: "580[
+24 phi (19) (22)
+liveValues: [19, 5, 22]
+ ]"
+
+}
+edge: { sourcename: "582"
+targetname: "580"
+}
+node: {title: "582"
+label: "582[
+15 add #1 #3
+23 move (22) a:23
+liveValues: [19, 5]
  ]"
 
 }

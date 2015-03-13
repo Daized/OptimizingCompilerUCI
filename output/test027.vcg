@@ -19,7 +19,11 @@ node: {title: "715"
 label: "715[
 0 mul #2 #0
 1 sub (0) #6
-2 move (1) c:2
+2 mul #0 #4
+3 add  
+4 adda (2) (3)
+5 load (4)
+6 move (5) c:6
 liveValues: []
  ]"
 
@@ -32,19 +36,23 @@ targetname: "717"
 }
 node: {title: "716"
 label: "716[
-24 phi (1) (21)
-3 cmp #2 #3
-4 bge (3) #0
+42 phi (5) (39)
+7 cmp #2 #3
+8 bge (7) #0
 liveValues: []
  ]"
 
 }
 node: {title: "724"
 label: "724[
-25 mul #2 #0
-26 sub (25) #6
-27 move (26) a:27
-28 end
+43 mul #2 #0
+44 sub (43) #6
+45 mul #0 #4
+46 add  
+47 adda (45) (46)
+48 load (47)
+49 move (48) a:49
+50 end
 liveValues: []
  ]"
 
@@ -54,72 +62,29 @@ targetname: "718"
 }
 node: {title: "717"
 label: "717[
-5 mul #2 #0
-6 sub (5) #6
-7 move (6) b:7
+9 mul #2 #0
+10 sub (9) #6
+11 mul #0 #4
+12 add  
+13 adda (11) (12)
+14 load (13)
+15 move (14) b:15
 liveValues: []
  ]"
 
-}
-edge: { sourcename: "718"
-targetname: "719"
 }
 edge: { sourcename: "718"
 targetname: "723"
 }
+edge: { sourcename: "718"
+targetname: "719"
+}
 node: {title: "718"
 label: "718[
-8 mul #2 #0
-9 sub (5) #6
-10 cmp #4 foo
-11 bge (10) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "719"
-targetname: "722"
-}
-edge: { sourcename: "719"
-targetname: "721"
-}
-node: {title: "719"
-label: "719[
-12 cmp #3 #4
-13 bge (12) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "722"
-targetname: "720"
-}
-node: {title: "722"
-label: "722[
-17 store #5 (16)
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "720"
-targetname: "718"
-}
-node: {title: "720"
-label: "720[
-15 kill #0
-18 kill #0
-19 bra #8
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "721"
-targetname: "720"
-}
-node: {title: "721"
-label: "721[
-14 store #3 (13)
-16 bra #19
+16 mul #2 #0
+17 sub (9) #6
+18 cmp #4 foo
+19 bge (18) #0
 liveValues: []
  ]"
 
@@ -129,10 +94,67 @@ targetname: "716"
 }
 node: {title: "723"
 label: "723[
-20 mul #2 #0
-21 sub (20) #6
-22 move (21) c:22
-23 bra #3
+34 mul #2 #0
+35 sub (34) #6
+36 mul #0 #4
+37 add  
+38 adda (36) (37)
+39 load (38)
+40 move (39) c:40
+41 bra #7
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "719"
+targetname: "721"
+}
+edge: { sourcename: "719"
+targetname: "722"
+}
+node: {title: "719"
+label: "719[
+20 cmp #3 #4
+21 bge (20) #0
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "721"
+targetname: "720"
+}
+node: {title: "721"
+label: "721[
+22 mul #0 #4
+23 add  
+24 adda (22) (23)
+25 store #3 (24)
+27 bra #33
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "720"
+targetname: "718"
+}
+node: {title: "720"
+label: "720[
+26 kill boo
+32 kill foo
+33 bra #16
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "722"
+targetname: "720"
+}
+node: {title: "722"
+label: "722[
+28 mul #2 #4
+29 add  
+30 adda (28) (29)
+31 store #5 (30)
 liveValues: []
  ]"
 

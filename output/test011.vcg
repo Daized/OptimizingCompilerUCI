@@ -13,10 +13,10 @@ smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
 edge: { sourcename: "590"
-targetname: "596"
+targetname: "592"
 }
 edge: { sourcename: "590"
-targetname: "592"
+targetname: "596"
 }
 node: {title: "590"
 label: "590[
@@ -26,138 +26,6 @@ label: "590[
 3 move #4 d:3
 4 cmp #1 #2
 5 bge (4) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "596"
-targetname: "597"
-}
-node: {title: "596"
-label: "596[
-16 add #1 #2
-17 move (16) a:17
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "597"
-targetname: "599"
-}
-edge: { sourcename: "597"
-targetname: "598"
-}
-node: {title: "597"
-label: "597[
-18 cmp #3 #4
-19 bge (18) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "599"
-targetname: "591"
-}
-node: {title: "599"
-label: "599[
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "591"
-targetname: "600"
-}
-node: {title: "591"
-label: "591[
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "600"
-targetname: "601"
-}
-node: {title: "600"
-label: "600[
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "601"
-targetname: "602"
-}
-edge: { sourcename: "601"
-targetname: "606"
-}
-node: {title: "601"
-label: "601[
-25 cmp #2 #4
-26 bge (25) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "602"
-targetname: "604"
-}
-edge: { sourcename: "602"
-targetname: "605"
-}
-node: {title: "602"
-label: "602[
-27 cmp (16) #4
-28 ble (27) #0
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "604"
-targetname: "603"
-}
-node: {title: "604"
-label: "604[
-29 move #3 b:29
-30 bra #32
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "603"
-targetname: "601"
-}
-node: {title: "603"
-label: "603[
-32 bra #25
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "605"
-targetname: "603"
-}
-node: {title: "605"
-label: "605[
-31 move #2 c:31
-liveValues: []
- ]"
-
-}
-node: {title: "606"
-label: "606[
-33 end
-liveValues: []
- ]"
-
-}
-edge: { sourcename: "598"
-targetname: "597"
-}
-node: {title: "598"
-label: "598[
-20 add #3 #3
-21 move (20) c:21
-22 add #4 #2
-23 move (22) d:23
-24 bra #18
 liveValues: []
  ]"
 
@@ -207,6 +75,138 @@ targetname: "591"
 node: {title: "595"
 label: "595[
 15 bra #25
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "591"
+targetname: "600"
+}
+node: {title: "591"
+label: "591[
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "600"
+targetname: "601"
+}
+node: {title: "600"
+label: "600[
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "601"
+targetname: "606"
+}
+edge: { sourcename: "601"
+targetname: "602"
+}
+node: {title: "601"
+label: "601[
+25 cmp #2 #4
+26 bge (25) #0
+liveValues: []
+ ]"
+
+}
+node: {title: "606"
+label: "606[
+33 end
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "602"
+targetname: "605"
+}
+edge: { sourcename: "602"
+targetname: "604"
+}
+node: {title: "602"
+label: "602[
+27 cmp (6) #4
+28 ble (27) #0
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "605"
+targetname: "603"
+}
+node: {title: "605"
+label: "605[
+31 move #2 c:31
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "603"
+targetname: "601"
+}
+node: {title: "603"
+label: "603[
+32 bra #25
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "604"
+targetname: "603"
+}
+node: {title: "604"
+label: "604[
+29 move #3 b:29
+30 bra #32
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "596"
+targetname: "597"
+}
+node: {title: "596"
+label: "596[
+16 add #1 #2
+17 move (16) a:17
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "597"
+targetname: "598"
+}
+edge: { sourcename: "597"
+targetname: "599"
+}
+node: {title: "597"
+label: "597[
+18 cmp #3 #4
+19 bge (18) #0
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "598"
+targetname: "597"
+}
+node: {title: "598"
+label: "598[
+20 add #3 #3
+21 move (20) c:21
+22 add #4 #2
+23 move (22) d:23
+24 bra #18
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "599"
+targetname: "591"
+}
+node: {title: "599"
+label: "599[
 liveValues: []
  ]"
 
