@@ -556,61 +556,65 @@ public static void main(String[] args){
 		Result y = new Result(Kind.INTERMEDIATE);
 		y.setIntermediateLocation(scope.getProgramCounter());
 		nextToken();
-		switch (procedure.getTokenString()){
-		case "InputNum":
+		if (procedure.getTokenString().equals("InputNum")) {
 			instruction = Helper.addInstruction(OpCodes.read, scope, null, null);
-			if (currentToken.getTokenType() != TokenTypes.openparenToken){
-				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			if (currentToken.getTokenType() != TokenTypes.openparenToken) {
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());
+				System.exit(3);
 			}
 			nextToken();
-			if (currentToken.getTokenType() != TokenTypes.closeparenToken){
-				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			if (currentToken.getTokenType() != TokenTypes.closeparenToken) {
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());
+				System.exit(3);
 			}
 			nextToken();
 			y.setIntermediateLocation(scope.getProgramCounter());
 			return y;
-		case "OutputNum":
-			if (currentToken.getTokenType() != TokenTypes.openparenToken){
-				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+		} else if (procedure.getTokenString().equals("OutputNum")) {
+			if (currentToken.getTokenType() != TokenTypes.openparenToken) {
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());
+				System.exit(3);
 			}
-				
+
 			nextToken();
 			x = expression(scope);
 			instruction = Helper.addInstruction(OpCodes.write, scope, x, null);
-			if (currentToken.getTokenType() != TokenTypes.closeparenToken){
-				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			if (currentToken.getTokenType() != TokenTypes.closeparenToken) {
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());
+				System.exit(3);
 			}
 			nextToken();
 			y.setIntermediateLocation(scope.getProgramCounter());
 			return y;
-		case "OutputNewLine":
+		} else if (procedure.getTokenString().equals("OutputNewLine")) {
 			instruction = Helper.addInstruction(OpCodes.wln, scope, null, null);
-			if (currentToken.getTokenType() != TokenTypes.openparenToken){
-				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			if (currentToken.getTokenType() != TokenTypes.openparenToken) {
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());
+				System.exit(3);
 			}
 			nextToken();
-			if (currentToken.getTokenType() != TokenTypes.closeparenToken){
-				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			if (currentToken.getTokenType() != TokenTypes.closeparenToken) {
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());
+				System.exit(3);
 			}
 			nextToken();
 			y.setIntermediateLocation(scope.getProgramCounter());
 			return y;
-		default:
-			break;
+		} else {
 		}
-		
+
 		if (currentToken.getTokenType() == TokenTypes.openparenToken){
 			nextToken();
-			
+
 			if (currentToken.getTokenType() == TokenTypes.number ||
 				currentToken.getTokenType() == TokenTypes.openparenToken ||
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.ident){
-				
+
 				Result y2 = expression(scope);
 				//Multiple arguments
 				if (currentToken.getTokenType() == TokenTypes.commaToken){
-					
+
 					while (currentToken.getTokenType() == TokenTypes.commaToken){
 						nextToken();
 						y2 = expression(scope);
@@ -626,7 +630,7 @@ public static void main(String[] args){
 		return x;
 		//done
 	}
-	
+
 	/*
 	 *  "let" designator "<-" expression
 	 */
@@ -642,20 +646,22 @@ public static void main(String[] args){
        // if(code.getProgramName() != null && recentLHS.isGlobal() && !mainProgram.getProgramName().equals(code.getProgramName())) {
         //    AuxiliaryFunctions.addKillInstruction(mainProgram.getCode(), recentLHS);
         //}
-		
-		
+
+
 		Result right = expression(scope);
-		
+
 		if (left.getKind() != Kind.ARRAY && right.getKind() != Kind.ARRAY){
 			Result x = new Result(Kind.VAR);
 			x.setVarName(left.getVariableName());
 			Helper.addMoveInstruction(scope, x, right);
 			return x;
 		}
-		
+
 		Result x;
 		if (left.getKind() == Kind.ARRAY){
-			Helper.createAddA(scope, left.getVariableName(), left.getArrayValues());
+			final List<Integer> arrayDimensions = left.getArrayDimensions();
+			final List<Result> d = getResultToConstant(arrayDimensions);
+			Helper.createAddA(scope, left.getVariableName(), d);
 			x = new Result(Kind.INTERMEDIATE);
 			x.setIntermediateLocation(scope.getProgramCounter() - 1);
 			Result storeInstruction;
@@ -663,7 +669,7 @@ public static void main(String[] args){
 				Helper.loadYarray(right, scope);
 				storeInstruction = new Result(Kind.INTERMEDIATE);
 				storeInstruction.setIntermediateLocation(scope.getProgramCounter()-1);
-			} 
+			}
 			else {
 				storeInstruction = right;
 			}
@@ -676,7 +682,10 @@ public static void main(String[] args){
 			x.setVarName(left.getVariableName());
 			Result moveInstruction;
 			if (right.getKind() == Kind.ARRAY){
-				
+				if (right.getKind() == Kind.ARRAY){
+					Helper.loadYarray(right, scope);
+
+				}
 				String name = right.getVariableName();
 				List<Result> arrayValues = right.getArrayValues();
 				if (arrayValues != null && arrayValues.size() > 0){
@@ -685,7 +694,7 @@ public static void main(String[] args){
 					loadInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
 					Helper.addInstruction(OpCodes.load, scope, loadInstruction, null);
 				}
-				
+
 				moveInstruction = new Result(Kind.INTERMEDIATE);
 				moveInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
 			}
@@ -694,10 +703,20 @@ public static void main(String[] args){
 			}
 			Helper.addMoveInstruction(scope, x, moveInstruction);
 		}
-		
+
 		return x;
 	}
-	
+
+	public static List<Result> getResultToConstant(List<Integer> arrayDimensions) {
+		final List<Result> d = new ArrayList<Result>();
+		for (Integer arrayDimension : arrayDimensions) {
+            final Result result = new Result(Kind.CONSTANT);
+            result.setConstVal(arrayDimension);
+            d.add(result);
+        }
+		return d;
+	}
+
 	//stage 5
 	
 	/*

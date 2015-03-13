@@ -192,7 +192,7 @@ public class Helper {
 	
 	public static void loadYarray(Result y, Function scope) {
         String tokenName = y.getVariableName();
-        List<Result> arrayIdentifiers = y.getArrayValues();
+		List<Result> arrayIdentifiers = Parser.getResultToConstant(y.getArrayDimensions());
         if(arrayIdentifiers != null && arrayIdentifiers.size() > 0) {
             createAddA(scope, tokenName, arrayIdentifiers);
             final Result loadInstruction = new Result(Kind.INTERMEDIATE);
