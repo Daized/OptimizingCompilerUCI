@@ -4,7 +4,7 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import optimizations.Optimization;
@@ -29,9 +29,9 @@ public class RegisterAllocation extends Optimization {
 	public void visit(BasicBlock node) {
 		final List<Instruction> _instructions = node.getInstructions();
         final List<Instruction> instructions = new ArrayList<Instruction>();
-        instructions.addAll(_instructions); //Concurrent modification hack
+        instructions.addAll(_instructions); 
         for (Instruction phi : instructions) {
-            if(phi.getOpcode() != OperationCodes.phi) {
+            if(phi.getOpcode() != OpCodes.phi) {
                 continue;
             }
             final Result operand1 = phi.getX();
@@ -39,7 +39,7 @@ public class RegisterAllocation extends Optimization {
 
             IGNode phiNode = graph.getNodeMap().get(phi.getInstructionNumber());
             if(phiNode == null) {
-                phiNode = new IGNode(phi.getInstructionNumber()); //$TODO$ this is used for clustering the nodes within
+                phiNode = new IGNode(phi.getInstructionNumber()); //Need to do more here
                 graph.addNode(phiNode);
             }
 
@@ -56,7 +56,6 @@ public class RegisterAllocation extends Optimization {
                 }
             }
             coalesce(phiNode, node, operand1, operand2);
-            //$TODO$ introduce value update to symbol table before deletion
             phi.setDeleted(true, "coalesced");
             deletedPhis.add(phi);
         }
@@ -95,11 +94,11 @@ public class RegisterAllocation extends Optimization {
         if(!instructions.isEmpty()) {
             final Instruction instruction = instructions.get(instructions.size() - 1);
             targetIndex = p.getMain().getInstructionList().indexOf(instruction);
-            if(instruction.getOpcode() >= OperationCodes.bra && instruction.getOpcode() <= OperationCodes.bgt) {
+            if(instruction.getOpcode() >= OpCodes.bra && instruction.getOpcode() <= OpCodes.bgt) {
                 targetIndex--;
             }
         }
-        final Instruction addedInstruction = Helper.addInstruction(OperationCodes.move, p.getMain(), x, interferingResult, targetIndex +1);
+        final Instruction addedInstruction = Helper.addInstruction(OpCodes.move, p.getMain(), x, interferingResult, targetIndex +1);
         p.getMain().getCFG().setNextBlock(oldCurrent);
         phiNode.addToMoveInstructions(addedInstruction);
     }
@@ -154,17 +153,11 @@ public class RegisterAllocation extends Optimization {
                 }
             }
         }
-        System.out.println("Total colors used : " + colorNumber);
+        System.out.println("Used '" + colorNumber +"' color(s).");
 
         final List<Instruction> instructions = p.getMain().getInstructionList();
         final Iterator<Instruction> iterator = instructions.iterator();
         int i = 0;
-        //while (iterator.hasNext()) {
-            //final Instruction instruction = iterator.next();
-           // if(instruction.isDeleted()) {
-           //     iterator.remove();
-           // }
-        //}
         final Set<Instruction> deletedPhis = getDeletedPhis();
         List<Integer> deletedPhiLocations = new ArrayList<Integer>();
         for (Instruction deletedPhi : deletedPhis) {
@@ -174,7 +167,7 @@ public class RegisterAllocation extends Optimization {
         for (Instruction instruction : instructions) {
             instruction.setX(phiReference(deletedPhiLocations, instruction.getX()));
             instruction.setY(phiReference(deletedPhiLocations, instruction.getY()));
-            if(instruction.getOpcode() == OperationCodes.call) {
+            if(instruction.getOpcode() == OpCodes.call) {
                 final List<Result> parameters = instruction.getParameters();
                 if(parameters != null) {
                     Map<Result, Result> parameterMap = new LinkedHashMap<Result, Result>();
@@ -206,7 +199,7 @@ public class RegisterAllocation extends Optimization {
         }
         Map<Integer, Integer> moveRegisters = new HashMap<Integer, Integer>();
         for (Instruction instruction : p.getMain().getInstructionList()) {
-            if(instruction.getOpcode() == OperationCodes.move) {
+            if(instruction.getOpcode() == OpCodes.move) {
                 if(instruction.getX().getKind() != Kind.REG) {
                     System.out.println("ERROR EROOR");
                 }
@@ -232,7 +225,7 @@ public class RegisterAllocation extends Optimization {
                 }
             }
 
-            if(instruction.getOpcode() == OperationCodes.call) {
+            if(instruction.getOpcode() == OpCodes.call) {
                 final List<Result> parameters = instruction.getParameters();
                 if(parameters != null) {
                     Map<Result, Result> parameterMap = new LinkedHashMap<Result, Result>();
@@ -254,7 +247,7 @@ public class RegisterAllocation extends Optimization {
         }
 
         for (Integer integer : registerInfoAfterUpdate.keySet()) {
-            System.out.println("Mapping key ["+integer+"] to register R["+registerInfoAfterUpdate.get(integer)+"]");
+            System.out.println("Allocating register ["+registerInfoAfterUpdate.get(integer)+"] for "+ integer);
         }
 
     }

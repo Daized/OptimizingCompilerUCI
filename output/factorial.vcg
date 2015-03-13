@@ -14,9 +14,14 @@ fasticons: yes
 iconcolors: 32
 node: {title: "525"
 label: "525[
-0 move #5 input:0
-1 end
-liveRanges: []
+0 read
+1 move null:0 input:1
+2 write #5
+3 wln
+4 write #5
+5 wln
+6 end
+liveValues: []
  ]"
 
 }

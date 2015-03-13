@@ -59,7 +59,7 @@ public class Instruction {
 	}
 	
     public boolean isComplete() {
-        if(opcode != OperationCodes.phi) {
+        if(opcode != OpCodes.phi) {
             throw new UnsupportedOperationException("This operation is only for PHI instructions");
         }
         return y != null && x != null;
@@ -79,34 +79,30 @@ public class Instruction {
         } else if(x.getKind() == Kind.CONSTANT) {
             return "#" + String.valueOf(x.getConstVal());
         } else if(x.getKind() == Kind.VAR || x.getKind() == Kind.PROCEDURE) {
-            if(opcode == OperationCodes.cmp || opcode == OperationCodes.kill /*|| x.getLocation() == null*/) {
+            if(opcode == OpCodes.cmp || opcode == OpCodes.kill /*|| x.getLocation() == null*/) {
                 return x.getVariableName();
             }
             return x.getVariableName() + ":" + x.getLocation();
         } else if (x.getKind() == Kind.ARRAY) {
             return x.getVariableName();
-        }// else if (x.getKind() == Kind.FRAMEPOINTER) {
-        //    return "FP:0";
-        //} else if (x.isBaseAddress()) {
-         //   return x.getVariableName() + ":baseaddress";
-        //}
+        }
         return "";
     }
 	
 	@Override
 	public String toString(){
-        StringBuilder sb = new StringBuilder(OperationCodes.getOperationName(opcode));
-        int operandCount = OperationCodes.getOperandCount(opcode);
+        StringBuilder sb = new StringBuilder(OpCodes.getOperationName(opcode));
+        int operandCount = OpCodes.getOperandCount(opcode);
 
         if(operandCount > 0) {
-            if(opcode == OperationCodes.move || opcode == OperationCodes.store) {
+            if(opcode == OpCodes.move || opcode == OpCodes.store) {
                 sb.append(" ").append(getOperand(y));
             } else {
                 sb.append(" ").append(getOperand(x));
             }
         }
         if(operandCount > 1) {
-            if(opcode == OperationCodes.move || opcode == OperationCodes.store) {
+            if(opcode == OpCodes.move || opcode == OpCodes.store) {
                 sb.append(" ").append(getOperand(x));
             } else {
                 sb.append(" ").append(getOperand(y));
@@ -125,7 +121,7 @@ public class Instruction {
 	}
 
 	public void fixUpInstruction(int programCounter) {
-		if (this.opcode == OperationCodes.bra){
+		if (this.opcode == OpCodes.bra){
 	        if(x == null) {
 	            setX(new Result(Kind.CONSTANT));
 	        }

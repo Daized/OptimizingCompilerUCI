@@ -20,28 +20,21 @@ label: "583[
 0 move #1 a:0
 1 move #2 b:1
 2 move #3 c:2
-liveRanges: []
+liveValues: []
  ]"
 
-}
-edge: { sourcename: "584"
-targetname: "589"
 }
 edge: { sourcename: "584"
 targetname: "585"
 }
+edge: { sourcename: "584"
+targetname: "589"
+}
 node: {title: "584"
 label: "584[
-3 cmp #0 #0
+3 cmp #1 #2
 4 bge (3) #0
-liveRanges: []
- ]"
-
-}
-node: {title: "589"
-label: "589[
-15 end
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -50,37 +43,26 @@ targetname: "586"
 }
 node: {title: "585"
 label: "585[
-5 add #0 #1
+5 add #1 #1
 6 move (5) a:6
-7 add #0 #1
-8 move (5) c:8
-liveRanges: []
+7 add #3 #1
+8 move (7) c:8
+9 write (5)
+liveValues: []
  ]"
 
-}
-edge: { sourcename: "586"
-targetname: "587"
 }
 edge: { sourcename: "586"
 targetname: "588"
 }
+edge: { sourcename: "586"
+targetname: "587"
+}
 node: {title: "586"
 label: "586[
-9 cmp #0 #0
-10 bge (9) #0
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "587"
-targetname: "586"
-}
-node: {title: "587"
-label: "587[
-11 add #0 #1
-12 move (11) b:12
-13 bra #9
-liveRanges: []
+10 cmp #2 (7)
+11 bge (10) #0
+liveValues: []
  ]"
 
 }
@@ -89,8 +71,31 @@ targetname: "584"
 }
 node: {title: "588"
 label: "588[
-14 bra #3
-liveRanges: []
+16 bra #3
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "587"
+targetname: "586"
+}
+node: {title: "587"
+label: "587[
+12 write (7)
+13 add #2 #1
+14 move (13) b:14
+15 bra #10
+liveValues: []
+ ]"
+
+}
+node: {title: "589"
+label: "589[
+17 write #1
+18 write #2
+19 write #3
+20 end
+liveValues: []
  ]"
 
 }

@@ -2,7 +2,7 @@ package datastructures;
 import java.util.*;
 
 import data.Instruction;
-import data.OperationCodes;
+import data.OpCodes;
 import lexical.Parser;
 
 public class Function {
@@ -33,7 +33,7 @@ public class Function {
 	
 	
 	public int appendKillInstruction(Instruction instruction, int index){
-		if (instruction.getOpcode() != OperationCodes.kill){
+		if (instruction.getOpcode() != OpCodes.kill){
 			throw new RuntimeException("Not a kill instruction");
 		}
 		
@@ -48,7 +48,7 @@ public class Function {
 	}
 	
 	public void appendPhiInstruction(Instruction phiInstruction, Instruction instruction){
-		if (phiInstruction.getOpcode() != OperationCodes.phi){
+		if (phiInstruction.getOpcode() != OpCodes.phi){
 			throw new RuntimeException("Not a phi instruction");
 		}
 		int location = instructionList.indexOf(instruction);

@@ -25,11 +25,11 @@ label: "707[
 2 add #0 #0
 3 move (0) d:3
 4 add #0 #0
-1 add (0) #0
+1 add (0) (0)
 6 move (5) e:6
-2 cmp #0 #0
-3 beq  #0
-liveRanges: [22, 12, 15]
+2 cmp (0) (0)
+3 beq (7) #0
+liveValues: [22, 12, 15]
  ]"
 
 }
@@ -38,20 +38,19 @@ targetname: "708"
 }
 node: {title: "710"
 label: "710[
-9 div #0 #0
+11 div (0) (0)
 23 move (22) f:23
-24 div #0 #0
+24 div (0) (0)
 25 move (22) g:25
-liveRanges: [12, 15]
+liveValues: [0, 12, 15]
  ]"
 
 }
 node: {title: "708"
 label: "708[
-12 mul #0 #0
-13 div #0 #0
-14 end
-liveRanges: [22, 12, 15]
+14 mul (0) (0)
+15 end
+liveValues: [0, 22, 12, 15]
  ]"
 
 }
@@ -61,19 +60,19 @@ targetname: "708"
 node: {title: "709"
 label: "709[
 9 add #0 #0
-10 add (0) #0
+10 add (0) (0)
 11 move (5) e:11
-4 mul #0 #0
+4 mul (0) (0)
 13 move (12) f:13
-14 mul #0 #0
-5 add (12) #4
+14 mul (0) (0)
+5 add  #4
 16 move (15) g:16
 17 move #5 b:17
-18 add #0 #0
-19 add (0) #0
-20 move (5) e:20
-8 bra #26
-liveRanges: [0, 5, 22]
+6 add #0 #5
+7 add (18) (0)
+20 move (19) e:20
+10 bra #26
+liveValues: [0, 5, 22]
  ]"
 
 }

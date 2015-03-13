@@ -3,7 +3,7 @@ import java.util.*;
 
 import lexical.TokenTypes;
 
-public class OperationCodes {
+public class OpCodes {
 
 	    public static int neg = 0;
 	    public static int add = 1;
@@ -83,17 +83,17 @@ public class OperationCodes {
 	        opcodeMap.put(bgt, "bgt");
 	        opcodeMap.put(read, "read");
 	        opcodeMap.put(write, "write");
-	        opcodeMap.put(wln, "writenl");
+	        opcodeMap.put(wln, "wln");
 	        opcodeMap.put(kill, "kill");
 	        opcodeMap.put(call, "call");
 	        opcodeMap.put(ret, "return");
 
-	        conditionsVsNegations.put(OperationCodes.beq, OperationCodes.bne);
-	        conditionsVsNegations.put(OperationCodes.blt, OperationCodes.bge);
-	        conditionsVsNegations.put(OperationCodes.bgt, OperationCodes.ble);
-	        conditionsVsNegations.put(OperationCodes.ble, OperationCodes.bgt);
-	        conditionsVsNegations.put(OperationCodes.bge, OperationCodes.blt);
-	        conditionsVsNegations.put(OperationCodes.bne, OperationCodes.beq);
+	        conditionsVsNegations.put(OpCodes.beq, OpCodes.bne);
+	        conditionsVsNegations.put(OpCodes.blt, OpCodes.bge);
+	        conditionsVsNegations.put(OpCodes.bgt, OpCodes.ble);
+	        conditionsVsNegations.put(OpCodes.ble, OpCodes.bgt);
+	        conditionsVsNegations.put(OpCodes.bge, OpCodes.blt);
+	        conditionsVsNegations.put(OpCodes.bne, OpCodes.beq);
 	    }
 	    
 	    public static Integer getOperandCount(Integer op) {
@@ -111,17 +111,17 @@ public class OperationCodes {
 		public static int getCondition(TokenTypes tokenType) {
 			int value;
 	        if (tokenType == TokenTypes.gtrToken) {
-	            value = OperationCodes.bgt;
+	            value = OpCodes.bgt;
 	        } else if (tokenType == TokenTypes.geqToken) {
-	            value = OperationCodes.bge;
+	            value = OpCodes.bge;
 	        } else if (tokenType == TokenTypes.lssToken) {
-	            value = OperationCodes.blt;
+	            value = OpCodes.blt;
 	        } else if (tokenType == TokenTypes.leqToken) {
-	            value = OperationCodes.ble;
+	            value = OpCodes.ble;
 	        } else if (tokenType == TokenTypes.eqlToken) {
-	            value = OperationCodes.beq;
+	            value = OpCodes.beq;
 	        } else if (tokenType == TokenTypes.neqToken) {
-	            value = OperationCodes.bne;
+	            value = OpCodes.bne;
 	        } else {
 	            throw new RuntimeException("Invalid condition token");
 	        }

@@ -3,7 +3,7 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 
 public class BasicBlock {
@@ -148,7 +148,7 @@ public class BasicBlock {
         int index = 0;
         Instruction nonPhi = null;
         for (Instruction instruction1 : instructionList) {
-            if( !(instruction1.getOpcode() == OperationCodes.phi)) {
+            if( !(instruction1.getOpcode() == OpCodes.phi)) {
                 nonPhi = instruction1;
                 break;
             }
@@ -184,10 +184,7 @@ public class BasicBlock {
 	}
 
 	public void updateExclude(List<String> exclude) {
-		for (String s : exclude) {
             this.exclude.addAll(exclude);
-        }
-		
 	}
 	
 	public void addToExclude(String name){

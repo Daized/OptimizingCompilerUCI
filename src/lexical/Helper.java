@@ -7,7 +7,7 @@ import java.util.*;
 import optimizations.PhiFinder;
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import datastructures.Function;
@@ -18,7 +18,7 @@ public class Helper {
     public static void BJ(Function scope, int loc) {
         Result x = new Result(Kind.CONSTANT);
         x.setConstVal(loc);
-        addInstruction(OperationCodes.bra, scope, x, null);
+        addInstruction(OpCodes.bra, scope, x, null);
     }
 
     public static void FJLink(Function scope, Result follow) {
@@ -28,17 +28,17 @@ public class Helper {
         equal.setConstVal(0);
         Result branchLocation = new Result(Kind.CONSTANT);
         branchLocation.setConstVal(0);
-        addInstruction(OperationCodes.beq, scope, equal, branchLocation);
+        addInstruction(OpCodes.beq, scope, equal, branchLocation);
         follow.fixupLoc(scope.getProgramCounter() - 1);
     }
 
-    public static void CJF(Function scope, Result currentState) {
+    public static void CJF(Function scope, Result cond) {
         Result x = new Result(Kind.INTERMEDIATE);
         x.setIntermediateLocation(scope.getProgramCounter() - 1);
         Result y = new Result(Kind.CONSTANT);
         y.setConstVal(0);
-        addInstruction(OperationCodes.getConditionNegation(currentState.getCondition()), scope, x, y);
-        currentState.fixupLoc(scope.getProgramCounter() - 1);
+        addInstruction(OpCodes.getConditionNegation(cond.getCondition()), scope, x, y);
+        cond.fixupLoc(scope.getProgramCounter() - 1);
     }
     
 	
@@ -66,9 +66,9 @@ public class Helper {
 		scope.getSymbolTable().addSymbol(s);
 	}
 	
-	public static void addInstruction(int opCode, Function scope, Result x, Result y){
+	public static Instruction addInstruction(int opCode, Function scope, Result x, Result y){
 		Instruction instruction = new Instruction(x, y, opCode, scope.getProgramCounter());
-		if(OperationCodes.getOperandCount(opCode) > 0) {
+		if(OpCodes.getOperandCount(opCode) > 0) {
             if (scope.getSymbolTable() != null && (x.getKind() == Kind.VAR || x.getKind() == Kind.ARRAY)) {
                 Symbol recent = scope.getSymbolTable().getRecentOccurence(x.getVariableName());
                 if (x.getKind() == Kind.ARRAY) {
@@ -82,17 +82,17 @@ public class Helper {
             }
         }
         scope.appendInstruction(instruction);
+        return instruction;
 	}
 	
 	public static Instruction addInstruction(int opCode, Function scope, Result x, Result y, int index){
 		Instruction instruction = new Instruction(x, y, opCode, scope.getProgramCounter());
-		if(OperationCodes.getOperandCount(opCode) > 0) {
+		if(OpCodes.getOperandCount(opCode) > 0) {
             if (scope.getSymbolTable() != null && (x.getKind() == Kind.VAR || x.getKind() == Kind.ARRAY)) {
                 Symbol recent = scope.getSymbolTable().getRecentOccurence(x.getVariableName());
                 if (x.getKind() == Kind.ARRAY) {
                     if (recent.getSSA() == -1) {
                         instruction.setSymbol(recent);
-                        //Making sure arrays have only one entry in symbol table besides the declaration
                     }
                 } else {
                     instruction.setSymbol(recent);
@@ -106,7 +106,7 @@ public class Helper {
 	public static void addMoveInstruction(Function scope, Result x, Result y){
 		addToSymbolTable(scope, x);
 		x.setLocation(scope.getProgramCounter());
-		addInstruction(OperationCodes.move, scope, x, y);
+		addInstruction(OpCodes.move, scope, x, y);
 	}
 	
 	public static void addToSymbolTable(Function scope, Result x){
@@ -139,12 +139,12 @@ public class Helper {
             previous = arrayValues.get(i);
             for(int j=i+1; j<originalIdentifiers.size(); j++) {
                 final Result originalIdentifier = originalIdentifiers.get(j);
-                Helper.addInstruction(OperationCodes.mul, scope, previous, originalIdentifier);
+                Helper.addInstruction(OpCodes.mul, scope, previous, originalIdentifier);
                 previous = new Result(Kind.INTERMEDIATE);;
                 previous.setIntermediateLocation(scope.getProgramCounter() - 1);
             }
             if(previousSumComponent != null) {
-                Helper.addInstruction(OperationCodes.add, scope, previous, previousSumComponent);
+                Helper.addInstruction(OpCodes.add, scope, previous, previousSumComponent);
                 previous = new Result(Kind.INTERMEDIATE);;
                 previous.setIntermediateLocation(scope.getProgramCounter() - 1);
             }
@@ -153,7 +153,7 @@ public class Helper {
 
         final Result intSize = new Result(Kind.CONSTANT);
         intSize.setConstVal(4);
-        Helper.addInstruction(OperationCodes.mul, scope, previous, intSize);
+        Helper.addInstruction(OpCodes.mul, scope, previous, intSize);
         final Result mulInstruction = new Result(Kind.INTERMEDIATE);
         mulInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
 
@@ -165,14 +165,14 @@ public class Helper {
         final Result addInstruction = new Result(Kind.INTERMEDIATE);
         addInstruction.setIntermediateLocation(scope.getProgramCounter());
         //Helper.addInstruction(OperationCodes.add, scope, scope.FP, lBaseAddr);
-        Helper.addInstruction(OperationCodes.adda, scope, mulInstruction, addInstruction);
+        Helper.addInstruction(OpCodes.adda, scope, mulInstruction, addInstruction);
     }
 
     public static Result calculateMulInstructionValue(List<Result> arrayIdentifiers, Function scope) {
         Result previous = arrayIdentifiers.get(0);
         for (int i=1; i<arrayIdentifiers.size(); i++) {
             final Result arrayIdentifier = arrayIdentifiers.get(i);
-            Helper.addInstruction(OperationCodes.mul, scope, arrayIdentifier, previous);
+            Helper.addInstruction(OpCodes.mul, scope, arrayIdentifier, previous);
             previous = new Result(Kind.INTERMEDIATE);;
             previous.setIntermediateLocation(scope.getProgramCounter());
         }
@@ -182,7 +182,7 @@ public class Helper {
     
 	
     public static int addKillInstruction(Function scope, Symbol recent) {
-        return scope.appendKillInstruction(new Instruction(new Result(recent), null, OperationCodes.kill, scope.getProgramCounter()), -1);
+        return scope.appendKillInstruction(new Instruction(new Result(recent), null, OpCodes.kill, scope.getProgramCounter()), -1);
     }
     
     private static List<Instruction> phiList;
@@ -193,7 +193,7 @@ public class Helper {
     	BasicBlock left = join.getLeft();
     	List<Instruction> leftInstructions = left.getInstructions();
     	for (Instruction instruction: leftInstructions){
-    		if (instruction.getOpcode() == OperationCodes.move || instruction.getOpcode() == OperationCodes.phi){
+    		if (instruction.getOpcode() == OpCodes.move || instruction.getOpcode() == OpCodes.phi){
     			Symbol symbol = instruction.getSymbol();
     			Instruction phi;
     			if (join.getPhiInstruction(symbol.getName()) != null){
@@ -210,7 +210,7 @@ public class Helper {
     	BasicBlock right = join.getRight();
     	List<Instruction> rightInstructions = right.getInstructions();
     	for (Instruction instruction: rightInstructions){
-    		if (instruction.getOpcode() == OperationCodes.move || instruction.getOpcode() == OperationCodes.phi){
+    		if (instruction.getOpcode() == OpCodes.move || instruction.getOpcode() == OpCodes.phi){
     			Symbol symbol = instruction.getSymbol();
     			if (join.getPhiInstruction(symbol.getName()) == null){
     				createPhiInstruction(scope, join, symbol);
@@ -260,7 +260,7 @@ public class Helper {
     private static Instruction createPhiInstruction(Function scope, BasicBlock join, Symbol symbol){
     	Symbol target = scope.getSymbolTable().getSymbol(symbol);
     	Symbol phi = new Symbol(target.getName(), target.getSSA(), target.getConstVal());
-    	Instruction phiInstruction = new Instruction(null, null, OperationCodes.phi, scope.getProgramCounter());
+    	Instruction phiInstruction = new Instruction(null, null, OpCodes.phi, scope.getProgramCounter());
     	phiInstruction.setSymbol(phi);
     	
     	if (!phiList.contains(phiInstruction)){

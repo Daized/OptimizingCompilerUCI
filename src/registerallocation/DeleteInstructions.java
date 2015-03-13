@@ -4,7 +4,7 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import lexical.Parser;
@@ -41,7 +41,7 @@ public class DeleteInstructions extends Optimization{
             if(instruction.isDeleted()) {
                 iterator.remove();
             } else {
-                if (instruction.getOpcode() == OperationCodes.phi) {
+                if (instruction.getOpcode() == OpCodes.phi) {
                     instruction.setX(handlePhiInstructionOperand(instruction.getX()));
                     instruction.setY(handlePhiInstructionOperand(instruction.getY()));
                 }
@@ -60,16 +60,16 @@ public class DeleteInstructions extends Optimization{
             final Instruction instruction = iterator.next();
             final Integer opcode = instruction.getOpcode();
             if(!instruction.isDeleted()) {
-                if(opcode == OperationCodes.bra) {
+                if(opcode == OpCodes.bra) {
                     instruction.setX(updateBranchDestinationTargets(instruction.getX()));
-                } else if(opcode >= OperationCodes.bne && opcode <= OperationCodes.bgt) {
+                } else if(opcode >= OpCodes.bne && opcode <= OpCodes.bgt) {
                     instruction.setX(updateIntermediates(instruction.getX()));
                     instruction.setY(updateBranchDestinationTargets(instruction.getY()));
                 }  else {
                     instruction.setX(updateIntermediates(instruction.getX()));
                     instruction.setY(updateIntermediates(instruction.getY()));
 
-                    if(instruction.getOpcode() == OperationCodes.call) {
+                    if(instruction.getOpcode() == OpCodes.call) {
                         final List<Result> parameters = instruction.getParameters();
                         if(parameters != null) {
                             Map<Result, Result> parameterMap = new LinkedHashMap<Result, Result>();

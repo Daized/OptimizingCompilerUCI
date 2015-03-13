@@ -2,6 +2,7 @@ package machine;
 
 import java.util.*;
 
+import data.OpCodes;
 import lexical.Parser;
 
 public class MachineCode {
@@ -26,4 +27,33 @@ public class MachineCode {
 	    }
 	    return c;
 	  }
+	
+//	private static int toDlxOpCode(Instruction currentInstruction, boolean immediateInstruction) {
+//        if(immediateInstruction)
+//        {
+//            if(currentInstruction.getOpcode() == OpCodes.add)
+//                return MachineInstructions.ADDI;
+//            else if(currentInstruction.getOpcode() == OpCodes.sub)
+//                return MachineInstructions.SUBI;
+//            else if (currentInstruction.getOpcode() == OpCodes.mul)
+//                return MachineInstructions.MULI;
+//            else if(currentInstruction.getOpcode() == OpCodes.div)
+//                return MachineInstructions.DIVI;
+//            else
+//                return MachineInstructions.CMPI;
+//        }
+//        else
+//        {
+//            if(currentInstruction.getOpcode() == OpCodes.add)
+//                return MachineInstructions.ADD;
+//            else if(currentInstruction.getOpcode() == OpCodes.sub)
+//                return MachineInstructions.SUB;
+//            else if (currentInstruction.getOpcode() == OpCodes.mul)
+//                return MachineInstructions.MUL;
+//            else if(currentInstruction.getOpcode() == OpCodes.div)
+//                return MachineInstructions.DIV;
+//            else
+//                return MachineInstructions.CMP;
+//        }
+//    }
 }

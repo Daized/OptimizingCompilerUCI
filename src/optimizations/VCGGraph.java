@@ -89,7 +89,7 @@ public class VCGGraph extends Optimization {
 		StringBuilder nodeBuilder = new StringBuilder();
 		nodeBuilder.append("node: {title: \"").append(node.getLabel()).append("\"\n");
 		nodeBuilder.append("label: \"").append(node.getLabel()).append("[\n").append(getInstructionString(node));
-		nodeBuilder.append("liveRanges: ").append(liveRanges.toString()).append("\n ]\"\n");;
+		nodeBuilder.append("liveValues: ").append(liveRanges.toString()).append("\n ]\"\n");;
 		nodeBuilder.append("\n}\n");
 		
 		return nodeBuilder.toString();

@@ -3,7 +3,7 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import datastructures.ControlFlowGraph;
@@ -120,7 +120,7 @@ public static void main(String[] args){
 		System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		
-		Helper.addInstruction(OperationCodes.end,  main, null, null);
+		Helper.addInstruction(OpCodes.end,  main, null, null);
 		
 		System.out.println( this.fileName + ": Compiled successfully.");
 		//DONE
@@ -376,7 +376,7 @@ public static void main(String[] args){
 		else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
-		Helper.addInstruction(OperationCodes.ret, scope, x, null);
+		Helper.addInstruction(OpCodes.ret, scope, x, null);
 		
 		return x;
 	}
@@ -552,7 +552,48 @@ public static void main(String[] args){
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 		}
 		procedure = currentToken;
+		Instruction instruction;
 		nextToken();
+		switch (procedure.getTokenString()){
+		case "InputNum":
+			instruction = Helper.addInstruction(OpCodes.read, scope, null, null);
+			if (currentToken.getTokenType() != TokenTypes.openparenToken){
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			}
+			nextToken();
+			if (currentToken.getTokenType() != TokenTypes.closeparenToken){
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			}
+			nextToken();
+			return new Result(Kind.PROCEDURE);
+		case "OutputNum":
+			if (currentToken.getTokenType() != TokenTypes.openparenToken){
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			}
+				
+			nextToken();
+			x = expression(scope);
+			instruction = Helper.addInstruction(OpCodes.write, scope, x, null);
+			if (currentToken.getTokenType() != TokenTypes.closeparenToken){
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			}
+			nextToken();
+			return new Result(Kind.PROCEDURE);
+		case "OutputNewLine":
+			instruction = Helper.addInstruction(OpCodes.wln, scope, null, null);
+			if (currentToken.getTokenType() != TokenTypes.openparenToken){
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			}
+			nextToken();
+			if (currentToken.getTokenType() != TokenTypes.closeparenToken){
+				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
+			}
+			nextToken();
+			return new Result(Kind.PROCEDURE);
+		default:
+			break;
+		}
+		
 		if (currentToken.getTokenType() == TokenTypes.openparenToken){
 			nextToken();
 			
@@ -621,7 +662,7 @@ public static void main(String[] args){
 					Helper.createAddA(scope, name, arrayValues);
 					Result loadInstruction = new Result(Kind.INTERMEDIATE);
 					loadInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
-					Helper.addInstruction(OperationCodes.load, scope, loadInstruction, null);
+					Helper.addInstruction(OpCodes.load, scope, loadInstruction, null);
 				}
 				
 				storeInstruction = new Result(Kind.INTERMEDIATE);
@@ -630,7 +671,7 @@ public static void main(String[] args){
 			else {
 				storeInstruction = right;
 			}
-			Helper.addInstruction(OperationCodes.store, scope, x, storeInstruction);
+			Helper.addInstruction(OpCodes.store, scope, x, storeInstruction);
 			Symbol recent = scope.getSymbolTable().getRecentOccurence(left.getVariableName());
 			//Helper.addKillInstruction(scope, recent);
 		}
@@ -646,7 +687,7 @@ public static void main(String[] args){
 					Helper.createAddA(scope, name, arrayValues);
 					Result loadInstruction = new Result(Kind.INTERMEDIATE);
 					loadInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
-					Helper.addInstruction(OperationCodes.load, scope, loadInstruction, null);
+					Helper.addInstruction(OpCodes.load, scope, loadInstruction, null);
 				}
 				
 				moveInstruction = new Result(Kind.INTERMEDIATE);
@@ -678,10 +719,10 @@ public static void main(String[] args){
 			currentToken.getTokenType() == TokenTypes.geqToken ||
 			currentToken.getTokenType() == TokenTypes.neqToken){
 			//if it's a relation operator
-			relation.setCondition(OperationCodes.getCondition(currentToken.getTokenType()));
+			relation.setCondition(OpCodes.getCondition(currentToken.getTokenType()));
 			nextToken();
 			y = expression(scope);
-			Helper.addInstruction(OperationCodes.cmp, scope, x, y);
+			Helper.addInstruction(OpCodes.cmp, scope, x, y);
 		}
 		else {
 			System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -696,7 +737,7 @@ public static void main(String[] args){
 		Result x, y;
 		x = term(scope);
 		while (currentToken.getTokenType() == TokenTypes.plusToken || currentToken.getTokenType() == TokenTypes.minusToken){
-			int opCode = currentToken.getTokenType() == TokenTypes.plusToken ? OperationCodes.add : OperationCodes.sub;
+			int opCode = currentToken.getTokenType() == TokenTypes.plusToken ? OpCodes.add : OpCodes.sub;
 			nextToken();
 			y = term(scope);
 			
@@ -716,7 +757,7 @@ public static void main(String[] args){
 		x = factor(scope);
 		
 		while (currentToken.getTokenType() == TokenTypes.timesToken || currentToken.getTokenType() == TokenTypes.divToken){
-			int opCode = currentToken.getTokenType() == TokenTypes.timesToken ? OperationCodes.mul : OperationCodes.div;
+			int opCode = currentToken.getTokenType() == TokenTypes.timesToken ? OpCodes.mul : OpCodes.div;
 			nextToken();
 			y = factor(scope);
 			Helper.addInstruction(opCode, scope, x, y);

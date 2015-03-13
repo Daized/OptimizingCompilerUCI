@@ -24,9 +24,9 @@ label: "590[
 1 move #2 b:1
 2 move #3 c:2
 3 move #4 d:3
-0 cmp #0 #0
+0 cmp #1 #2
 1 bge (4) #0
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -35,23 +35,37 @@ targetname: "593"
 }
 node: {title: "592"
 label: "592[
-2 add #0 #1
+2 add #1 #1
 7 move (6) a:7
-liveRanges: []
+liveValues: []
  ]"
 
 }
 edge: { sourcename: "593"
-targetname: "595"
+targetname: "594"
 }
 edge: { sourcename: "593"
-targetname: "594"
+targetname: "595"
 }
 node: {title: "593"
 label: "593[
-3 cmp #0 #0
+3 cmp #3 #4
 4 bge (8) #0
-liveRanges: []
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "594"
+targetname: "593"
+}
+node: {title: "594"
+label: "594[
+5 add #3 #2
+11 move (10) c:11
+6 add #4 #1
+13 move (12) d:13
+7 bra #8
+liveValues: []
  ]"
 
 }
@@ -61,7 +75,7 @@ targetname: "591"
 node: {title: "595"
 label: "595[
 8 bra #25
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -70,7 +84,7 @@ targetname: "600"
 }
 node: {title: "591"
 label: "591[
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -79,21 +93,28 @@ targetname: "601"
 }
 node: {title: "600"
 label: "600[
-liveRanges: []
+liveValues: []
  ]"
 
 }
 edge: { sourcename: "601"
-targetname: "602"
+targetname: "606"
 }
 edge: { sourcename: "601"
-targetname: "606"
+targetname: "602"
 }
 node: {title: "601"
 label: "601[
-15 cmp #0 #0
+15 cmp #2 #4
 16 bge (25) #0
-liveRanges: []
+liveValues: []
+ ]"
+
+}
+node: {title: "606"
+label: "606[
+21 end
+liveValues: []
  ]"
 
 }
@@ -105,9 +126,9 @@ targetname: "604"
 }
 node: {title: "602"
 label: "602[
-27 cmp #0 #0
-17 ble (27) #0
-liveRanges: []
+17 cmp (6) #4
+18 ble (27) #0
+liveValues: [6]
  ]"
 
 }
@@ -116,8 +137,8 @@ targetname: "603"
 }
 node: {title: "605"
 label: "605[
-31 move #0 c:31
-liveRanges: []
+31 move #2 c:31
+liveValues: []
  ]"
 
 }
@@ -126,8 +147,8 @@ targetname: "601"
 }
 node: {title: "603"
 label: "603[
-19 bra #25
-liveRanges: []
+20 bra #25
+liveValues: []
  ]"
 
 }
@@ -136,30 +157,9 @@ targetname: "603"
 }
 node: {title: "604"
 label: "604[
-29 move #0 b:29
-18 bra #32
-liveRanges: []
- ]"
-
-}
-node: {title: "606"
-label: "606[
-20 end
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "594"
-targetname: "593"
-}
-node: {title: "594"
-label: "594[
-5 add #0 #2
-11 move (10) c:11
-6 add #0 #1
-13 move (12) d:13
-7 bra #8
-liveRanges: []
+29 move #3 b:29
+19 bra #32
+liveValues: []
  ]"
 
 }
@@ -168,9 +168,9 @@ targetname: "597"
 }
 node: {title: "596"
 label: "596[
-9 add #0 #2
+9 add #1 #2
 17 move (16) a:17
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -182,9 +182,9 @@ targetname: "598"
 }
 node: {title: "597"
 label: "597[
-10 cmp #0 #0
+10 cmp #3 #4
 11 bge (18) #0
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -193,7 +193,7 @@ targetname: "591"
 }
 node: {title: "599"
 label: "599[
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -202,12 +202,12 @@ targetname: "597"
 }
 node: {title: "598"
 label: "598[
-12 add #0 #3
+12 add #3 #3
 21 move (20) c:21
-13 add #0 #2
+13 add #4 #2
 23 move (22) d:23
 14 bra #18
-liveRanges: []
+liveValues: []
  ]"
 
 }

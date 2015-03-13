@@ -4,7 +4,7 @@ import java.util.*;
 
 import data.Kind;
 import data.Instruction;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import lexical.Parser;
@@ -31,7 +31,7 @@ public class InterferenceGraph extends Optimization{
 		List<Instruction> instructions = node.getInstructions();
 	    for (Instruction instruction : instructions) {
 	        Set<Integer> liveRanges = instruction.getLiveRanges();
-	        if(instruction.getOpcode() == OperationCodes.phi) {
+	        if(instruction.getOpcode() == OpCodes.phi) {
 
 	            }
 	            if(liveRanges.isEmpty()) {
@@ -85,7 +85,6 @@ public class InterferenceGraph extends Optimization{
 	            public int compare(IGNode o1, IGNode o2) {
 	                return o1.getNeighbors().size() - o2.getNeighbors().size();
 	            }
-	            //$TODO$ add the loop level weight
 	        });
 	}
 	
@@ -95,7 +94,6 @@ public class InterferenceGraph extends Optimization{
             public int compare(IGNode o1, IGNode o2) {
                 return o2.getClustered().size() - o1.getClustered().size();
             }
-            //$TODO$ add the loop level weight
         });
     }
 	

@@ -19,30 +19,22 @@ node: {title: "711"
 label: "711[
 0 move (-1) x:0
 1 move (0) k:1
-liveRanges: []
+liveValues: []
  ]"
 
 }
 edge: { sourcename: "712"
-targetname: "714"
+targetname: "713"
 }
 edge: { sourcename: "712"
-targetname: "713"
+targetname: "714"
 }
 node: {title: "712"
 label: "712[
 10 phi (-1) (3)
 2 cmp a b
 3 bge (2) #0
-liveRanges: []
- ]"
-
-}
-node: {title: "714"
-label: "714[
-11 move (10) w:11
-12 end
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -57,7 +49,15 @@ label: "713[
 7 move (6) z:7
 8 move (7) z:8
 9 bra #2
-liveRanges: []
+liveValues: []
+ ]"
+
+}
+node: {title: "714"
+label: "714[
+11 move (10) w:11
+12 end
+liveValues: []
  ]"
 
 }

@@ -17,22 +17,32 @@ targetname: "745"
 }
 node: {title: "744"
 label: "744[
-0 move #5 a:0
-liveRanges: []
+0 read
+1 move null:0 a:1
+2 write null:0
+3 wln
+liveValues: []
  ]"
 
 }
 edge: { sourcename: "745"
-targetname: "746"
+targetname: "747"
 }
 edge: { sourcename: "745"
-targetname: "747"
+targetname: "746"
 }
 node: {title: "745"
 label: "745[
-1 cmp #0 #0
-2 ble (1) #0
-liveRanges: []
+4 cmp #0 #0
+5 ble (4) #0
+liveValues: []
+ ]"
+
+}
+node: {title: "747"
+label: "747[
+15 end
+liveValues: []
  ]"
 
 }
@@ -41,20 +51,16 @@ targetname: "745"
 }
 node: {title: "746"
 label: "746[
-3 move #5 d:3
-4 add #0 #1
-5 move (4) c:5
-6 add #0 #1
-7 move (4) b:7
-8 bra #1
-liveRanges: []
- ]"
-
-}
-node: {title: "747"
-label: "747[
-9 end
-liveRanges: []
+6 read
+7 move null:0 d:7
+8 add #0 #1
+9 move (8) c:9
+10 write null:0
+11 wln
+12 add #0 #1
+13 move (8) b:13
+14 bra #4
+liveValues: []
  ]"
 
 }

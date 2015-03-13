@@ -4,7 +4,7 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import datastructures.Symbol;
@@ -13,7 +13,7 @@ import lexical.Parser;
 public class CopyPropagation extends Optimization {
 
 	private Map<String, Result> valueMap = new HashMap<String, Result>();
-    private List<String> exclude = new ArrayList<String>();
+    private List<String> excludedValues = new ArrayList<String>();
     private Set<Instruction> phiInstructions = new HashSet<Instruction>();
     private Map<Integer, Result> deletedMoves = new HashMap<Integer, Result>();
 	
@@ -24,9 +24,6 @@ public class CopyPropagation extends Optimization {
 	}
 
 	public void doCopyPropagation(){
-		List<Symbol> symbolList = p.getMain().getSymbolTable().getSymbolList();
-		
-		
 		
 		processGraph(p.getMain().getCFG().getRoot());
 		processDominatingBlocks();
@@ -35,24 +32,25 @@ public class CopyPropagation extends Optimization {
 	}
 
 	@Override
-	public void visit(BasicBlock node) {
-		final List<Instruction> instructions = node.getInstructions();
-        final List<BasicBlock> dominatesOver = node.getDominatedBlocks();
+	public void visit(BasicBlock block) {
+		final List<Instruction> instructions = block.getInstructions();
+        final List<BasicBlock> dominatesOver = block.getDominatedBlocks();
+        dominatesOver.addAll(block.getChildren()); //For consecutive blocks that are non dominating of each other
         List<String> removed = new ArrayList<String>();
-        final Map<String, Result> thisNodeValues = processInstructions(removed, node, instructions);
-        for (BasicBlock basicBlock : dominatesOver) {
-            basicBlock.updateValueMap(thisNodeValues);
-            basicBlock.updateExclude(node.getExclude());
+        final Map<String, Result> mapValues = getNodeValues(removed, block, instructions);
+        for (BasicBlock node : dominatesOver) {
+            node.updateValueMap(mapValues);
+            node.updateExclude(node.getExclude());
             for (String s : removed) {
                 node.getExclude().remove(s);
-        }
+            }
         }
         for (Instruction instruction : phiInstructions) {
-            if (instruction.getOpcode() == OperationCodes.phi) {
+            if (instruction.getOpcode() == OpCodes.phi) {
                 updatePhiInstruction(instruction);
             }
         }
-        valueMap.putAll(thisNodeValues);
+        valueMap.putAll(mapValues);
     }
 
 
@@ -72,40 +70,40 @@ public class CopyPropagation extends Optimization {
         }
     }
 
-    private Map<String, Result> processInstructions(List<String> removed, BasicBlock basicBlock, List<Instruction> instructions) {
-        Map<String, Result> valueMap = basicBlock.getMapValues();
-        List<String> exclude = basicBlock.getExclude();
+    private Map<String, Result> getNodeValues(List<String> removed, BasicBlock node, List<Instruction> instructions) {
+        Map<String, Result> valueMap = node.getMapValues();
+        List<String> excludedValues = node.getExclude();
         for (Instruction instruction : instructions) {
             final Integer opcode = instruction.getOpcode();
-            if (instruction.getOpcode() == OperationCodes.phi) {
+            if (instruction.getOpcode() == OpCodes.phi) {
                 phiInstructions.add(instruction);
                 final Result result = new Result(Kind.INTERMEDIATE);
                 result.setIntermediateLocation(instruction.getInstructionNumber());
                 valueMap.put(instruction.getSymbol().getName(), result);
                 continue;
             }
-            if (instruction.getOpcode() == OperationCodes.kill) {
+            if (instruction.getOpcode() == OpCodes.kill) {
                 final String variableName = instruction.getX().getVariableName();
                 valueMap.remove(variableName);
-                exclude.add(variableName);
+                excludedValues.add(variableName);
                 continue;
             } else {
                 final Result x = instruction.getX();
                 final Result y = instruction.getY();
                 final List<Result> parameters = instruction.getParameters();
-                if (opcode == OperationCodes.move) {
+                if (opcode == OpCodes.move) {
                     final String variableName = instruction.getX().getVariableName();
-                    updateValueMap(basicBlock.getMapValues(), instruction, variableName, instruction.getX().getUniqueName(), y);
-                    exclude.remove(variableName);
+                    updateMapValues(node.getMapValues(), instruction, variableName, instruction.getX().getUniqueName(), y);
+                    excludedValues.remove(variableName);
                     removed.add(variableName);
                 } else {
                     if (x != null) {
-                        Result result = basicBlock.getMapValues().get(x.getVariableName());
+                        Result result = node.getMapValues().get(x.getVariableName());
                         if (result != null && result.getKind() != Kind.VAR) {
                             instruction.setX(result);
                         } else {
                             if(instruction.getX().getKind() == Kind.VAR) {
-                                final Result zeroIfUninitialized = getZeroIfUninitialized(instruction.getX(), exclude);
+                                final Result zeroIfUninitialized = getZeroIfUninitialized(instruction.getX(), excludedValues);
                                 if(zeroIfUninitialized == null) {
                                     final Result zero = new Result(Kind.CONSTANT);
                                     zero.setConstVal(0);
@@ -121,12 +119,12 @@ public class CopyPropagation extends Optimization {
                     for (Result parameter : parameters) {
                         parameterMap.put(parameter, null);
 
-                        Result result = basicBlock.getMapValues().get(parameter.getVariableName());
-                        if (result != null && result.getKind() == Kind.VAR) {
+                        Result result = node.getMapValues().get(parameter.getVariableName());
+                        if (result != null && result.getKind() != Kind.VAR) {
                             parameterMap.put(parameter, result);
                         } else {
                             if(parameter.getKind() == Kind.VAR) {
-                                final Result zeroIfUninitialized = getZeroIfUninitialized(parameter, exclude);
+                                final Result zeroIfUninitialized = getZeroIfUninitialized(parameter, excludedValues);
                                 if(zeroIfUninitialized == null) {
                                     final Result zero = new Result(Kind.CONSTANT);
                                     zero.setConstVal(0);
@@ -149,14 +147,14 @@ public class CopyPropagation extends Optimization {
                     }
                     instruction.setParameters(newParams);
                 }
-
+            
                 if (y != null) {
-                    Result result = basicBlock.getMapValues().get(y.getVariableName());
+                    Result result = node.getMapValues().get(y.getVariableName());
                     if (result != null && result.getKind() != Kind.VAR) {
                         instruction.setY(result);
                     } else {
                         if(instruction.getY().getKind() == Kind.VAR) {
-                            final Result zeroIfUninitialized = getZeroIfUninitialized(instruction.getY(), exclude);
+                            final Result zeroIfUninitialized = getZeroIfUninitialized(instruction.getY(), excludedValues);
                             if(zeroIfUninitialized == null) {
                                 final Result zero = new Result(Kind.CONSTANT);
                                 zero.setConstVal(0);
@@ -171,14 +169,14 @@ public class CopyPropagation extends Optimization {
         return valueMap;
     }
 
-    private void updateValueMap(Map<String, Result> valueMap, Instruction instruction, String variableName, String uniqueIdentifier, Result y) {
-//        if (!exclude.contains(variableName)) {
+    private void updateMapValues(Map<String, Result> valueMap, Instruction instruction, String variableName, String uniqueIdentifier, Result y) {
+//        if (!excludedValues.contains(variableName)) {
 
             if (y.getKind() == Kind.VAR) {
                 final Result yValue = valueMap.get(y.getVariableName());
                 if (yValue != null) {
                     if (yValue.getKind() == Kind.VAR) {
-                        updateValueMap(valueMap, instruction, variableName, uniqueIdentifier, yValue);
+                        updateMapValues(valueMap, instruction, variableName, uniqueIdentifier, yValue);
                         return;
                     }
                     y = yValue;
@@ -190,7 +188,7 @@ public class CopyPropagation extends Optimization {
             instruction.setDeleted(true, "CP");
             deletedMoves.put(instruction.getInstructionNumber(), y);
             p.getMain().getSymbolTable().updateSymbol(variableName, y);
-            System.out.println("Copying for " + variableName + " in instruction number[" + instruction.getInstructionNumber() + "]");
+            System.out.println("Copying " + variableName + " --> instruction " + instruction.getInstructionNumber() + "");
 //        }
         }
 
@@ -201,7 +199,7 @@ public class CopyPropagation extends Optimization {
         Map<Integer, Result> remainingMoves = new HashMap<Integer, Result>();
         final List<Instruction> phis = new ArrayList<Instruction>();
         for (Instruction instruction : instructions) {
-            if (instruction.getOpcode() == OperationCodes.move && !instruction.isDeleted()) {
+            if (instruction.getOpcode() == OpCodes.move && !instruction.isDeleted()) {
                 final Result target = instruction.getY();
                 final Result x = instruction.getX();
                 if (x.getKind() == Kind.VAR) {
@@ -210,7 +208,7 @@ public class CopyPropagation extends Optimization {
                     instruction.setDeleted(true, "CP");
                 }
             }
-            if(instruction.getOpcode() == OperationCodes.phi) {
+            if(instruction.getOpcode() == OpCodes.phi) {
                 phis.add(instruction);
             }
         }
@@ -262,13 +260,8 @@ public class CopyPropagation extends Optimization {
         if (operand == null) {
             return operand;
         }
-//        if(operand.isIntermediate()) {
-//            final Result result = update.get(operand.getIntermediateLoation());
-//            if(result != null) {
-//                return result;
-//            }
-//        }
-        if(instruction.getOpcode() == OperationCodes.phi && operand.getKind() == Kind.VAR) {
+        
+        if(instruction.getOpcode() == OpCodes.phi && operand.getKind() == Kind.VAR) {
             final Result result = update.get(operand.getLocation());
             if(result != null) {
                 return result;
@@ -279,15 +272,15 @@ public class CopyPropagation extends Optimization {
 
     protected Result updateFirstOccurence(Result operand) {
         if (operand != null && operand.getKind() == Kind.VAR) {
-            final String programName = p.getMain().getName();
             final Symbol recentOccurence = p.getMain().getSymbolTable().getRecentOccurence(operand.getVariableName());
-            if(getZeroIfUninitialized(operand, exclude) != null) {
+            if(getZeroIfUninitialized(operand, excludedValues) != null) {
                 return operand;
             }
 
             if (recentOccurence.getSSA() != -1) {
                 return operand;
             }
+            
             final Result zero = new Result(Kind.CONSTANT);
             zero.setConstVal(0);
             return zero;
@@ -295,7 +288,7 @@ public class CopyPropagation extends Optimization {
         return operand;
     }
 
-    private Result getZeroIfUninitialized(Result operand, List<String> exclude) {
+    private Result getZeroIfUninitialized(Result operand, List<String> excludedValues) {
         String programName = p.getMain().getName();
         final Symbol recentOccurence = p.getMain().getSymbolTable().getRecentOccurence(operand.getVariableName());
         if (!programName.equals("main")) {
@@ -309,22 +302,19 @@ public class CopyPropagation extends Optimization {
                 }
             }
         }
-        if(exclude.contains(operand.getVariableName())) {
+        if(excludedValues.contains(operand.getVariableName())) {
             return operand;
         }
         return null;
     }
 
     protected Result getTarget(Map<Integer, Result> remainingMoves, Result operand, Instruction instruction) {
-        if (instruction.getOpcode() == OperationCodes.phi && operand.getKind() == Kind.VAR) {
+        if (instruction.getOpcode() == OpCodes.phi && operand.getKind() == Kind.VAR) {
             final Result result = remainingMoves.get(operand.getLocation());
             if (result != null) {
                 return result;
             }
         }
-//        if (operand != null && operand.isIntermediate()) {
-//            return remainingMoves.get(operand.getIntermediateLoation());
-//        }
 
         return null;
     }

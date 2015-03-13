@@ -23,7 +23,7 @@ label: "729[
 0 move #0 q:0
 1 cmp #2 #3
 2 bge (1) #0
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -32,7 +32,7 @@ targetname: "732"
 }
 node: {title: "731"
 label: "731[
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -46,7 +46,7 @@ node: {title: "732"
 label: "732[
 3 cmp #4 #6
 4 ble (3) #0
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -57,17 +57,17 @@ node: {title: "734"
 label: "734[
 11 add #0 #5
 12 move (11) too:12
-liveRanges: []
+liveValues: []
  ]"
 
 }
 node: {title: "730"
 label: "730[
-13 add #0 #0
+13 add (11) #0
 14 add (13) #0
 15 move (14) af:15
 16 end
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -80,9 +80,9 @@ label: "733[
 6 move (5) af:6
 7 add #0 #2
 8 move (7) foo:8
-9 move #0 q:9
+9 move (7) q:9
 10 bra #3
-liveRanges: []
+liveValues: []
  ]"
 
 }

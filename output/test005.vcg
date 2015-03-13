@@ -19,8 +19,9 @@ label: "559[
 2 div (1) #2
 3 sub (2) #1
 4 move (3) a:4
-5 end
-liveRanges: []
+5 write (3)
+6 end
+liveValues: []
  ]"
 
 }

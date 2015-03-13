@@ -4,7 +4,7 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import lexical.Parser;
@@ -47,11 +47,11 @@ public class PhiFinder extends Optimization{
         }
         final List<Instruction> instructions = node.getInstructions();
         for (Instruction instruction : instructions) {
-            if(instruction.getOpcode() == OperationCodes.move) {
+            if(instruction.getOpcode() == OpCodes.move) {
                 if(instruction.getX().getVariableName().equals(variableName)) {
                     this.y = instruction.getY();
                 }
-            } else if(instruction.getOpcode() == OperationCodes.phi) {
+            } else if(instruction.getOpcode() == OpCodes.phi) {
                 if(instruction.getSymbol().getName().equals(variableName)) {
                     this.y = new Result(Kind.INTERMEDIATE);
                     this.y.setIntermediateLocation(instruction.getInstructionNumber());

@@ -21,12 +21,12 @@ targetname: "658"
 node: {title: "657"
 label: "657[
 0 move #1 a:0
-1 move #0 b:1
-0 mul #4 #0
+1 move #1 b:1
+0 mul #4 #1
 3 move (2) c:3
-1 cmp #0 #0
+1 cmp (2) #1
 2 ble (4) #0
-liveRanges: []
+liveValues: []
  ]"
 
 }
@@ -35,17 +35,17 @@ targetname: "658"
 }
 node: {title: "659"
 label: "659[
-3 add #0 #2
+3 add #1 #2
 7 move (6) d:7
-liveRanges: []
+liveValues: []
  ]"
 
 }
 node: {title: "658"
 label: "658[
-4 add #0 #0
+4 add #1 #1
 5 end
-liveRanges: []
+liveValues: []
  ]"
 
 }

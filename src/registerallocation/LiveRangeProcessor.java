@@ -4,7 +4,7 @@ import java.util.*;
 
 import data.Instruction;
 import data.Kind;
-import data.OperationCodes;
+import data.OpCodes;
 import data.Result;
 import datastructures.BasicBlock;
 import lexical.Parser;
@@ -37,7 +37,7 @@ public class LiveRangeProcessor extends Optimization{
         for (int i = instructions.size() - 1; i >= 0; i--) {
             final Instruction instruction = instructions.get(i);
             final Integer opcode = instruction.getOpcode();
-            final Integer operandCount = OperationCodes.getOperandCount(opcode);
+            final Integer operandCount = OpCodes.getOperandCount(opcode);
             if (operandCount > 0) {
                 updateLiveRange(instruction, instruction.getX(), liveRanges);
             }
@@ -47,11 +47,11 @@ public class LiveRangeProcessor extends Optimization{
             instruction.addToLiveRanges(liveRanges); //Not used at this point
         }
 
-        System.out.println("Live Ranges for BB:[" + node.getLabel() + "] are {");
+        System.out.print("Block #" +node.getLabel()+ " live Ranges: ");
         for (Integer liveRange : liveRanges) {
-            System.out.println(String.valueOf(liveRange) + ",");
+            System.out.print(String.valueOf(liveRange) + ",");
         }
-        System.out.println("}");
+        System.out.print("\n");
         handleWhileBodyBlock(node, liveRanges);
         node.setLiveRanges(liveRanges); //Used at this point
         if (node.getKind() == Kind.LOOPHEAD) {
@@ -101,7 +101,7 @@ public class LiveRangeProcessor extends Optimization{
         if (result.getKind() == Kind.INTERMEDIATE) {
             liveRanges.add(result.getIntermediateLocation());
         }
-        if(instruction.getOpcode() == OperationCodes.phi && result.getKind() == Kind.VAR) {
+        if(instruction.getOpcode() == OpCodes.phi && result.getKind() == Kind.VAR) {
             liveRanges.add(result.getLocation());
         }
         liveRanges.remove(instruction.getInstructionNumber());
