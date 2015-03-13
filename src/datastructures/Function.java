@@ -2,11 +2,14 @@ package datastructures;
 import java.util.*;
 
 import data.Instruction;
+import data.Kind;
 import data.OpCodes;
+import data.Result;
 import lexical.Parser;
 
 public class Function {
 	
+	protected static final Result FP = new Result(Kind.FRAME_POINTER);
 	private String name;
 	private List<Instruction> instructionList;
 	private ControlFlowGraph functionCFG;
@@ -26,6 +29,10 @@ public class Function {
 		this.functionCFG.getNextBlock().appendInstruction(instruction);
 	}
 	
+	public Result getFP(){
+		return this.FP;
+	}
+	
 	public void appendInstruction(Instruction instruction, int index){
 		this.instructionList.add(index, instruction);
 		//this.functionCFG.getNextBlock().appendInstruction(instruction, index);
@@ -38,12 +45,24 @@ public class Function {
 		}
 		
 		BasicBlock joinBlock = functionCFG.getNextBlock().getJoin();
-		if (index != -1)
-			instructionList.add(index, instruction);
-		else
-			instructionList.add(instruction);
-		joinBlock.appendInstruction(instruction);
-		
+		if (joinBlock != null){
+			if (index != -1)
+				instructionList.add(index, instruction);
+			else
+				instructionList.add(instruction);
+			joinBlock.appendInstruction(instruction);
+		}
+		else {
+			if(index != -1) {
+                instructionList.add(index, instruction);
+            } else {
+                instructionList.add(instruction);
+            }
+            if(instruction.getOpcode() != OpCodes.phi) {
+                getCFG().addInstruction(instruction);
+            }
+			
+		}
 		return instructionList.size();
 	}
 	

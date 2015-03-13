@@ -553,6 +553,8 @@ public static void main(String[] args){
 		}
 		procedure = currentToken;
 		Instruction instruction;
+		Result y = new Result(Kind.INTERMEDIATE);
+		y.setIntermediateLocation(scope.getProgramCounter());
 		nextToken();
 		switch (procedure.getTokenString()){
 		case "InputNum":
@@ -565,7 +567,8 @@ public static void main(String[] args){
 				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken();
-			return new Result(Kind.PROCEDURE);
+			y.setIntermediateLocation(scope.getProgramCounter());
+			return y;
 		case "OutputNum":
 			if (currentToken.getTokenType() != TokenTypes.openparenToken){
 				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
@@ -578,7 +581,8 @@ public static void main(String[] args){
 				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken();
-			return new Result(Kind.PROCEDURE);
+			y.setIntermediateLocation(scope.getProgramCounter());
+			return y;
 		case "OutputNewLine":
 			instruction = Helper.addInstruction(OpCodes.wln, scope, null, null);
 			if (currentToken.getTokenType() != TokenTypes.openparenToken){
@@ -589,7 +593,8 @@ public static void main(String[] args){
 				System.err.println(new Throwable().getStackTrace()[0].getLineNumber());System.exit(3);
 			}
 			nextToken();
-			return new Result(Kind.PROCEDURE);
+			y.setIntermediateLocation(scope.getProgramCounter());
+			return y;
 		default:
 			break;
 		}
@@ -602,13 +607,13 @@ public static void main(String[] args){
 				currentToken.getTokenType() == TokenTypes.callToken ||
 				currentToken.getTokenType() == TokenTypes.ident){
 				
-				Result y = expression(scope);
+				Result y2 = expression(scope);
 				//Multiple arguments
 				if (currentToken.getTokenType() == TokenTypes.commaToken){
 					
 					while (currentToken.getTokenType() == TokenTypes.commaToken){
 						nextToken();
-						y = expression(scope);
+						y2 = expression(scope);
 					}
 				}
 			}
@@ -655,25 +660,16 @@ public static void main(String[] args){
 			x.setIntermediateLocation(scope.getProgramCounter() - 1);
 			Result storeInstruction;
 			if (right.getKind() == Kind.ARRAY){
-				
-				String name = right.getVariableName();
-				List<Result> arrayValues = right.getArrayValues();
-				if (arrayValues != null && arrayValues.size() > 0){
-					Helper.createAddA(scope, name, arrayValues);
-					Result loadInstruction = new Result(Kind.INTERMEDIATE);
-					loadInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
-					Helper.addInstruction(OpCodes.load, scope, loadInstruction, null);
-				}
-				
+				Helper.loadYarray(right, scope);
 				storeInstruction = new Result(Kind.INTERMEDIATE);
-				storeInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
-			}
+				storeInstruction.setIntermediateLocation(scope.getProgramCounter()-1);
+			} 
 			else {
 				storeInstruction = right;
 			}
 			Helper.addInstruction(OpCodes.store, scope, x, storeInstruction);
 			Symbol recent = scope.getSymbolTable().getRecentOccurence(left.getVariableName());
-			//Helper.addKillInstruction(scope, recent);
+			Helper.addKillInstruction(scope, recent);
 		}
 		else {
 			x = new Result(Kind.VAR);

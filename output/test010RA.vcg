@@ -25,15 +25,25 @@ liveValues: []
 
 }
 edge: { sourcename: "584"
-targetname: "585"
+targetname: "589"
 }
 edge: { sourcename: "584"
-targetname: "589"
+targetname: "585"
 }
 node: {title: "584"
 label: "584[
 0 cmp #1 #2
 1 bge (3) #0
+liveValues: []
+ ]"
+
+}
+node: {title: "589"
+label: "589[
+11 write #1
+12 write #2
+13 write #3
+14 end
 liveValues: []
  ]"
 
@@ -53,26 +63,16 @@ liveValues: []
 
 }
 edge: { sourcename: "586"
-targetname: "588"
+targetname: "587"
 }
 edge: { sourcename: "586"
-targetname: "587"
+targetname: "588"
 }
 node: {title: "586"
 label: "586[
 5 cmp #2 (7)
 6 bge (10) #0
 liveValues: [7]
- ]"
-
-}
-edge: { sourcename: "588"
-targetname: "584"
-}
-node: {title: "588"
-label: "588[
-10 bra #3
-liveValues: []
  ]"
 
 }
@@ -89,12 +89,12 @@ liveValues: [7]
  ]"
 
 }
-node: {title: "589"
-label: "589[
-11 write #1
-12 write #2
-13 write #3
-14 end
+edge: { sourcename: "588"
+targetname: "584"
+}
+node: {title: "588"
+label: "588[
+10 bra #3
 liveValues: []
  ]"
 

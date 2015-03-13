@@ -19,22 +19,29 @@ node: {title: "568"
 label: "568[
 0 move #0 i:0
 1 move #0 j:1
-liveRanges: [4]
+liveValues: [4]
  ]"
 
 }
 edge: { sourcename: "569"
-targetname: "570"
+targetname: "571"
 }
 edge: { sourcename: "569"
-targetname: "571"
+targetname: "570"
 }
 node: {title: "569"
 label: "569[
 7 phi #0 (4)
 1 cmp #0 #1000
 2 bge (2) #0
-liveRanges: [4]
+liveValues: [4]
+ ]"
+
+}
+node: {title: "571"
+label: "571[
+5 end
+liveValues: []
  ]"
 
 }
@@ -46,14 +53,7 @@ label: "570[
 3 add  #1
 5 move (4) j:5
 4 bra #2
-liveRanges: [4, 7]
- ]"
-
-}
-node: {title: "571"
-label: "571[
-5 end
-liveRanges: []
+liveValues: [4, 7]
  ]"
 
 }

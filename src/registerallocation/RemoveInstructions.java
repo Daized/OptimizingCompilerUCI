@@ -10,13 +10,13 @@ import datastructures.BasicBlock;
 import lexical.Parser;
 import optimizations.Optimization;
 
-public class DeleteInstructions extends Optimization{
+public class RemoveInstructions extends Optimization{
 	
     private int instructionNumber = 0;
     private Map<Integer, Integer> oldNewLocations = new HashMap<Integer, Integer>();
     private Map<Integer, Integer> deletedLocations = new HashMap<Integer, Integer>();
 
-	public DeleteInstructions(Parser p) {
+	public RemoveInstructions(Parser p) {
 		super(p);
 	}
 	

@@ -14,7 +14,8 @@ public enum Kind {
 	LOOPFOLLOW,
 	IF,
 	CALL,
-	RELATION;
+	RELATION, 
+	FRAME_POINTER;
 	
 
 }

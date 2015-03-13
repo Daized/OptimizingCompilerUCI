@@ -18,29 +18,22 @@ targetname: "628"
 node: {title: "627"
 label: "627[
 0 move #1 a:0
-liveRanges: [5]
+liveValues: [5]
  ]"
 
 }
 edge: { sourcename: "628"
-targetname: "630"
+targetname: "629"
 }
 edge: { sourcename: "628"
-targetname: "629"
+targetname: "630"
 }
 node: {title: "628"
 label: "628[
 8 phi #1 (5)
 1 cmp  #0
 2 beq (1) #0
-liveRanges: [5]
- ]"
-
-}
-node: {title: "630"
-label: "630[
-6 end
-liveRanges: [8]
+liveValues: [5]
  ]"
 
 }
@@ -54,7 +47,14 @@ label: "629[
 4 mul  #2
 6 move (5) a:6
 5 bra #1
-liveRanges: [5, 8]
+liveValues: [5, 8]
+ ]"
+
+}
+node: {title: "630"
+label: "630[
+6 end
+liveValues: [8]
  ]"
 
 }

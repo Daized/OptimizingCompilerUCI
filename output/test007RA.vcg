@@ -13,10 +13,10 @@ smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
 edge: { sourcename: "562"
-targetname: "564"
+targetname: "565"
 }
 edge: { sourcename: "562"
-targetname: "565"
+targetname: "564"
 }
 node: {title: "562"
 label: "562[
@@ -24,7 +24,52 @@ label: "562[
 1 move #2 b:1
 0 cmp #1 #2
 1 ble (2) #0
-liveValues: [4, 11]
+liveValues: [7]
+ ]"
+
+}
+edge: { sourcename: "565"
+targetname: "563"
+}
+node: {title: "565"
+label: "565[
+4 add #2 #1
+8 move (7) b:8
+liveValues: []
+ ]"
+
+}
+edge: { sourcename: "563"
+targetname: "566"
+}
+edge: { sourcename: "563"
+targetname: "567"
+}
+node: {title: "563"
+label: "563[
+5 cmp #1 (7)
+6 bge (9) #0
+liveValues: [7]
+ ]"
+
+}
+node: {title: "566"
+label: "566[
+8 write #1
+9 write (4)
+10 end
+liveValues: [7]
+ ]"
+
+}
+edge: { sourcename: "567"
+targetname: "566"
+}
+node: {title: "567"
+label: "567[
+7 sub #1 #1
+12 move (11) a:12
+liveValues: [7]
  ]"
 
 }
@@ -36,52 +81,7 @@ label: "564[
 2 add #1 #1
 5 move (4) a:5
 3 bra #9
-liveValues: [11]
- ]"
-
-}
-edge: { sourcename: "563"
-targetname: "567"
-}
-edge: { sourcename: "563"
-targetname: "566"
-}
-node: {title: "563"
-label: "563[
-5 cmp (4) #2
-6 bge (9) #0
-liveValues: [4, 11]
- ]"
-
-}
-edge: { sourcename: "567"
-targetname: "566"
-}
-node: {title: "567"
-label: "567[
-7 sub (4) #1
-12 move (11) a:12
-liveValues: [4]
- ]"
-
-}
-node: {title: "566"
-label: "566[
-8 write (7)
-9 write #2
-10 end
-liveValues: [11]
- ]"
-
-}
-edge: { sourcename: "565"
-targetname: "563"
-}
-node: {title: "565"
-label: "565[
-4 add #2 #1
-8 move (7) b:8
-liveValues: [4, 11]
+liveValues: [7]
  ]"
 
 }

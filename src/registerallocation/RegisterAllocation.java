@@ -87,7 +87,7 @@ public class RegisterAllocation extends Optimization {
 
     protected void introduceMove(IGNode phiNode, Result interferingResult, BasicBlock targetNode) {
         final BasicBlock oldCurrent = p.getMain().getCFG().getNextBlock();
-        final Result x = new Result(Kind.REG); //$TODO$ update register number after coloring
+        final Result x = new Result(Kind.REG); 
         List<Instruction> instructions = targetNode.getInstructions();
         p.getMain().getCFG().setNextBlock(targetNode);
         int targetIndex = 0;
@@ -123,7 +123,6 @@ public class RegisterAllocation extends Optimization {
             nodeStack.push(next);
         }
 
-//        sortAndAddToStack(clusteredNodes);
         int colorNumber = 0;
         final List<IGNode> existingNodes = graph.getNodes();
         while (!nodeStack.isEmpty()) {
@@ -187,8 +186,8 @@ public class RegisterAllocation extends Optimization {
                 }
             }
         }
-        //This iteration of Delete will actually have added instructions for compensated moves
-        DeleteInstructions reorder = new DeleteInstructions(p);
+        
+        RemoveInstructions reorder = new RemoveInstructions(p);
         reorder.doDeletions();
         final Map<Integer, Integer> oldNewLocations = reorder.getOldNewLocations();
         for (Integer old : registerInfo.keySet()) {

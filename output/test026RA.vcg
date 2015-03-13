@@ -31,7 +31,7 @@ targetname: "714"
 }
 node: {title: "712"
 label: "712[
-10 phi (-1) (3)
+11 phi (-1) (3)
 1 cmp a b
 2 bge (2) #0
 liveValues: [3, -1]
@@ -45,18 +45,19 @@ node: {title: "713"
 label: "713[
 4 move (3) x:4
 5 move (4) y:5
-3 store #0 (5)
-7 move (6) z:7
+3 store #0 
+4 kill #0
 8 move (7) z:8
-5 bra #2
+9 move (8) z:9
+6 bra #2
 liveValues: [3, -1]
  ]"
 
 }
 node: {title: "714"
 label: "714[
-6 end
-liveValues: [10]
+7 end
+liveValues: [11]
  ]"
 
 }

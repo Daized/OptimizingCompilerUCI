@@ -111,6 +111,10 @@ public class SymbolTable {
         }
 		
 	}
+
+	public int getOffset(Symbol s) {
+		return symbolList.indexOf(s);
+	}
 		
 }
 

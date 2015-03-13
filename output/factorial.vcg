@@ -15,7 +15,7 @@ iconcolors: 32
 node: {title: "525"
 label: "525[
 0 read
-1 move null:0 input:1
+1 move (1) input:1
 2 write #5
 3 wln
 4 write #5

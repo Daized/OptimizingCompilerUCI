@@ -57,7 +57,7 @@ public class Helper {
 			}
 			s.setArrayDimension(dimensionCount);
 			s.setArrayValues(arrayIdentifiers);
-			s.setArrayConstValue(Array.newInstance(Integer.class, dimensions));
+			//s.setArrayConstValue(Array.newInstance(Integer.class, dimensions));
 			s.setKind(Kind.ARRAY);
 		}
 		else {
@@ -125,47 +125,83 @@ public class Helper {
 		scope.getSymbolTable().addSymbol(symbol);
 	}
 	
-	public static void createAddA(Function scope, String name, List<Result> arrayValues){
-		if(arrayValues.size() == 0) {
-            return;
+	 public static void loadY(Function scope, Result y, Result x) {
+	        Helper.addInstruction(OpCodes.load, scope, y, null);
+	        final Result moveInstruction = new Result(Kind.INTERMEDIATE);
+	        moveInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
+	        Helper.addMoveInstruction(scope, x, moveInstruction);
+	    }
+
+	    public static void createAddA(Function scope, String tokenName, List<Result> arrayIdentifiers) {
+	        if(arrayIdentifiers.size() == 0) {
+	            return;
+	        }
+	        Result previous = null;
+	        Result previousSumComponent = null;
+
+	        final Symbol declaration = scope.getSymbolTable().getDeclaration(tokenName);
+	        final List<Result> originalIdentifiers = declaration.getArrayValues();
+
+	        for (int i=0; i<arrayIdentifiers.size(); i++) {
+	            previous = arrayIdentifiers.get(i);
+	            for(int j=i+1; j<originalIdentifiers.size(); j++) {
+	                final Result originalIdentifier = originalIdentifiers.get(j);
+	                addInstruction(OpCodes.mul, scope, previous, originalIdentifier);
+	                previous = new Result(Kind.INTERMEDIATE);;
+	                previous.setIntermediateLocation(scope.getProgramCounter() - 1);
+	            }
+	            if(previousSumComponent != null) {
+	                addInstruction(OpCodes.add, scope, previous, previousSumComponent);
+	                previous = new Result(Kind.INTERMEDIATE);;
+	                previous.setIntermediateLocation(scope.getProgramCounter() - 1);
+	            }
+	            previousSumComponent = previous;
+	        }
+
+
+
+
+
+	        final Result intSize = new Result(Kind.CONSTANT);
+	        intSize.setConstVal(4);
+	        Helper.addInstruction(OpCodes.mul, scope, previous, intSize);
+	        final Result mulInstruction = new Result(Kind.INTERMEDIATE);
+	        mulInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
+
+//	        final Symbol lhsSymbol = getSymbolTable().getRecentOccurence(tokenName);
+//	        final int lhsBaseAddress = getSymbolTable().getOffset(lhsSymbol);
+	        final Result lBaseAddr = new Result(Kind.BASE_ADDRESS);
+	        lBaseAddr.setVarName(tokenName);
+
+	        final Result addInstruction = new Result(Kind.INTERMEDIATE);
+	        addInstruction.setIntermediateLocation(scope.getProgramCounter());
+	        Helper.addInstruction(OpCodes.add, scope, scope.getFP(), lBaseAddr);
+	        Helper.addInstruction(OpCodes.adda, scope, mulInstruction, addInstruction);
+	    }
+
+	    public static Result calculateMulInstructionValue(Function scope, List<Result> arrayIdentifiers) {
+	        Result previous = arrayIdentifiers.get(0);
+	        for (int i=1; i<arrayIdentifiers.size(); i++) {
+	            final Result arrayIdentifier = arrayIdentifiers.get(i);
+	            addInstruction(OpCodes.mul, scope, arrayIdentifier, previous);
+	            previous = new Result(Kind.INTERMEDIATE);;
+	            previous.setIntermediateLocation(scope.getProgramCounter());
+	        }
+	        return previous;
+	    }
+	
+	public static void loadYarray(Result y, Function scope) {
+        String tokenName = y.getVariableName();
+        List<Result> arrayIdentifiers = y.getArrayValues();
+        if(arrayIdentifiers != null && arrayIdentifiers.size() > 0) {
+            createAddA(scope, tokenName, arrayIdentifiers);
+            final Result loadInstruction = new Result(Kind.INTERMEDIATE);
+            loadInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
+            addInstruction(OpCodes.load, scope, loadInstruction, null);
+            //Move this to tokenName
+        } else {
+            //throw new SyntaxErrorException("Assignment of complete arrays are not supported");
         }
-        Result previous = null;
-        Result previousSumComponent = null;
-
-        final Symbol declaration = scope.getSymbolTable().getDeclaration(name);
-        final List<Result> originalIdentifiers = declaration.getArrayValues();
-
-        for (int i=0; i<arrayValues.size(); i++) {
-            previous = arrayValues.get(i);
-            for(int j=i+1; j<originalIdentifiers.size(); j++) {
-                final Result originalIdentifier = originalIdentifiers.get(j);
-                Helper.addInstruction(OpCodes.mul, scope, previous, originalIdentifier);
-                previous = new Result(Kind.INTERMEDIATE);;
-                previous.setIntermediateLocation(scope.getProgramCounter() - 1);
-            }
-            if(previousSumComponent != null) {
-                Helper.addInstruction(OpCodes.add, scope, previous, previousSumComponent);
-                previous = new Result(Kind.INTERMEDIATE);;
-                previous.setIntermediateLocation(scope.getProgramCounter() - 1);
-            }
-            previousSumComponent = previous;
-        }
-
-        final Result intSize = new Result(Kind.CONSTANT);
-        intSize.setConstVal(4);
-        Helper.addInstruction(OpCodes.mul, scope, previous, intSize);
-        final Result mulInstruction = new Result(Kind.INTERMEDIATE);
-        mulInstruction.setIntermediateLocation(scope.getProgramCounter() - 1);
-
-//        final Symbol lhsSymbol = getSymbolTable().getRecentOccurence(tokenName);
-//        final int lhsBaseAddress = getSymbolTable().getOffset(lhsSymbol);
-        final Result lBaseAddr = new Result(Kind.BASE_ADDRESS);
-        lBaseAddr.setVarName(name);
-
-        final Result addInstruction = new Result(Kind.INTERMEDIATE);
-        addInstruction.setIntermediateLocation(scope.getProgramCounter());
-        //Helper.addInstruction(OperationCodes.add, scope, scope.FP, lBaseAddr);
-        Helper.addInstruction(OpCodes.adda, scope, mulInstruction, addInstruction);
     }
 
     public static Result calculateMulInstructionValue(List<Result> arrayIdentifiers, Function scope) {
@@ -182,7 +218,9 @@ public class Helper {
     
 	
     public static int addKillInstruction(Function scope, Symbol recent) {
-        return scope.appendKillInstruction(new Instruction(new Result(recent), null, OpCodes.kill, scope.getProgramCounter()), -1);
+    	Instruction kill = new Instruction(new Result(recent), null, OpCodes.kill, scope.getProgramCounter());
+    	kill.setSymbol(recent);
+        return scope.appendKillInstruction(kill, -1);
     }
     
     private static List<Instruction> phiList;

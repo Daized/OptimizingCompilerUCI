@@ -61,10 +61,7 @@ public class CommonSubexpression extends Optimization {
 
                         if (instructionListString.equals(currentInstructionString) && (instructionList.getBasicBlock().getDominatedBlocks().contains(node) || instructionList.getBasicBlock().equals(node))
                                 && currentInstruction.getOpcode() != OpCodes.phi && currentInstruction.getOpcode() != OpCodes.kill) {
-                            //now that they are identical instructions, im going to check if their values haven't changed.
-                            // set: cse = true; : when i know its a common sub expression elim case.
-                            //It'll be a CSE elim case if 1. They both have constants as X and Y; 2. They have variables that dont change
-                            //checking for constants
+                            //if values haven't changed set elimination to true
                             if (currentInstruction.getOpcode() == OpCodes.load || currentInstruction.getOpcode() == OpCodes.store) {
                                 //Checking for load or store operations first since they are single operand instructions
                                 if (!isVariableKilledBetween(x, node, instructionList)) {

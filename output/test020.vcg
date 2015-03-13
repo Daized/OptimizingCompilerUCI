@@ -19,11 +19,12 @@ label: "668[
 2 add #1 #5
 3 mul #1 #19
 4 store #45 (3)
-5 add #5 #1
-6 mul #19 #1
-7 add a #2
-8 move (7) d:8
-9 end
+5 kill #0
+6 add #5 #1
+7 mul #19 #1
+8 add a #2
+9 move (8) d:9
+10 end
 liveValues: []
  ]"
 

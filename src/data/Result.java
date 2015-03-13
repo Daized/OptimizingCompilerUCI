@@ -130,6 +130,10 @@ public class Result {
 	public int getRegNo() {
 		return this.regno;
 	}
+
+	public List<Result> getArrayIdentifiers() {
+		return this.arrayValues;
+	}
 	
 	
 
