@@ -17,10 +17,10 @@ label: "668[
 0 move #1 b:0
 1 move #19 c:1
 2 add #1 #5
-3 mul #1 #19
+3 mul #0 #0
 4 store #45 (3)
 5 add #5 #1
-6 mul #19 #1
+6 mul #0 #0
 7 add a #2
 8 move (7) d:8
 9 end

@@ -12,10 +12,10 @@ import lexical.Parser;
 
 public class CopyPropagation extends Optimization {
 
-	private Map<String, Result> mapValues = new HashMap<String, Result>();
-	private List<Instruction> phiList = new ArrayList<Instruction>();
-	private List<String> exclude = new ArrayList<String>();
-	private Map<Integer, Result> deletedMoves = new HashMap<Integer, Result>();
+	private Map<String, Result> valueMap = new HashMap<String, Result>();
+    private List<String> exclude = new ArrayList<String>();
+    private Set<Instruction> phiInstructions = new HashSet<Instruction>();
+    private Map<Integer, Result> deletedMoves = new HashMap<Integer, Result>();
 	
 	
 	public CopyPropagation(Parser p) {
@@ -29,77 +29,87 @@ public class CopyPropagation extends Optimization {
 		
 		
 		processGraph(p.getMain().getCFG().getRoot());
-		dominatedBlocksUpdate();
+		processDominatingBlocks();
+		
 		setNotVisited(); //CLEANUP
 	}
 
 	@Override
 	public void visit(BasicBlock node) {
-		List<Instruction> instructionList = node.getInstructions();
-		List<BasicBlock> dominatedBlocks = node.getDominatedBlocks();
-		List<String> removed = new ArrayList<String>();
-		Map<String, Result> nodeValues = processInstructions(instructionList, node, removed);
-		
-		for (BasicBlock block : dominatedBlocks){
-			block.updateValueMap(nodeValues);
-			block.updateExclude(node.getExclude());
+		final List<Instruction> instructions = node.getInstructions();
+        final List<BasicBlock> dominatesOver = node.getDominatedBlocks();
+        List<String> removed = new ArrayList<String>();
+        final Map<String, Result> thisNodeValues = processInstructions(removed, node, instructions);
+        for (BasicBlock basicBlock : dominatesOver) {
+            basicBlock.updateValueMap(thisNodeValues);
+            basicBlock.updateExclude(node.getExclude());
             for (String s : removed) {
                 node.getExclude().remove(s);
-            }
-		}
-		
-		for (Instruction instruction: phiList){
-			if (instruction.getOpcode() == OperationCodes.phi)
-				changePhiInstruction(instruction);
-		}
-		
-		mapValues.putAll(nodeValues);
-		
-	}
-	
-	private Map<String, Result> processInstructions(List<Instruction> instructionList, BasicBlock node, List<String> removed) {
-		Map<String, Result> mapValues = node.getMapValues();
-		List<String> exclude = node.getExclude();
-		for (Instruction instruction : instructionList) {
-            int opcode = instruction.getOpcode();
+        }
+        }
+        for (Instruction instruction : phiInstructions) {
             if (instruction.getOpcode() == OperationCodes.phi) {
-            	phiList.add(instruction);
-            	Result result = new Result(Kind.INTERMEDIATE);
-            	result.setIntermediateLocation(instruction.getInstructionNumber());
-            	mapValues.put(instruction.getSymbol().getName(), result);
-                //mapValues.remove(instruction.getSymbol().getName());
-                //exclude.add(instruction.getSymbol().getName());
+                updatePhiInstruction(instruction);
+            }
+        }
+        valueMap.putAll(thisNodeValues);
+    }
+
+
+    private void updatePhiInstruction(Instruction instruction) {
+        Result result = valueMap.get(instruction.getX().getUniqueName());
+        if (result != null) {
+            instruction.setX(result);
+            valueMap.remove(instruction.getX().getUniqueName());
+            valueMap.put(instruction.getSymbol().getName(), new Result(instruction.getSymbol()));
+        }
+
+        Result resulty = valueMap.get(instruction.getY().getUniqueName());
+        if (resulty != null) {
+            instruction.setY(resulty);
+            valueMap.remove(instruction.getY().getUniqueName());
+            valueMap.put(instruction.getSymbol().getName(), new Result(instruction.getSymbol()));
+        }
+    }
+
+    private Map<String, Result> processInstructions(List<String> removed, BasicBlock basicBlock, List<Instruction> instructions) {
+        Map<String, Result> valueMap = basicBlock.getMapValues();
+        List<String> exclude = basicBlock.getExclude();
+        for (Instruction instruction : instructions) {
+            final Integer opcode = instruction.getOpcode();
+            if (instruction.getOpcode() == OperationCodes.phi) {
+                phiInstructions.add(instruction);
+                final Result result = new Result(Kind.INTERMEDIATE);
+                result.setIntermediateLocation(instruction.getInstructionNumber());
+                valueMap.put(instruction.getSymbol().getName(), result);
                 continue;
             }
             if (instruction.getOpcode() == OperationCodes.kill) {
-                String variableName = instruction.getX().getVariableName();
-                mapValues.remove(variableName);
+                final String variableName = instruction.getX().getVariableName();
+                valueMap.remove(variableName);
                 exclude.add(variableName);
                 continue;
             } else {
-                Result x = instruction.getX();
-                Result y = instruction.getY();
-                List<Result> parameters = instruction.getParameters();
+                final Result x = instruction.getX();
+                final Result y = instruction.getY();
+                final List<Result> parameters = instruction.getParameters();
                 if (opcode == OperationCodes.move) {
-                    String variableName = instruction.getX().getVariableName();
-                    updateValueMap(node.getMapValues(), instruction, variableName, 
-                    		instruction.getX().getUniqueName(), y);
+                    final String variableName = instruction.getX().getVariableName();
+                    updateValueMap(basicBlock.getMapValues(), instruction, variableName, instruction.getX().getUniqueName(), y);
                     exclude.remove(variableName);
                     removed.add(variableName);
                 } else {
                     if (x != null) {
-                        Result result = node.getMapValues().get(x.getVariableName());
+                        Result result = basicBlock.getMapValues().get(x.getVariableName());
                         if (result != null && result.getKind() != Kind.VAR) {
                             instruction.setX(result);
-                        }
-                        else {
-                        	if (instruction.getX().getKind() == Kind.VAR){
-                        		Result zeroIfUninitialized = getZeroIfUninitialized(instruction.getX(), exclude);
-                                if (zeroIfUninitialized == null) {
+                        } else {
+                            if(instruction.getX().getKind() == Kind.VAR) {
+                                final Result zeroIfUninitialized = getZeroIfUninitialized(instruction.getX(), exclude);
+                                if(zeroIfUninitialized == null) {
                                     final Result zero = new Result(Kind.CONSTANT);
                                     zero.setConstVal(0);
                                     instruction.setX(zero);
-
                                 }
                             }
                         }
@@ -111,8 +121,8 @@ public class CopyPropagation extends Optimization {
                     for (Result parameter : parameters) {
                         parameterMap.put(parameter, null);
 
-                        Result result = node.getMapValues().get(parameter.getVariableName());
-                        if (result != null && result.getKind() != Kind.VAR) {
+                        Result result = basicBlock.getMapValues().get(parameter.getVariableName());
+                        if (result != null && result.getKind() == Kind.VAR) {
                             parameterMap.put(parameter, result);
                         } else {
                             if(parameter.getKind() == Kind.VAR) {
@@ -141,7 +151,7 @@ public class CopyPropagation extends Optimization {
                 }
 
                 if (y != null) {
-                    Result result = node.getMapValues().get(y.getVariableName());
+                    Result result = basicBlock.getMapValues().get(y.getVariableName());
                     if (result != null && result.getKind() != Kind.VAR) {
                         instruction.setY(result);
                     } else {
@@ -158,39 +168,39 @@ public class CopyPropagation extends Optimization {
 
             }
         }
-        return mapValues;
-	}
+        return valueMap;
+    }
 
-	private void updateValueMap(Map<String, Result> mapValues, Instruction instruction, String variableName, 
-			String uniqueName, Result y) {
-        //if (!exclude.contains(variableName)) {
+    private void updateValueMap(Map<String, Result> valueMap, Instruction instruction, String variableName, String uniqueIdentifier, Result y) {
+//        if (!exclude.contains(variableName)) {
 
             if (y.getKind() == Kind.VAR) {
-                Result yValue = mapValues.get(y.getVariableName());
+                final Result yValue = valueMap.get(y.getVariableName());
                 if (yValue != null) {
                     if (yValue.getKind() == Kind.VAR) {
-                        updateValueMap(mapValues, instruction, variableName, uniqueName, yValue);
+                        updateValueMap(valueMap, instruction, variableName, uniqueIdentifier, yValue);
                         return;
                     }
                     y = yValue;
                 }
             }
-            mapValues.put(variableName, y);
-            mapValues.put(uniqueName, y);
+            valueMap.put(variableName, y);
+            valueMap.put(uniqueIdentifier, y);
             instruction.setY(y);
             instruction.setDeleted(true, "CP");
             deletedMoves.put(instruction.getInstructionNumber(), y);
             p.getMain().getSymbolTable().updateSymbol(variableName, y);
-            System.out.println("Copying " + variableName + " for instruction " + instruction.getInstructionNumber());
-        
-		
-	}
+            System.out.println("Copying for " + variableName + " in instruction number[" + instruction.getInstructionNumber() + "]");
+//        }
+        }
 
-	private void dominatedBlocksUpdate() {
-		List<Instruction> instructions = p.getMain().getInstructionList();
-		Map<Integer, Result> remainingMoves = new HashMap<Integer, Result>();
-		List<Instruction> phis = new ArrayList<Instruction>();
-		for (Instruction instruction : instructions) {
+    
+    public void processDominatingBlocks() {
+
+        final List<Instruction> instructions = p.getMain().getInstructionList();
+        Map<Integer, Result> remainingMoves = new HashMap<Integer, Result>();
+        final List<Instruction> phis = new ArrayList<Instruction>();
+        for (Instruction instruction : instructions) {
             if (instruction.getOpcode() == OperationCodes.move && !instruction.isDeleted()) {
                 final Result target = instruction.getY();
                 final Result x = instruction.getX();
@@ -215,8 +225,7 @@ public class CopyPropagation extends Optimization {
                 instruction.setY(target);
             }
         }
-        
-        
+
         Map<Integer, Result> update = new HashMap<Integer, Result>();
 
         for (Instruction instruction : instructions) {
@@ -247,50 +256,35 @@ public class CopyPropagation extends Optimization {
                 phi.setY(y);
             }
         }
-		
-	}
+    }
 
-	private Result updateDeleted(Map<Integer, Result> update, Instruction instruction, Result operand) {
-	        if (operand == null) {
-	            return operand;
-	        }
-	        //if(operand.getKind() == Kind.INTERMEDIATE) {
-	        //    final Result result = update.get(operand.getIntermediateLocation());
-	         //   if(result != null) {
-	         //       return result;
-	        //    }
-	       // }
-	        if(instruction.getOpcode() == OperationCodes.phi && operand.getKind() == Kind.VAR) {
-	            final Result result = update.get(operand.getLocation());
-	            if(result != null) {
-	                return result;
-	            }
-	        }
-	        return operand;
-	    }
-	
-	private Result getTarget(Map<Integer, Result> remainingMoves, Result operand, Instruction instruction) {
-        if (instruction.getOpcode() == OperationCodes.phi && operand.getKind() == Kind.VAR) {
-            final Result result = remainingMoves.get(operand.getLocation());
-            if (result != null) {
+    private Result updateDeleted(Map<Integer, Result> update, Instruction instruction, Result operand) {
+        if (operand == null) {
+            return operand;
+        }
+//        if(operand.isIntermediate()) {
+//            final Result result = update.get(operand.getIntermediateLoation());
+//            if(result != null) {
+//                return result;
+//            }
+//        }
+        if(instruction.getOpcode() == OperationCodes.phi && operand.getKind() == Kind.VAR) {
+            final Result result = update.get(operand.getLocation());
+            if(result != null) {
                 return result;
             }
         }
-       // if (operand != null && operand.getKind() == Kind.INTERMEDIATE) {
-        //   return remainingMoves.get(operand.getIntermediateLocation());
-        //}
-
-        return null;
+        return operand;
     }
-	
-	private Result updateFirstOccurence(Result operand) {
+
+    protected Result updateFirstOccurence(Result operand) {
         if (operand != null && operand.getKind() == Kind.VAR) {
             final String programName = p.getMain().getName();
             final Symbol recentOccurence = p.getMain().getSymbolTable().getRecentOccurence(operand.getVariableName());
-            if (getZeroIfUninitialized(operand, exclude) != null) {
+            if(getZeroIfUninitialized(operand, exclude) != null) {
                 return operand;
-                }
-                
+            }
+
             if (recentOccurence.getSSA() != -1) {
                 return operand;
             }
@@ -298,12 +292,10 @@ public class CopyPropagation extends Optimization {
             zero.setConstVal(0);
             return zero;
         }
-	
         return operand;
+    }
 
-	}
-
-	private Result getZeroIfUninitialized(Result operand, List<String> exclude) {
+    private Result getZeroIfUninitialized(Result operand, List<String> exclude) {
         String programName = p.getMain().getName();
         final Symbol recentOccurence = p.getMain().getSymbolTable().getRecentOccurence(operand.getVariableName());
         if (!programName.equals("main")) {
@@ -321,30 +313,19 @@ public class CopyPropagation extends Optimization {
             return operand;
         }
         return null;
-	}
+    }
 
-	private void changePhiInstruction(Instruction instruction){
-		Result x = mapValues.get(instruction.getX().getUniqueName());
-		if (x != null){
-			instruction.setX(x);
-			mapValues.remove(instruction.getX().getUniqueName());
-			mapValues.put(instruction.getSymbol().getName(), new Result(instruction.getSymbol()));
-		}
-		
-		Result y = mapValues.get(instruction.getY().getUniqueName());
-		if (y != null){
-			instruction.setY(y);
-			mapValues.remove(instruction.getY().getUniqueName());
-			mapValues.put(instruction.getSymbol().getName(), new Result(instruction.getSymbol()));
-		}
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
+    protected Result getTarget(Map<Integer, Result> remainingMoves, Result operand, Instruction instruction) {
+        if (instruction.getOpcode() == OperationCodes.phi && operand.getKind() == Kind.VAR) {
+            final Result result = remainingMoves.get(operand.getLocation());
+            if (result != null) {
+                return result;
+            }
+        }
+//        if (operand != null && operand.isIntermediate()) {
+//            return remainingMoves.get(operand.getIntermediateLoation());
+//        }
+
+        return null;
+    }
 }

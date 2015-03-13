@@ -25,16 +25,26 @@ liveRanges: []
 
 }
 edge: { sourcename: "716"
-targetname: "717"
+targetname: "724"
 }
 edge: { sourcename: "716"
-targetname: "724"
+targetname: "717"
 }
 node: {title: "716"
 label: "716[
 22 phi (1) (9)
 3 cmp #2 #3
 4 bge (3) #0
+liveRanges: []
+ ]"
+
+}
+node: {title: "724"
+label: "724[
+23 mul #2 #0
+24 sub (23) #6
+25 move (24) a:25
+26 end
 liveRanges: []
  ]"
 
@@ -52,10 +62,10 @@ liveRanges: []
 
 }
 edge: { sourcename: "718"
-targetname: "723"
+targetname: "719"
 }
 edge: { sourcename: "718"
-targetname: "719"
+targetname: "723"
 }
 node: {title: "718"
 label: "718[
@@ -67,29 +77,36 @@ liveRanges: []
  ]"
 
 }
-edge: { sourcename: "723"
-targetname: "716"
-}
-node: {title: "723"
-label: "723[
-18 mul #2 #0
-19 sub (8) #6
-20 move (9) c:20
-21 bra #3
-liveRanges: []
- ]"
-
+edge: { sourcename: "719"
+targetname: "722"
 }
 edge: { sourcename: "719"
 targetname: "721"
-}
-edge: { sourcename: "719"
-targetname: "722"
 }
 node: {title: "719"
 label: "719[
 12 cmp #3 #4
 13 bge (12) #0
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "722"
+targetname: "720"
+}
+node: {title: "722"
+label: "722[
+16 store #5 (15)
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "720"
+targetname: "718"
+}
+node: {title: "720"
+label: "720[
+17 bra #8
 liveRanges: []
  ]"
 
@@ -105,32 +122,15 @@ liveRanges: []
  ]"
 
 }
-edge: { sourcename: "720"
-targetname: "718"
+edge: { sourcename: "723"
+targetname: "716"
 }
-node: {title: "720"
-label: "720[
-17 bra #8
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "722"
-targetname: "720"
-}
-node: {title: "722"
-label: "722[
-16 store #5 (15)
-liveRanges: []
- ]"
-
-}
-node: {title: "724"
-label: "724[
-23 mul #2 #0
-24 sub (23) #6
-25 move (24) a:25
-26 end
+node: {title: "723"
+label: "723[
+18 mul #2 #0
+19 sub (8) #6
+20 move (9) c:20
+21 bra #3
 liveRanges: []
  ]"
 

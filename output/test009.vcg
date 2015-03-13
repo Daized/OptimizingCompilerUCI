@@ -23,24 +23,59 @@ label: "572[
 0 move #1 a:0
 1 move #2 b:1
 2 move #3 c:2
-3 cmp #1 #2
+3 cmp #0 #0
 4 ble (3) #0
 liveRanges: []
  ]"
 
 }
 edge: { sourcename: "574"
-targetname: "575"
+targetname: "576"
 }
 edge: { sourcename: "574"
-targetname: "576"
+targetname: "575"
 }
 node: {title: "574"
 label: "574[
-5 add #1 #1
+5 add #0 #1
 6 move (5) a:6
-7 cmp (5) #2
+7 cmp #0 #0
 8 bge (7) #0
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "576"
+targetname: "578"
+}
+edge: { sourcename: "576"
+targetname: "577"
+}
+node: {title: "576"
+label: "576[
+9 mul #0 #4
+10 move (9) a:10
+11 cmp #0 #0
+12 beq (11) #0
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "578"
+targetname: "577"
+}
+node: {title: "578"
+label: "578[
+13 move #0 c:13
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "577"
+targetname: "575"
+}
+node: {title: "577"
+label: "577[
 liveRanges: []
  ]"
 
@@ -57,71 +92,37 @@ liveRanges: []
 }
 node: {title: "573"
 label: "573[
-25 add #1 #1
+25 add #0 #1
 26 move (25) a:26
 27 end
 liveRanges: []
  ]"
 
 }
-edge: { sourcename: "576"
-targetname: "578"
-}
-edge: { sourcename: "576"
-targetname: "577"
-}
-node: {title: "576"
-label: "576[
-9 mul (5) #4
-10 move (9) a:10
-11 cmp #3 (9)
-12 beq (11) #0
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "578"
-targetname: "577"
-}
-node: {title: "578"
-label: "578[
-13 move (9) c:13
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "577"
-targetname: "575"
-}
-node: {title: "577"
-label: "577[
-liveRanges: []
- ]"
-
+edge: { sourcename: "579"
+targetname: "581"
 }
 edge: { sourcename: "579"
 targetname: "582"
 }
-edge: { sourcename: "579"
-targetname: "581"
-}
 node: {title: "579"
 label: "579[
-15 add #2 #5
+15 add #0 #5
 16 move (15) b:16
-17 cmp #1 (15)
+17 cmp #0 #0
 18 bge (17) #0
 liveRanges: []
  ]"
 
 }
-edge: { sourcename: "582"
+edge: { sourcename: "581"
 targetname: "580"
 }
-node: {title: "582"
-label: "582[
-22 add #1 #3
-23 move (22) a:23
+node: {title: "581"
+label: "581[
+19 sub #0 #2
+20 move (19) a:20
+21 bra #24
 liveRanges: []
  ]"
 
@@ -136,14 +137,13 @@ liveRanges: []
  ]"
 
 }
-edge: { sourcename: "581"
+edge: { sourcename: "582"
 targetname: "580"
 }
-node: {title: "581"
-label: "581[
-19 sub #1 #2
-20 move (19) a:20
-21 bra #24
+node: {title: "582"
+label: "582[
+22 add #0 #3
+23 move (22) a:23
 liveRanges: []
  ]"
 

@@ -74,16 +74,26 @@ liveRanges: []
 
 }
 edge: { sourcename: "676"
-targetname: "677"
+targetname: "678"
 }
 edge: { sourcename: "676"
-targetname: "678"
+targetname: "677"
 }
 node: {title: "676"
 label: "676[
 10 add #0 #2
 11 cmp (10) #0
 12 bge (11) #0
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "678"
+targetname: "674"
+}
+node: {title: "678"
+label: "678[
+16 bra #7
 liveRanges: []
  ]"
 
@@ -96,16 +106,6 @@ label: "677[
 13 add #0 #1
 14 move (13) b:14
 15 bra #10
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "678"
-targetname: "674"
-}
-node: {title: "678"
-label: "678[
-16 bra #7
 liveRanges: []
  ]"
 

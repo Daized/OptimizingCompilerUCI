@@ -13,10 +13,10 @@ smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
 edge: { sourcename: "707"
-targetname: "709"
+targetname: "710"
 }
 edge: { sourcename: "707"
-targetname: "710"
+targetname: "709"
 }
 node: {title: "707"
 label: "707[
@@ -25,10 +25,36 @@ label: "707[
 2 add #0 #0
 3 move (0) d:3
 4 add #0 #0
-5 add (0) (0)
+5 add (0) #0
 6 move (5) e:6
-7 cmp (0) (0)
+7 cmp #0 #0
 8 beq (7) #0
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "710"
+targetname: "708"
+}
+node: {title: "710"
+label: "710[
+22 div #0 #0
+23 move (22) f:23
+24 div #0 #0
+25 move (22) g:25
+liveRanges: []
+ ]"
+
+}
+node: {title: "708"
+label: "708[
+26 phi (12) (22)
+26 phi (15) (22)
+28 mul #0 #0
+29 move (28) f:29
+30 div #0 #0
+31 move (30) g:31
+32 end
 liveRanges: []
  ]"
 
@@ -39,44 +65,18 @@ targetname: "708"
 node: {title: "709"
 label: "709[
 9 add #0 #0
-10 add (0) (0)
+10 add (0) #0
 11 move (5) e:11
-12 mul (0) (0)
+12 mul #0 #0
 13 move (12) f:13
-14 mul (0) (0)
+14 mul #0 #0
 15 add (12) #4
 16 move (15) g:16
 17 move #5 b:17
-18 add #0 #5
-19 add (18) (0)
-20 move (19) e:20
+18 add #0 #0
+19 add (0) #0
+20 move (5) e:20
 21 bra #26
-liveRanges: []
- ]"
-
-}
-node: {title: "708"
-label: "708[
-26 phi (12) (22)
-26 phi (15) (22)
-28 mul (0) (0)
-29 move (28) f:29
-30 div (0) (0)
-31 move (30) g:31
-32 end
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "710"
-targetname: "708"
-}
-node: {title: "710"
-label: "710[
-22 div (0) (0)
-23 move (22) f:23
-24 div (0) (0)
-25 move (22) g:25
 liveRanges: []
  ]"
 

@@ -24,10 +24,10 @@ liveRanges: [3, -1]
 
 }
 edge: { sourcename: "712"
-targetname: "713"
+targetname: "714"
 }
 edge: { sourcename: "712"
-targetname: "714"
+targetname: "713"
 }
 node: {title: "712"
 label: "712[
@@ -35,6 +35,13 @@ label: "712[
 1 cmp a b
 2 bge (2) #0
 liveRanges: [3, -1]
+ ]"
+
+}
+node: {title: "714"
+label: "714[
+6 end
+liveRanges: [10]
  ]"
 
 }
@@ -50,13 +57,6 @@ label: "713[
 8 move (7) z:8
 5 bra #2
 liveRanges: [3, -1]
- ]"
-
-}
-node: {title: "714"
-label: "714[
-6 end
-liveRanges: [10]
  ]"
 
 }

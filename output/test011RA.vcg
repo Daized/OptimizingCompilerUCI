@@ -24,7 +24,7 @@ label: "590[
 1 move #2 b:1
 2 move #3 c:2
 3 move #4 d:3
-0 cmp #1 #2
+0 cmp #0 #0
 1 bge (4) #0
 liveRanges: []
  ]"
@@ -35,7 +35,7 @@ targetname: "593"
 }
 node: {title: "592"
 label: "592[
-2 add #1 #1
+2 add #0 #1
 7 move (6) a:7
 liveRanges: []
  ]"
@@ -84,22 +84,15 @@ liveRanges: []
 
 }
 edge: { sourcename: "601"
-targetname: "606"
+targetname: "602"
 }
 edge: { sourcename: "601"
-targetname: "602"
+targetname: "606"
 }
 node: {title: "601"
 label: "601[
 15 cmp #0 #0
 16 bge (25) #0
-liveRanges: []
- ]"
-
-}
-node: {title: "606"
-label: "606[
-20 end
 liveRanges: []
  ]"
 
@@ -149,6 +142,13 @@ liveRanges: []
  ]"
 
 }
+node: {title: "606"
+label: "606[
+20 end
+liveRanges: []
+ ]"
+
+}
 edge: { sourcename: "594"
 targetname: "593"
 }
@@ -168,22 +168,31 @@ targetname: "597"
 }
 node: {title: "596"
 label: "596[
-9 add #1 #2
+9 add #0 #2
 17 move (16) a:17
 liveRanges: []
  ]"
 
 }
 edge: { sourcename: "597"
-targetname: "598"
+targetname: "599"
 }
 edge: { sourcename: "597"
-targetname: "599"
+targetname: "598"
 }
 node: {title: "597"
 label: "597[
 10 cmp #0 #0
 11 bge (18) #0
+liveRanges: []
+ ]"
+
+}
+edge: { sourcename: "599"
+targetname: "591"
+}
+node: {title: "599"
+label: "599[
 liveRanges: []
  ]"
 
@@ -198,15 +207,6 @@ label: "598[
 13 add #0 #2
 23 move (22) d:23
 14 bra #18
-liveRanges: []
- ]"
-
-}
-edge: { sourcename: "599"
-targetname: "591"
-}
-node: {title: "599"
-label: "599[
 liveRanges: []
  ]"
 

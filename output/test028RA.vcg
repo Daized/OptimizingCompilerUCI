@@ -34,7 +34,7 @@ node: {title: "727"
 label: "727[
 2 add #0 #4
 4 move (3) b:4
-5 move (3) d:5
+5 move #0 d:5
 3 bra #9
 liveRanges: []
  ]"

@@ -13,28 +13,19 @@ smanhattenedges: yes
 fasticons: yes
 iconcolors: 32
 edge: { sourcename: "657"
-targetname: "658"
+targetname: "659"
 }
 edge: { sourcename: "657"
-targetname: "659"
+targetname: "658"
 }
 node: {title: "657"
 label: "657[
 0 move #1 a:0
-1 move #1 b:1
-2 mul #4 #1
+1 move #0 b:1
+2 mul #4 #0
 3 move (2) c:3
-4 cmp (2) #1
+4 cmp #0 #0
 5 ble (4) #0
-liveRanges: []
- ]"
-
-}
-node: {title: "658"
-label: "658[
-8 add #1 #1
-9 move (8) e:9
-10 end
 liveRanges: []
  ]"
 
@@ -44,8 +35,17 @@ targetname: "658"
 }
 node: {title: "659"
 label: "659[
-6 add #1 #2
+6 add #0 #2
 7 move (6) d:7
+liveRanges: []
+ ]"
+
+}
+node: {title: "658"
+label: "658[
+8 add #0 #0
+9 move (8) e:9
+10 end
 liveRanges: []
  ]"
 
