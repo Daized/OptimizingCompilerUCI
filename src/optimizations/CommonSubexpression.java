@@ -13,7 +13,8 @@ public class CommonSubexpression extends Optimization {
 	
     private Map<Integer, List<InstructionBlockTuple>> index = new HashMap<Integer, List<InstructionBlockTuple>>();
     private Map<Integer, Integer> deletedIntermediates = new HashMap<Integer, Integer>();
-	
+    private List<String> excluded = new ArrayList<String>();
+    
 	public CommonSubexpression(Parser p) {
 		super(p);
 		// TODO Auto-generated constructor stub
@@ -28,6 +29,9 @@ public class CommonSubexpression extends Optimization {
 	@Override
 	public void visit(BasicBlock node) {
 		List<InstructionBlockTuple> anchorObject;
+        boolean ignoreNextInstruction = false;
+        String target = "";
+
         for (Instruction currentInstruction : node.getInstructions()) 
         {
             //preparing current instruction with the changed locations of prior deletions
@@ -39,6 +43,33 @@ public class CommonSubexpression extends Optimization {
 
             if ((opcode >= OpCodes.add && opcode <= OpCodes.phi) || (opcode == OpCodes.kill))
             {
+
+                if(opcode == OpCodes.kill) {
+                    excluded.add(currentInstruction.getSymbol().getName());
+                    continue;
+                }
+                if(opcode == OpCodes.adda) {
+                    for (String name : excluded) {
+                        if(name.equals(currentInstruction.getY().getVariableName())){
+                            ignoreNextInstruction = true;
+                            target = name;
+                            break;
+                        }
+                    }
+                }
+
+                if(opcode == OpCodes.load && ignoreNextInstruction) {
+                    ignoreNextInstruction = false;
+                    final Iterator<String> iterator = excluded.iterator();
+                    while (iterator.hasNext()) {
+                        final String next = iterator.next();
+                        if(next.equals(target)) {
+                            iterator.remove();
+//                            break;
+                        }
+                    }
+                    continue;
+                }
                 if (x != null) {
                     reformVariable(x);
                 }
@@ -65,11 +96,10 @@ public class CommonSubexpression extends Optimization {
                             if (currentInstruction.getOpcode() == OpCodes.load || currentInstruction.getOpcode() == OpCodes.store) {
                                 //Checking for load or store operations first since they are single operand instructions
                                 if (!isVariableKilledBetween(x, node, instructionList)) {
-                                	if(currentInstruction.getOpcode()!=OpCodes.load)
-                                	{
+
                                 		cse = true;
                                         break;
-                                	}
+
                                
                                 }
                             }

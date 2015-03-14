@@ -687,7 +687,8 @@ public static void main(String[] args){
 
 				}
 				String name = right.getVariableName();
-				List<Result> arrayValues = right.getArrayValues();
+				final List<Integer> arrayDimensions = right.getArrayDimensions();
+				List<Result> arrayValues = getResults(arrayDimensions);
 				if (arrayValues != null && arrayValues.size() > 0){
 					Helper.createAddA(scope, name, arrayValues);
 					Result loadInstruction = new Result(Kind.INTERMEDIATE);
@@ -705,6 +706,16 @@ public static void main(String[] args){
 		}
 
 		return x;
+	}
+
+	private static List<Result> getResults(List<Integer> arrayDimensions) {
+		List<Result> arrayValues = new ArrayList<Result>();
+		for (Integer arrayDimension : arrayDimensions) {
+            Result r = new Result(Kind.CONSTANT);
+            r.setConstVal(arrayDimension);
+            arrayValues.add(r);
+        }
+		return arrayValues;
 	}
 
 	public static List<Result> getResultToConstant(List<Integer> arrayDimensions) {

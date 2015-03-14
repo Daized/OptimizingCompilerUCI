@@ -1,7 +1,9 @@
 package ui;
 
 import java.io.*;
+import java.util.List;
 
+import data.Instruction;
 import optimizations.CommonSubexpression;
 import optimizations.CopyPropagation;
 import optimizations.VCGGraph;
@@ -27,7 +29,10 @@ public class Compilation {
 			
 			CopyPropagation cp = new CopyPropagation(p);
 			cp.doCopyPropagation();
-			
+			final List<Instruction> instructionList2 = p.getMain().getInstructionList();
+			for (Instruction instruction : instructionList2) {
+				System.out.println(instruction);
+			}
 			CommonSubexpression cs = new CommonSubexpression(p);
 			cs.doCommonSubexpressionElimination();
 			
@@ -45,6 +50,11 @@ public class Compilation {
 			
 			VCGGraph vcg2 = new VCGGraph(p, "RA");
 			vcg2.createControlFlowGraphFile();
+
+			final List<Instruction> instructionList = p.getMain().getInstructionList();
+			for (Instruction instruction : instructionList) {
+				System.out.println(instruction);
+			}
 		}
 		
 	}
